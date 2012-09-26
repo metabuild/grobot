@@ -1,0 +1,28 @@
+/**
+ * Default tasks for groovy projects
+ */
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+/**
+ * Initialize the source / resource directories
+ */
+task initDirectories() {
+	
+	def directories = [
+		sourceSets*.groovy.srcDirs,
+		sourceSets*.java.srcDirs,
+		sourceSets*.resources.srcDirs
+	].flatten()
+
+	// directories.each { outputs.dir(it) }
+	
+	doLast {
+		directories.each { directory ->
+			logger.warn("Creating ${directory}")
+			directory.mkdirs()
+		}
+	}
+}
+tasks.eclipse.dependsOn(initDirectories)
+

@@ -1,0 +1,21 @@
+/**
+ * Grobot master project
+ */
+
+apply plugin: 'groovy'
+
+allprojects {
+	apply plugin: 'eclipse'
+	
+	eclipse {
+		if (project.name != rootProject.name) {
+			project {
+				name = "${rootProject.eclipse.project.name}-${project.name}"
+			}
+		}
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.2'
+}

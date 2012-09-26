@@ -1,0 +1,13 @@
+/**
+ * The Core API of Grobot
+ */
+
+apply from: rootDir.path + '/gradle/groovy.gradle'
+ 
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testRuntime 'junit:junit:4.10'
+}
