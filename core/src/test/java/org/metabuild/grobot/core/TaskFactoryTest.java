@@ -1,42 +1,45 @@
-package org.metabuild.grobot.client;
+package org.metabuild.grobot.core;
 
 import groovy.util.GroovyScriptEngine;
 
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
+import static junit.framework.Assert.*;
 
 import org.junit.Test;
+import org.metabuild.grobot.core.TaskFactory;
 
 /**
  * @author jburbridge
  *
  */
-public class GrobotTaskFactoryTest {
+public class TaskFactoryTest {
+	
+	private final static String TASKS_DIR = "src/test/resources/tasks";
 
 	@Test
 	public void testGrobotTaskFactory() throws IOException {
-		GrobotTaskFactory factory = new GrobotTaskFactory("foo", new GroovyScriptEngine("foo"));
-		Assert.assertNotNull(factory);
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertNotNull(factory);
 	}
 
 	@Test
 	public void testGetTasks() throws IOException {
-		GrobotTaskFactory factory = new GrobotTaskFactory("foo", new GroovyScriptEngine("foo"));
-		Assert.assertNotNull(factory.getTasks());
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertNotNull(factory.getTasks());
 	}
 
 	@Test
 	public void testGetFiles() throws IOException {
-		GrobotTaskFactory factory = new GrobotTaskFactory("foo", new GroovyScriptEngine("foo"));
-		Assert.assertNotNull(factory.getFiles(new File("foo")));
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertNotNull(factory.getFiles(new File(TASKS_DIR)));
 	}
 
 	@Test
 	public void testGetBinding() throws IOException {
-		GrobotTaskFactory factory = new GrobotTaskFactory("foo", new GroovyScriptEngine("foo"));
-		Assert.assertNotNull(factory.getBinding());
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertNotNull(factory.getBinding());
 	}
 
 }

@@ -1,13 +1,13 @@
-package org.metabuild.grobot.client;
+package org.metabuild.grobot.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.metabuild.grobot.core.Task;
 
 import groovy.lang.Binding;
 import groovy.lang.Script;
@@ -15,34 +15,69 @@ import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
-public class GrobotTaskFactory {
+/**
+ * The TaskFactory is responsible for loading the groovy scripts from the tasks directory
+ * and creating instances of grobot tasks that can be executed against a target node
+ * 
+ * @author jburbridge
+ * @since 9/27/2012
+ */
+public class TaskFactory {
 	
-	private static Logger LOGGER = Logger.getLogger(GrobotTaskFactory.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TaskFactory.class.getName());
+	private static final String DOT_GROOVY = ".groovy";
 	
 	private File tasksDir;
 	private GroovyScriptEngine engine;
+	private Binding binding;
 	
-	protected GrobotTaskFactory(String tasksDir, GroovyScriptEngine engine) {
-		this.tasksDir = new File(tasksDir);
-		this.engine = engine;
+	/**
+	 * Default constructor which uses bindings populated with system variables
+	 * 
+	 * @param tasksDir
+	 * @param engine
+	 */
+	public TaskFactory(String tasksDir, GroovyScriptEngine engine) {
+		this(new File(tasksDir), engine, getBinding());
 	}
 	
+	/**
+	 * Constructor with DI for unit testing
+	 * 
+	 * @param tasksDir
+	 * @param engine
+	 * @param binding
+	 */
+	protected TaskFactory(File tasksDir, GroovyScriptEngine engine, Binding binding) {
+		this.tasksDir = tasksDir;
+		this.engine = engine;
+		this.binding = binding;
+		
+		if (!tasksDir.isDirectory() || !tasksDir.canRead()) {
+			throw new RuntimeException("Could not find the tasks directory " + tasksDir.getAbsolutePath());
+		}
+	}
+	
+	/**
+	 * Recurses through the tasks directory and loads the groovy files
+	 * 
+	 * @return a list of Tasks
+	 */
 	public List<Task> getTasks() {
 		List<Task> tasks = new ArrayList<Task>();
-		Binding binding = getBinding();
 		for (File file : getFiles(tasksDir)) {
 			try {
-				Script script = engine.createScript(file.getPath(), binding);
+				Script script = engine.createScript(file.getAbsolutePath(), binding);
 				tasks.add(new Task(script));
 			} catch (ResourceException | ScriptException e) {
-				e.printStackTrace();
+				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
 			}
 		}
 		return tasks;
 	}
 	
 	/**
-	 * Recursively gets all of the files in tasksDir 
+	 * Recursively gets all of the files in tasksDir that end in ".groovy"
 	 * @param tasksDir
 	 * @return a List of files
 	 */
@@ -52,7 +87,7 @@ public class GrobotTaskFactory {
 			for (File file : tasksDir.listFiles()) {
 				if (file.isDirectory()) {
 					files.addAll(getFiles(file));
-				} else if (file.getName().endsWith(".groovy")) {
+				} else if (file.getName().endsWith(DOT_GROOVY)) {
 					files.add(file);
 				}
 			}
@@ -60,7 +95,12 @@ public class GrobotTaskFactory {
 		return files;
 	}
 	
-	protected Binding getBinding() {
+	/**
+	 * Iterates over the system properties and populates them with bindings
+	 * 
+	 * @return a populated binding instance 
+	 */
+	protected static Binding getBinding() {
 		Binding binding = new Binding();
 		for (Entry<Object,Object> property : System.getProperties().entrySet()) {
 			LOGGER.log(Level.FINE, "property: " + property.toString());
