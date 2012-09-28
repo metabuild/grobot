@@ -1,4 +1,4 @@
-package org.metabuild.grobot.core;
+package org.metabuild.grobot.tasks;
 
 import groovy.util.GroovyScriptEngine;
 
@@ -9,7 +9,8 @@ import java.util.List;
 import static junit.framework.Assert.*;
 
 import org.junit.Test;
-import org.metabuild.grobot.core.GroovyTaskFactory;
+import org.metabuild.grobot.tasks.GroovyTask;
+import org.metabuild.grobot.tasks.GroovyTaskFactory;
 
 /**
  * @author jburbridge

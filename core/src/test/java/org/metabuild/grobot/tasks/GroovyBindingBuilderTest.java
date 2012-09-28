@@ -1,12 +1,13 @@
 /**
  * 
  */
-package org.metabuild.grobot.core;
+package org.metabuild.grobot.tasks;
 
 import static org.junit.Assert.*;
 import groovy.lang.Binding;
 
 import org.junit.Test;
+import org.metabuild.grobot.tasks.GroovyBindingBuilder;
 
 /**
  * @author jburbrid

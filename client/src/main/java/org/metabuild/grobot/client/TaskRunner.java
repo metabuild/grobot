@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.metabuild.grobot.client.TaskRunner;
-import org.metabuild.grobot.core.GroovyTask;
-import org.metabuild.grobot.core.GroovyTaskFactory;
+import org.metabuild.grobot.tasks.GroovyTask;
+import org.metabuild.grobot.tasks.GroovyTaskFactory;
 
 import groovy.util.GroovyScriptEngine;
 
