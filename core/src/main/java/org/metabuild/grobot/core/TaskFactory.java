@@ -1,13 +1,10 @@
 package org.metabuild.grobot.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 import groovy.lang.Binding;
 import groovy.lang.Script;
@@ -26,6 +23,7 @@ public class TaskFactory {
 	
 	private static final Logger LOGGER = Logger.getLogger(TaskFactory.class.getName());
 	private static final String DOT_GROOVY = ".groovy";
+	private static final BindingBuilder bindingBuilder = BindingBuilder.getInstance();
 	
 	private File tasksDir;
 	private GroovyScriptEngine engine;
@@ -38,7 +36,7 @@ public class TaskFactory {
 	 * @param engine
 	 */
 	public TaskFactory(String tasksDir, GroovyScriptEngine engine) {
-		this(new File(tasksDir), engine, getBinding());
+		this(new File(tasksDir), engine, bindingBuilder.getBinding());
 	}
 	
 	/**
@@ -67,9 +65,11 @@ public class TaskFactory {
 		List<Task> tasks = new ArrayList<Task>();
 		for (File file : getFiles(tasksDir)) {
 			try {
-				Script script = engine.createScript(file.getAbsolutePath(), binding);
+				Script script = engine.createScript(file.getAbsolutePath(), this.binding);
 				tasks.add(new Task(script));
-			} catch (ResourceException | ScriptException e) {
+			} catch (ResourceException e) {
+				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
+			} catch (ScriptException e) {
 				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
 			}
 		}
@@ -94,18 +94,25 @@ public class TaskFactory {
 		}
 		return files;
 	}
-	
+
 	/**
-	 * Iterates over the system properties and populates them with bindings
-	 * 
-	 * @return a populated binding instance 
+	 * @return the tasksDir
 	 */
-	protected static Binding getBinding() {
-		Binding binding = new Binding();
-		for (Entry<Object,Object> property : System.getProperties().entrySet()) {
-			LOGGER.log(Level.FINE, "property: " + property.toString());
-			binding.setVariable(property.getKey().toString(), property.getValue().toString());
-		}
+	public File getTasksDir() {
+		return tasksDir;
+	}
+
+	/**
+	 * @return the engine
+	 */
+	public GroovyScriptEngine getEngine() {
+		return engine;
+	}
+
+	/**
+	 * @return the binding
+	 */
+	public Binding getBinding() {
 		return binding;
 	}
 }

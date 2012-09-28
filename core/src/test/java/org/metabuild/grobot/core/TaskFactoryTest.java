@@ -4,6 +4,7 @@ import groovy.util.GroovyScriptEngine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static junit.framework.Assert.*;
 
@@ -19,15 +20,23 @@ public class TaskFactoryTest {
 	private final static String TASKS_DIR = "src/test/resources/tasks";
 
 	@Test
-	public void testGrobotTaskFactory() throws IOException {
+	public void testGrobotTaskFactoryValidDirectory() throws IOException {
 		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
 		assertNotNull(factory);
+	}
+
+	@Test(expected=RuntimeException.class)
+	public void testGrobotTaskFactoryInvalidDirectory() throws IOException {
+		new TaskFactory(TASKS_DIR + "/b0rk3n", new GroovyScriptEngine(TASKS_DIR + "/b0rk3n"));
+		fail("Should have thrown a RuntimeException but didn't");
 	}
 
 	@Test
 	public void testGetTasks() throws IOException {
 		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
-		assertNotNull(factory.getTasks());
+		List<Task> tasks = factory.getTasks();
+		assertNotNull(tasks);
+		assertTrue(tasks.size() > 0);
 	}
 
 	@Test
@@ -40,6 +49,18 @@ public class TaskFactoryTest {
 	public void testGetBinding() throws IOException {
 		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
 		assertNotNull(factory.getBinding());
+	}
+
+	@Test
+	public void testGetEngine() throws IOException {
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertNotNull(factory.getEngine());
+	}
+
+	@Test
+	public void testGetTasksDir() throws IOException {
+		TaskFactory factory = new TaskFactory(TASKS_DIR, new GroovyScriptEngine(TASKS_DIR));
+		assertEquals(TASKS_DIR, factory.getTasksDir().getPath());
 	}
 
 }

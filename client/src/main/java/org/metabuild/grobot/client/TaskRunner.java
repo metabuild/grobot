@@ -2,14 +2,22 @@ package org.metabuild.grobot.client;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.metabuild.grobot.client.TaskRunner;
 import org.metabuild.grobot.core.Task;
 import org.metabuild.grobot.core.TaskFactory;
 
 import groovy.util.GroovyScriptEngine;
 
+/**
+ * Example task runner
+ * 
+ * @author jburbrid
+ * @since 9/27/2012
+ */
 public class TaskRunner {
 
+	private static final Logger LOGGER = Logger.getLogger(TaskRunner.class);
 	private static final String DEFAULT_TASKS_DIR = System.getProperty("user.dir") + "/tasks";
 	private final TaskFactory taskFactory;
 	private final String tasksDir;
@@ -42,14 +50,21 @@ public class TaskRunner {
 	}
 	
 	public static void main(String args[]) {
+		TaskRunner runner;
 		try {
-			TaskRunner runner = new TaskRunner("/dev/projects/grobot/client/tasks");
+			runner = new TaskRunner(DEFAULT_TASKS_DIR);
 			for (Task task : runner.getGrobotTaskFactory().getTasks()) {
-				System.out.println("Task: " + task.toString());
-				task.run();
+				LOGGER.warn("Running task: " + task.toString());
+				try {
+					Object result = task.run();
+					System.out.println("Task returned: " + result);
+				} catch (Exception e) {
+					LOGGER.warn("Could not run task " + task.toString(), e);
+				}
+				System.out.println("\n");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			LOGGER.warn("Could not run tasks", e);
 		}
 	}
 }
