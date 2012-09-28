@@ -1,28 +1,51 @@
+import org.gradle.api.tasks.OutputDirectories;
+import org.gradle.api.tasks.TaskAction;
+
 /**
  * Default tasks for groovy projects
  */
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:2.0.4'
+    testCompile 'junit:junit:4.10'
+}
+
 /**
  * Initialize the source / resource directories
  */
-task initDirectories() {
-	
-	def directories = [
+task intialize(type: CreateDirectories) {
+	directories = [
 		sourceSets*.groovy.srcDirs,
 		sourceSets*.java.srcDirs,
 		sourceSets*.resources.srcDirs
 	].flatten()
+}
+tasks.eclipse.dependsOn(intialize)
 
-	// directories.each { outputs.dir(it) }
-	
-	doLast {
-		directories.each { directory ->
-			logger.warn("Creating ${directory}")
-			directory.mkdirs()
+/**
+ * Creates directories if they don't already exist
+ * 
+ * @author jburbridge
+ * @since 9/27/2012
+ */
+class CreateDirectories extends DefaultTask {
+
+	@OutputDirectories
+	List<File> directories
+
+	@TaskAction
+	def createDirectories() {
+		directories.each { File directory ->
+			if (!directory.exists()) {
+				logger.warn("Creating ${directory}")
+				directory.mkdirs()
+			}
 		}
 	}
 }
-tasks.eclipse.dependsOn(initDirectories)
-
