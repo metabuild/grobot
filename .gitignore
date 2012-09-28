@@ -5,6 +5,7 @@
 *Db.script
 .settings
 bin
+build
 eclipse
 stacktrace.log
 target
