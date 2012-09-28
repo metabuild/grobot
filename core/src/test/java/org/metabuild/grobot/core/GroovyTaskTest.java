@@ -10,13 +10,13 @@ import groovy.lang.Script;
  * @author jburbrid
  * @since 9/27/2012
  */
-public class TaskTest {
+public class GroovyTaskTest {
 
 	@Test
 	public void testTask() {
 		Script script = mock(Script.class);
 		when(script.run()).thenReturn("OK!");
-		Task task = new Task(script);
+		GroovyTask task = new GroovyTask(script);
 		assertEquals("OK!", task.run());
 		assertEquals(1, task.getTimesRun());
 	}

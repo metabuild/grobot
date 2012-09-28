@@ -10,12 +10,12 @@ import groovy.lang.Script;
  * @author jburbrid
  * @since 9/28/2012
  */
-public class Task {
+public class GroovyTask {
 
 	private final Script script;
 	private final AtomicInteger timesRuns = new AtomicInteger();
 	
-	public Task(Script script) {
+	public GroovyTask(Script script) {
 		this.script = script;
 	}
 	

@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.metabuild.grobot.client.TaskRunner;
-import org.metabuild.grobot.core.Task;
-import org.metabuild.grobot.core.TaskFactory;
+import org.metabuild.grobot.core.GroovyTask;
+import org.metabuild.grobot.core.GroovyTaskFactory;
 
 import groovy.util.GroovyScriptEngine;
 
@@ -19,7 +19,7 @@ public class TaskRunner {
 
 	private static final Logger LOGGER = Logger.getLogger(TaskRunner.class);
 	private static final String DEFAULT_TASKS_DIR = System.getProperty("user.dir") + "/tasks";
-	private final TaskFactory taskFactory;
+	private final GroovyTaskFactory taskFactory;
 	private final String tasksDir;
 	private GroovyScriptEngine engine;
 	
@@ -28,10 +28,10 @@ public class TaskRunner {
 	}
 	
 	protected TaskRunner(String tasksDir, GroovyScriptEngine engine) {
-		this(tasksDir, engine, new TaskFactory(tasksDir, engine));
+		this(tasksDir, engine, new GroovyTaskFactory(tasksDir, engine));
 	}
 
-	protected TaskRunner(String tasksDir, GroovyScriptEngine engine, TaskFactory taskFactory) {
+	protected TaskRunner(String tasksDir, GroovyScriptEngine engine, GroovyTaskFactory taskFactory) {
 		this.tasksDir = tasksDir;
 		this.taskFactory = taskFactory;
 		this.engine = engine;
@@ -45,7 +45,7 @@ public class TaskRunner {
 		return engine;
 	}
 	
-	public TaskFactory getGrobotTaskFactory() {
+	public GroovyTaskFactory getGrobotTaskFactory() {
 		return taskFactory;
 	}
 	
@@ -53,7 +53,7 @@ public class TaskRunner {
 		TaskRunner runner;
 		try {
 			runner = new TaskRunner(DEFAULT_TASKS_DIR);
-			for (Task task : runner.getGrobotTaskFactory().getTasks()) {
+			for (GroovyTask task : runner.getGrobotTaskFactory().getTasks()) {
 				LOGGER.warn("Running task: " + task.toString());
 				try {
 					Object result = task.run();

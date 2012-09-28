@@ -7,22 +7,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Builds a binding populated with system properties
+ * Builds a Groovy Binding populated with system properties which will be passed along
+ * to the GroovyScriptEnging.
  * 
  * @author jburbrid
  * @since 9/27/2012
  */
-public class BindingBuilder {
+public class GroovyBindingBuilder {
 
-	private static final Logger LOGGER = Logger.getLogger(BindingBuilder.class.getName());
-	private static final BindingBuilder INSTANCE = new BindingBuilder();
+	private static final Logger LOGGER = Logger.getLogger(GroovyBindingBuilder.class.getName());
+	private static final GroovyBindingBuilder INSTANCE = new GroovyBindingBuilder();
 	private Binding binding;
 
-	private BindingBuilder() {
+	private GroovyBindingBuilder() {
 		this.binding = new Binding();
 	}
 	
-	public static BindingBuilder getInstance() {
+	public static GroovyBindingBuilder getInstance() {
 		return INSTANCE;
 	}
 	

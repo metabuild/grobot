@@ -19,11 +19,11 @@ import groovy.util.ScriptException;
  * @author jburbridge
  * @since 9/27/2012
  */
-public class TaskFactory {
+public class GroovyTaskFactory {
 	
-	private static final Logger LOGGER = Logger.getLogger(TaskFactory.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GroovyTaskFactory.class.getName());
 	private static final String DOT_GROOVY = ".groovy";
-	private static final BindingBuilder bindingBuilder = BindingBuilder.getInstance();
+	private static final GroovyBindingBuilder bindingBuilder = GroovyBindingBuilder.getInstance();
 	
 	private File tasksDir;
 	private GroovyScriptEngine engine;
@@ -35,7 +35,7 @@ public class TaskFactory {
 	 * @param tasksDir
 	 * @param engine
 	 */
-	public TaskFactory(String tasksDir, GroovyScriptEngine engine) {
+	public GroovyTaskFactory(String tasksDir, GroovyScriptEngine engine) {
 		this(new File(tasksDir), engine, bindingBuilder.getBinding());
 	}
 	
@@ -46,7 +46,7 @@ public class TaskFactory {
 	 * @param engine
 	 * @param binding
 	 */
-	protected TaskFactory(File tasksDir, GroovyScriptEngine engine, Binding binding) {
+	protected GroovyTaskFactory(File tasksDir, GroovyScriptEngine engine, Binding binding) {
 		this.tasksDir = tasksDir;
 		this.engine = engine;
 		this.binding = binding;
@@ -61,12 +61,12 @@ public class TaskFactory {
 	 * 
 	 * @return a list of Tasks
 	 */
-	public List<Task> getTasks() {
-		List<Task> tasks = new ArrayList<Task>();
+	public List<GroovyTask> getTasks() {
+		List<GroovyTask> tasks = new ArrayList<GroovyTask>();
 		for (File file : getFiles(tasksDir)) {
 			try {
 				Script script = engine.createScript(file.getAbsolutePath(), this.binding);
-				tasks.add(new Task(script));
+				tasks.add(new GroovyTask(script));
 			} catch (ResourceException e) {
 				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
 			} catch (ScriptException e) {

@@ -18,6 +18,10 @@ dependencies {
     testCompile 'junit:junit:4.10', 'org.mockito:mockito-all:1.8.5'
 }
 
+sourceSets {
+	integration
+}
+
 /**
  * Initialize the source / resource directories
  */
