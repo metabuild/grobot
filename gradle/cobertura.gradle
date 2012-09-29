@@ -5,7 +5,7 @@
 import org.gradle.api.internal.GradleInternal
 import org.gradle.api.internal.project.ProjectInternal
 
-logger.warn( "Loading cobertura support for ${project.name}")
+logger.info( "Loading cobertura support for ${project.name}")
 
 buildscript {
 	repositories {
@@ -19,5 +19,7 @@ buildscript {
 apply plugin: org.gradle.api.plugins.cobertura.CoberturaPlugin
 
 cobertura {
-	format = (project.hasProperty("environment") && project.environment == 'build') ? 'xml' : 'html'
+	// format as xml if running the build on a build server
+	format = (project.hasProperty("environment") && 
+			project.environment == 'build') ? 'xml' : 'html'
 }

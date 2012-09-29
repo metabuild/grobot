@@ -14,6 +14,8 @@ repositories {
 }
 
 dependencies {
+	compile 'org.slf4j:slf4j-api:1.7.1',
+        'org.slf4j:slf4j-simple:1.7.1'
     groovy 'org.codehaus.groovy:groovy-all:1.8.6'
     testCompile 'junit:junit:4.10', 'org.mockito:mockito-all:1.8.5'
 }
