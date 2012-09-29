@@ -34,7 +34,7 @@ public class TargetHost implements Target {
 	 */
 	@Override
 	public List<Target> getTargets() {
-		return new ArrayList<Target>();
+		return targets;
 	}
 
 	/**

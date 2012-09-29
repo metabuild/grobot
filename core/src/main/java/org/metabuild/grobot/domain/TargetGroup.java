@@ -1,6 +1,7 @@
 package org.metabuild.grobot.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class TargetGroup implements Target {
 	 */
 	public TargetGroup(String name) {
 		this.name = name;
-		this.targets = new ArrayList<Target>();
+		this.targets = Collections.synchronizedList(new ArrayList<Target>());
 		targets.add(this);
 	}
 
@@ -43,6 +44,20 @@ public class TargetGroup implements Target {
 		this.targets = targets;
 	}
 
+	/**
+	 * @param target
+	 */
+	public void addTarget(Target target) {
+		addTargets(target.getTargets());
+	}
+	
+	/**
+	 * @param targets
+	 */
+	public void addTargets(List<Target> targets) {
+		this.targets.addAll(targets);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.metabuild.grobot.domain.Target#getTargets()
 	 */

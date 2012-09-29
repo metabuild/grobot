@@ -17,18 +17,22 @@ public class TargetGroupTest {
 
 	@Test
 	public void test() {
-		TargetGroup parent = new TargetGroup("group1");
-		assertNotNull(parent);
-		assertEquals("group1", parent.getName());
-		
-		TargetGroup child = new TargetGroup("group2");
-		parent.getTargets().add(child);
-		
+		TargetGroup parentGroup = new TargetGroup("group1");
+		assertNotNull(parentGroup);
+		assertEquals("group1", parentGroup.getName());
+
+		TargetGroup childGroup = new TargetGroup("group2");
 		TargetHost host1 = new TargetHost("host1", "localhost", true);
-		parent.getTargets().add(host1);
+		childGroup.addTarget(host1);
+		assertEquals(2,childGroup.getTargets().size());
 		
-		List<Target> targets = parent.getTargets();
-		assertEquals(3, targets.size());
+		TargetGroup grandChild = new TargetGroup("group3");
+		assertEquals(1,grandChild.getTargets().size());
+
+		childGroup.addTargets(grandChild.getTargets());
+		parentGroup.addTargets(childGroup.getTargets());
+		List<Target> targets = parentGroup.getTargets();
+		assertEquals(4, targets.size());
 	}
 
 }
