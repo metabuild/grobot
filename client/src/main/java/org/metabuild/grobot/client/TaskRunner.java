@@ -46,7 +46,7 @@ public class TaskRunner {
 		return engine;
 	}
 	
-	public GroovyTaskFactory getGrobotTaskFactory() {
+	public GroovyTaskFactory getGroovyTaskFactory() {
 		return taskFactory;
 	}
 	
@@ -54,17 +54,19 @@ public class TaskRunner {
 		TaskRunner runner;
 		try {
 			runner = new TaskRunner(DEFAULT_TASKS_DIR);
-			for (GroovyTask task : runner.getGrobotTaskFactory().getTasks()) {
+			for (GroovyTask task : runner.getGroovyTaskFactory().getTasks()) {
 				LOGGER.info("<<< Loaded task: {} >>>", task.toString());
 				try {
+					LOGGER.info("<<< Running task: {} >>>", task.toString());
 					Object result = task.run();
-					LOGGER.info("Task {} returned: {}", task.toString(), result);
+					LOGGER.info("<<< Task {} returned: {} >>>", task.toString(), result);
+					LOGGER.info("<<< Task {} has run {} times >>>", task.toString(), task.getTimesRun());
 				} catch (Exception e) {
 					LOGGER.error("{} threw an exception: {}", task.toString(), e.getMessage());
 				}
 			}
 		} catch (IOException e) {
-			LOGGER.warn("Could not run tasks", e);
+			LOGGER.warn("The TaskRunner threw an exception {}", e.getClass());
 		}
 	}
 }
