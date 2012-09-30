@@ -1,13 +1,19 @@
 /**
- * Grobot master project
+ * The Grobot Parent Project
+ * --------------------------
+ * The Grobot parent project is a container for common build scripts and custom 
+ * gradle tasks for it's subprojects. It doesn't produce any distrubtable artifacts 
+ * itself, but can be imported into eclipse to make working in eclipse a bit easier.
  */
 
  description = 'The root of the Grobot project';
  
 apply plugin: 'groovy'
 
+/*
+ * Default for all projects including this one (rootProject)
+ */
 allprojects {
-	
 	apply plugin: 'eclipse'
 	
 	/*
@@ -15,7 +21,7 @@ allprojects {
 	 * published (snapshots vs releases), whether integration tests should run,
 	 * and whether jettyRun should run in the foreground or not
 	 */
-	ext.environment = hasProperty('environment') ? environment: 'development';
+	ext.environment = project.hasProperty('environment') ? environment: 'development';
 	logger.info("Environment is set to \"${environment}\"");
 	
 	/* unless we're building for a release, we generate snapshots */
@@ -23,8 +29,10 @@ allprojects {
 		currentVersion : currentVersion + '-SNAPSHOT';
 }
 
+/*
+ * Default for all projects except this one
+ */
 subprojects {
-	
 	/* 
 	 * import the common settings for all of our java subprojects - note that
 	 * some of these might also apply the groovy plug-in (ie, client and core)
@@ -36,6 +44,8 @@ subprojects {
 	 *  making the names look a little bit more hierarchical
 	 */
 	eclipse.project.name = "${project.getParent().eclipse.project.name}-${project.name}"
+	/* make the jar file name match the eclipse project for consistency */
+	archivesBaseName = eclipse.project.name
 	
 } 
 

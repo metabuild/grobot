@@ -5,9 +5,12 @@ import org.metabuild.gradle.tasks.*;
  */
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'findbugs'
 
-apply from: rootDir.toString() + '/gradle/cobertura.gradle'
+/* include static analysis plugins when building on jenkins */
+if (project.hasProperty('environment') && environment != 'development') {
+	apply from: rootDir.toString() + '/gradle/cobertura.gradle'
+	apply plugin: 'findbugs'
+}
 
 dependencies {
 	
@@ -21,9 +24,7 @@ dependencies {
 }
 
 
-/**
- * Initialize the source / resource directories
- */
+/* Initialize the source / resource directories */
 task intialize(type: CreateDirectories) {
 	directories = [
 		sourceSets*.groovy.srcDirs,

@@ -1,10 +1,10 @@
-import java.io.File;
-import java.util.List;
+/**
+ * Defaults for all java projects - defines common jar attributes and how to handle repositories 
+ * depending on the context of the build. For development builds we use the local .m2 repo, for 
+ * continuous integration builds we use the snapshot repo, and for releases we use the release repo.
+ */
 
-import org.gradle.api.tasks.OutputDirectories;
-import org.gradle.api.tasks.TaskAction;
-
-apply plugin: 'java'
+ apply plugin: 'java'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.6;
@@ -12,13 +12,14 @@ targetCompatibility = 1.6;
 
 /*
  * Define our repositories for artifact resolution - the default is to use a local
- * filesystem based maven repo unless a environment variable is specified (see gradle.properties).
+ * filesystem based maven repo unless a environment variable is specified 
  *
- * NOTE: A project can have multiple repositories. Gradle will look for a dependency in each
- * repository in the order they are specified, stopping at the first repository that contains
- * the requested module. Ergo our external proxy repo should always be defined last.
+ * NOTE: Gradle will look for a dependency in each repo in the order they are specified, 
+ * stopping at the first repository that contains the requested module. Ergo, maven central
+ * should always be the first and our metabuild distribution repo should always be defined last.
  */
 repositories {
+	mavenCentral();
 	if (project.hasProperty('environment') && environment == 'build') {
 		maven {
 			name 'snapshotsRepo';
@@ -66,7 +67,7 @@ task integrationTest(type: Test) {
  * dependening on what environment we are running under.
  *
  * also, see the ~/.gradle/gradle.properties for more details on the artifactory credentials
- **/
+ */
 uploadArchives {
 	if (project.hasProperty('artifactory_username') && project.hasProperty('artifactory_password')) {
 		repositories.mavenDeployer {
