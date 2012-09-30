@@ -15,9 +15,14 @@ apply plugin: 'eclipse-wtp';
 
 /* include static analysis and deployment plugins when building on jenkins */
 if (project.hasProperty('environment') && environment != 'development') {
+
 	apply from: rootDir.path.toString() + '/gradle/cobertura.gradle';
 	apply from: rootDir.path.toString() + '/gradle/cargo.gradle';
 	apply plugin: 'findbugs';
+	
+	findbugs {
+		ignoreFailures = true
+	}
 }
 
 dependencies {

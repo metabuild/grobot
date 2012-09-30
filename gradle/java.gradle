@@ -4,7 +4,7 @@
  * continuous integration builds we use the snapshot repo, and for releases we use the release repo.
  */
 
- apply plugin: 'java'
+apply plugin: 'java'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.6;
