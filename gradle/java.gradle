@@ -1,0 +1,89 @@
+import java.io.File;
+import java.util.List;
+
+import org.gradle.api.tasks.OutputDirectories;
+import org.gradle.api.tasks.TaskAction;
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6;
+targetCompatibility = 1.6;
+
+/*
+ * Define our repositories for artifact resolution - the default is to use a local
+ * filesystem based maven repo unless a environment variable is specified (see gradle.properties).
+ *
+ * NOTE: A project can have multiple repositories. Gradle will look for a dependency in each
+ * repository in the order they are specified, stopping at the first repository that contains
+ * the requested module. Ergo our external proxy repo should always be defined last.
+ */
+repositories {
+	if (project.hasProperty('environment') && environment == 'build') {
+		maven {
+			name 'snapshotsRepo';
+			url snapshotRepoUrl;
+		}
+	} else if (project.hasProperty('environment') && environment == 'release') {
+		maven {
+			name 'releaseRepo';
+			url releaseRepoUrl;
+		}
+	} else {
+		mavenLocal();
+	}
+	maven {
+		name 'allCombinedRepos';
+		url repositoryUrl;
+	}
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': project.name,
+				   'Implementation-Vendor': 'Metabuild Software',
+				   'Implementation-Version': version;
+	}
+}
+
+/*
+ * Adding the intergration-test folder to each java project
+ */
+sourceSets {
+	integration
+}
+
+/*
+ * Defines the test task for the intergration source set
+ */
+task integrationTest(type: Test) {
+   testClassesDir = sourceSets.integration.output.classesDir;
+   classpath = sourceSets.integration.runtimeClasspath;
+}
+
+/*
+ * configure a maven deployer to upload artifacts to the correct repository (snapshot or release)
+ * dependening on what environment we are running under.
+ *
+ * also, see the ~/.gradle/gradle.properties for more details on the artifactory credentials
+ **/
+uploadArchives {
+	if (project.hasProperty('artifactory_username') && project.hasProperty('artifactory_password')) {
+		repositories.mavenDeployer {
+			// depending on the environment property we may either want to deploy to the snapshot repo
+			if (project.hasProperty('environment') && environment == 'release') {
+				name = 'releaseDeployer';
+				repository(url: "${releaseRepoUrl}") {
+					authentication(userName: "${artifactory_username}", password: "${artifactory_password}");
+				}
+			// or deploy to the release repo
+			} else {
+				name = 'snapshotDeployer';
+				repository(url: "${snapshotRepoUrl}") {
+					authentication(userName: "${artifactory_username}", password: "${artifactory_password}");
+				}
+			}
+		}
+	}
+}
+uploadArchives.dependsOn(build);

@@ -1,0 +1,16 @@
+/**
+ * For details on the Cargo plug-in:
+ * https://github.com/bmuschko/gradle-cargo-plugin/blob/master/README.md
+ */
+buildscript {
+	repositories {
+		maven {
+			name 'allCombinedRepos';
+			url repositoryUrl;
+		}
+	}
+	dependencies {
+		classpath 'bmuschko:gradle-cargo-plugin:0.3'
+	}
+}
+apply plugin: org.gradle.api.plugins.cargo.CargoPlugin;

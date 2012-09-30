@@ -2,16 +2,44 @@
  * Grobot master project
  */
 
+ description = 'The root of the Grobot project';
+ 
 apply plugin: 'groovy'
 
 allprojects {
+	
 	apply plugin: 'eclipse'
-	// because eclipse can't handle a project hierarcy, we fake it by 
-	// making the names look a little bit more hierarchical 
-	eclipse.project.name = (project != rootProject) ?
-		"${project.getParent().eclipse.project.name}-${project.name}" : project.name
+	
+	/*
+	 * the "environment" property determines how artifacts are retrieved and
+	 * published (snapshots vs releases), whether integration tests should run,
+	 * and whether jettyRun should run in the foreground or not
+	 */
+	ext.environment = hasProperty('environment') ? environment: 'development';
+	logger.info("Environment is set to \"${environment}\"");
+	
+	/* unless we're building for a release, we generate snapshots */
+	version = hasProperty('environment') && environment == 'release' ?
+		currentVersion : currentVersion + '-SNAPSHOT';
+}
+
+subprojects {
+	
+	/* 
+	 * import the common settings for all of our java subprojects - note that
+	 * some of these might also apply the groovy plug-in (ie, client and core)
+	 */
+	apply from: rootDir.path.toString() + '/gradle/java.gradle'
+	
+	/*
+	 *  because eclipse can't handle a project hierarcy, we fake it by
+	 *  making the names look a little bit more hierarchical
+	 */
+	eclipse.project.name = "${project.getParent().eclipse.project.name}-${project.name}"
+	
 } 
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.2'
 }
+

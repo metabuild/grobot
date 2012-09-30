@@ -2,8 +2,8 @@
  * Cobertura Plug-In
  * https://github.com/Mapvine/gradle-cobertura-plugin
  */
-import org.gradle.api.internal.GradleInternal
-import org.gradle.api.internal.project.ProjectInternal
+//import org.gradle.api.internal.GradleInternal
+//import org.gradle.api.internal.project.ProjectInternal
 
 logger.info( "Loading cobertura support for ${project.name}")
 
