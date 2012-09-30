@@ -11,11 +11,14 @@ description = 'The webapp project for the Grobot master server';
 
 apply plugin: 'war';
 apply plugin: 'jetty';
-apply plugin: 'findbugs';
 apply plugin: 'eclipse-wtp';
 
-apply from: rootDir.path.toString() + '/gradle/cobertura.gradle';
-apply from: rootDir.path.toString() + '/gradle/cargo.gradle';
+/* include static analysis and deployment plugins when building on jenkins */
+if (project.hasProperty('environment') && environment != 'development') {
+	apply from: rootDir.path.toString() + '/gradle/cobertura.gradle';
+	apply from: rootDir.path.toString() + '/gradle/cargo.gradle';
+	apply plugin: 'findbugs';
+}
 
 dependencies {
 
