@@ -24,7 +24,7 @@ public class TaskRunnerTest {
 		TaskRunner runner = new TaskRunner("tasks");
 		assertNotNull(runner);
 		assertNotNull(runner.getTasksDir());
-		assertNotNull(runner.getGrobotTaskFactory());
+		assertNotNull(runner.getGroovyTaskFactory());
 		assertNotNull(runner.getGroovyScriptEngine());
 	}
 
@@ -46,7 +46,7 @@ public class TaskRunnerTest {
 		TaskRunner runner = new TaskRunner("tasks", new GroovyScriptEngine("tasks"));
 		assertNotNull(runner);
 		assertNotNull(runner.getTasksDir());
-		assertNotNull(runner.getGrobotTaskFactory());
+		assertNotNull(runner.getGroovyTaskFactory());
 		assertNotNull(runner.getGroovyScriptEngine());
 	}
 }

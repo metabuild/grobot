@@ -3,14 +3,15 @@ package org.metabuild.grobot.tasks;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import groovy.lang.Binding;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The TaskFactory is responsible for loading the groovy scripts from the tasks directory
@@ -21,7 +22,7 @@ import groovy.util.ScriptException;
  */
 public class GroovyTaskFactory {
 	
-	private static final Logger LOGGER = Logger.getLogger(GroovyTaskFactory.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTaskFactory.class.getName());
 	private static final String DOT_GROOVY = ".groovy";
 	private static final GroovyBindingBuilder bindingBuilder = GroovyBindingBuilder.getInstance();
 	
@@ -68,9 +69,9 @@ public class GroovyTaskFactory {
 				Script script = engine.createScript(file.getAbsolutePath(), this.binding);
 				tasks.add(new GroovyTask(script));
 			} catch (ResourceException e) {
-				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
+				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
 			} catch (ScriptException e) {
-				LOGGER.log(Level.WARNING, "Could not load task from " + file.getAbsolutePath(), e);
+				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
 			}
 		}
 		return tasks;

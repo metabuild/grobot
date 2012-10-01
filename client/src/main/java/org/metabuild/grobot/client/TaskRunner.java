@@ -2,7 +2,8 @@ package org.metabuild.grobot.client;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.metabuild.grobot.client.TaskRunner;
 import org.metabuild.grobot.tasks.GroovyTask;
 import org.metabuild.grobot.tasks.GroovyTaskFactory;
@@ -17,7 +18,7 @@ import groovy.util.GroovyScriptEngine;
  */
 public class TaskRunner {
 
-	private static final Logger LOGGER = Logger.getLogger(TaskRunner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TaskRunner.class);
 	private static final String DEFAULT_TASKS_DIR = System.getProperty("user.dir") + "/tasks";
 	private final GroovyTaskFactory taskFactory;
 	private final String tasksDir;
@@ -45,7 +46,7 @@ public class TaskRunner {
 		return engine;
 	}
 	
-	public GroovyTaskFactory getGrobotTaskFactory() {
+	public GroovyTaskFactory getGroovyTaskFactory() {
 		return taskFactory;
 	}
 	
@@ -53,18 +54,19 @@ public class TaskRunner {
 		TaskRunner runner;
 		try {
 			runner = new TaskRunner(DEFAULT_TASKS_DIR);
-			for (GroovyTask task : runner.getGrobotTaskFactory().getTasks()) {
-				LOGGER.warn("Running task: " + task.toString());
+			for (GroovyTask task : runner.getGroovyTaskFactory().getTasks()) {
+				LOGGER.info("<<< Loaded task: {} >>>", task.toString());
 				try {
+					LOGGER.info("<<< Running task: {} >>>", task.toString());
 					Object result = task.run();
-					System.out.println("Task returned: " + result);
+					LOGGER.info("<<< Task {} returned: {} >>>", task.toString(), result);
+					LOGGER.info("<<< Task {} has run {} times >>>", task.toString(), task.getTimesRun());
 				} catch (Exception e) {
-					LOGGER.warn("Could not run task " + task.toString(), e);
+					LOGGER.error("{} threw an exception: {}", task.toString(), e.getMessage());
 				}
-				System.out.println("\n");
 			}
 		} catch (IOException e) {
-			LOGGER.warn("Could not run tasks", e);
+			LOGGER.warn("The TaskRunner threw an exception {}", e.getClass());
 		}
 	}
 }

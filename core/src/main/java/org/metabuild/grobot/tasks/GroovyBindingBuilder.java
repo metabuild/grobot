@@ -4,7 +4,9 @@ import groovy.lang.Binding;
 
 import java.util.Map.Entry;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Builds a Groovy Binding populated with system properties which will be passed along
@@ -15,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class GroovyBindingBuilder {
 
-	private static final Logger LOGGER = Logger.getLogger(GroovyBindingBuilder.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyBindingBuilder.class.getName());
 	private static final GroovyBindingBuilder INSTANCE = new GroovyBindingBuilder();
 	private Binding binding;
 
@@ -34,7 +36,7 @@ public class GroovyBindingBuilder {
 	 */
 	public Binding getBinding() {
 		for (Entry<Object,Object> property : System.getProperties().entrySet()) {
-			LOGGER.log(Level.FINE, "property: " + property.toString());
+			LOGGER.debug("property: {}", property.toString());
 			binding.setVariable(property.getKey().toString(), property.getValue().toString());
 		}
 		return binding;

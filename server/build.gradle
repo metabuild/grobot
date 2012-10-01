@@ -1,0 +1,115 @@
+import org.metabuild.gradle.tasks.*;
+
+/**
+ * Build file for the Grobot server
+ *
+ * @author jburbridge
+ * @since 9/29/2012
+ */
+
+description = 'The webapp project for the Grobot master server';
+
+apply plugin: 'war';
+apply plugin: 'jetty';
+apply plugin: 'eclipse-wtp';
+
+/* include static analysis and deployment plugins when building on jenkins */
+if (project.hasProperty('environment') && environment != 'development') {
+
+	apply from: rootDir.path.toString() + '/gradle/cobertura.gradle';
+	apply from: rootDir.path.toString() + '/gradle/cargo.gradle';
+	apply plugin: 'findbugs';
+	
+	findbugs {
+		ignoreFailures = true
+	}
+}
+
+dependencies {
+
+	providedCompile 'javax.servlet:servlet-api:2.5';
+	providedRuntime 'org.mortbay.jetty:servlet-api-2.5:6.1.14';
+
+	compile project(':core'),
+		'javax.mail:mail:1.4.5',
+		'javax.activation:activation:1.1.1',
+		'org.slf4j:slf4j-api:1.6.6',
+		'org.slf4j:slf4j-log4j12:1.6.6',
+		'org.springframework:spring-webmvc:3.1.0.RELEASE';
+
+	runtime 'cglib:cglib:2.2.2';
+	
+	testCompile "org.mockito:mockito-all:1.8.5",
+		"junit:junit:4.+",
+		"org.springframework:spring-test:3.1.0.RELEASE";
+	
+	integrationCompile "junit:junit:4.+",
+		sourceSets.main.output,
+		configurations.testCompile,
+		sourceSets.test.output;
+	
+	integrationRuntime configurations.testRuntime;
+}
+
+// produce a jar file for our test classes
+task testJar(type: Jar, dependsOn: test) {
+	classifier = 'tests'
+	from sourceSets.test.output
+}
+
+// produce a jar file for our source files
+task sourceJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.test.java
+}
+
+// produce a jar file for our javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+// add all of the artifacts above to our archives list
+artifacts {
+	archives testJar
+	archives sourceJar
+	archives javadocJar
+}
+
+/*
+ * Setup jetty to run local integration tests
+ */
+jettyRun {
+	// if running from a development environment, keep Jetty running in the foreground
+	daemon = (project.hasProperty('environment') && environment != 'development');
+	httpPort = 9090;
+	contextPath = '/';
+}
+
+[jettyRun, jettyRunWar, jettyStop]*.stopPort = 9091;
+[jettyRun, jettyRunWar, jettyStop]*.stopKey = 'stopKey';
+
+/*
+ *  for non-development builds, make sure we slot the integration
+ *  tests into the build cycle. integration tests come in after
+ *  war, assembly and regular checks, but before build
+ */
+if (project.hasProperty('environment') && environment == 'build' ) {
+	jettyRun.dependsOn([check, integrationClasses]);
+	integrationTest.dependsOn(jettyRun);
+	jettyStop.dependsOn(integrationTest);
+	build.dependsOn(jettyStop);
+}
+
+/*
+ * Initialize the source / resource directories
+ */
+task intialize(type: CreateDirectories) {
+	directories = [
+		sourceSets*.java.srcDirs,
+		sourceSets*.resources.srcDirs,
+		file(webAppDirName)
+	].flatten()
+}
+tasks.eclipse.dependsOn(intialize)
+

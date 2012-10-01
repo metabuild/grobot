@@ -1,30 +1,35 @@
-import org.gradle.api.tasks.OutputDirectories;
-import org.gradle.api.tasks.TaskAction;
+import org.metabuild.gradle.tasks.*;
 
 /**
  * Default tasks for groovy projects
  */
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'findbugs'
-apply from: rootDir.toString() + '/gradle/cobertura.gradle'
 
-repositories {
-	mavenCentral()
+/* include static analysis plugins when building on jenkins */
+if (project.hasProperty('environment') && environment != 'development') {
+	
+	apply from: rootDir.toString() + '/gradle/cobertura.gradle'
+	apply plugin: 'findbugs'
+	
+	findbugs {
+		ignoreFailures = true
+	}
 }
 
 dependencies {
-    groovy 'org.codehaus.groovy:groovy-all:1.8.6'
-    testCompile 'junit:junit:4.10', 'org.mockito:mockito-all:1.8.5'
+	
+	compile 'org.slf4j:slf4j-api:1.7.1',
+		'org.slf4j:slf4j-simple:1.7.1'
+		
+	groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+	
+	testCompile 'junit:junit:4.10', 
+		'org.mockito:mockito-all:1.8.5'
 }
 
-sourceSets {
-	integration
-}
 
-/**
- * Initialize the source / resource directories
- */
+/* Initialize the source / resource directories */
 task intialize(type: CreateDirectories) {
 	directories = [
 		sourceSets*.groovy.srcDirs,
@@ -34,24 +39,3 @@ task intialize(type: CreateDirectories) {
 }
 tasks.eclipse.dependsOn(intialize)
 
-/**
- * Creates directories if they don't already exist
- * 
- * @author jburbridge
- * @since 9/27/2012
- */
-class CreateDirectories extends DefaultTask {
-
-	@OutputDirectories
-	List<File> directories
-
-	@TaskAction
-	def createDirectories() {
-		directories.each { File directory ->
-			if (!directory.exists()) {
-				logger.warn("Creating ${directory}")
-				directory.mkdirs()
-			}
-		}
-	}
-}

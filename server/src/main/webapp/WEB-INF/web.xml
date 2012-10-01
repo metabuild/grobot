@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+    <welcome-file-list>
+        <welcome-file>index.do</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <servlet>
+        <description>
+        The initializer servlet
+        </description>
+        <display-name>InitializerServlet</display-name>
+        <servlet-name>InitializerServlet</servlet-name>
+        <servlet-class>org.metabuild.grobot.server.init.InitializerServlet</servlet-class>
+        <init-param>
+            <param-name>log4j-init-file</param-name>
+            <param-value>WEB-INF/log4j.properties</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <context-param>
+      <param-name>contextClass</param-name>
+      <param-value>
+          org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+      </param-value>
+    </context-param>
+    <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>org.metabuild.grobot.server.config</param-value>
+    </context-param>
+    <listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class> org.springframework.web.servlet.DispatcherServlet </servlet-class>
+        <init-param>
+          <param-name>contextClass</param-name>
+          <param-value>
+              org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+          </param-value>
+        </init-param>
+        <!-- Again, config locations must consist of one or more comma- or space-delimited
+           and fully-qualified @Configuration classes -->
+        <init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>org.metabuild.config.WebConfig</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <description>
+        A simple servlet used for monitoring checks</description>
+        <display-name>PingServlet</display-name>
+        <servlet-name>PingServlet</servlet-name>
+        <servlet-class>org.metabuild.grobot.server.monitoring.PingServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>PingServlet</servlet-name>
+        <url-pattern>/ping</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PingServlet</servlet-name>
+        <url-pattern>/ping.jsp</url-pattern>
+    </servlet-mapping>
+    
+</web-app>
