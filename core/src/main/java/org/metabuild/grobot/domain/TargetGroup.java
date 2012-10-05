@@ -16,7 +16,6 @@ public class TargetGroup implements Target {
 
 	/**
 	 * @param name - the group's name
-	 * @param targets - a list of sub targets (groups or hosts)
 	 */
 	public TargetGroup(String name) {
 		this.name = name;

@@ -4,5 +4,6 @@
 
  description = 'Common code shared between the client and server projects';
  
-apply from: rootDir.path + '/gradle/groovy.gradle'
-
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:1.8.6'
+}

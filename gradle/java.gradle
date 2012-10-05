@@ -10,6 +10,15 @@ apply plugin: 'maven'
 sourceCompatibility = 1.6;
 targetCompatibility = 1.6;
 
+dependencies {
+	
+	compile 'org.slf4j:slf4j-api:1.7.1',
+		'org.slf4j:slf4j-simple:1.7.1'
+		
+	testCompile 'junit:junit:4.10', 
+		'org.mockito:mockito-all:1.8.5'
+}
+
 /*
  * Define our repositories for artifact resolution - the default is to use a local
  * filesystem based maven repo unless a environment variable is specified 
