@@ -1,13 +1,20 @@
 package org.metabuild.grobot.client;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.metabuild.grobot.client.TaskRunner;
-import org.metabuild.grobot.tasks.GroovyTask;
-import org.metabuild.grobot.tasks.GroovyTaskFactory;
+import org.metabuild.grobot.tasks.BindingProvider;
+import org.metabuild.grobot.tasks.Task;
+import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
+import org.metabuild.grobot.tasks.groovy.GroovyTask;
+import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
 
+import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 
 /**
@@ -29,7 +36,7 @@ public class TaskRunner {
 	}
 	
 	protected TaskRunner(String tasksDir, GroovyScriptEngine engine) {
-		this(tasksDir, engine, new GroovyTaskFactory(tasksDir, engine));
+		this(tasksDir, engine, new GroovyTaskFactory(getGroovyBindingProvider(), new File(tasksDir), engine));
 	}
 
 	protected TaskRunner(String tasksDir, GroovyScriptEngine engine, GroovyTaskFactory taskFactory) {
@@ -50,19 +57,24 @@ public class TaskRunner {
 		return taskFactory;
 	}
 	
+	protected static BindingProvider getGroovyBindingProvider() {
+		Map<Object,Object> paramMap = new HashMap<Object,Object>();
+		return new GroovyBindingProvider(paramMap, new Binding());
+	}
+
 	public static void main(String args[]) {
 		TaskRunner runner;
 		try {
 			runner = new TaskRunner(DEFAULT_TASKS_DIR);
-			for (GroovyTask task : runner.getGroovyTaskFactory().getTasks()) {
-				LOGGER.info("<<< Loaded task: {} >>>", task.toString());
+			for (Task task : runner.getGroovyTaskFactory().getTasks()) {
+				LOGGER.info("<<< Loaded task: {} >>>", task);
 				try {
-					LOGGER.info("<<< Running task: {} >>>", task.toString());
+					LOGGER.info("<<< Running task: {} >>>", task);
 					Object result = task.run();
-					LOGGER.info("<<< Task {} returned: {} >>>", task.toString(), result);
-					LOGGER.info("<<< Task {} has run {} times >>>", task.toString(), task.getTimesRun());
+					LOGGER.info("<<< Task \"{}\" returned: {} >>>", task, result);
+					LOGGER.info("<<< Task \"{}\" has run {} times >>>", task, task.getTimesRun());
 				} catch (Exception e) {
-					LOGGER.error("{} threw an exception: {}", task.toString(), e.getMessage());
+					LOGGER.error("Task \"{}\" threw an exception: {}", task, e.getMessage());
 				}
 			}
 		} catch (IOException e) {

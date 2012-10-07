@@ -1,4 +1,4 @@
-package org.metabuild.grobot.tasks;
+package org.metabuild.grobot.tasks.groovy;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +10,9 @@ import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
+import org.metabuild.grobot.tasks.BindingProvider;
+import org.metabuild.grobot.tasks.Task;
+import org.metabuild.grobot.tasks.TaskFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,53 +23,39 @@ import org.slf4j.LoggerFactory;
  * @author jburbridge
  * @since 9/27/2012
  */
-public class GroovyTaskFactory {
+public class GroovyTaskFactory implements TaskFactory {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTaskFactory.class.getName());
 	private static final String DOT_GROOVY = ".groovy";
-	private static final GroovyBindingBuilder bindingBuilder = GroovyBindingBuilder.getInstance();
 	
-	private File tasksDir;
-	private GroovyScriptEngine engine;
-	private Binding binding;
+	private final BindingProvider bindingProvider;
+	private final File tasksDir;
+	private final GroovyScriptEngine engine;
 	
 	/**
-	 * Default constructor which uses bindings populated with system variables
-	 * 
+	 * @param bindingProvider
 	 * @param tasksDir
 	 * @param engine
 	 */
-	public GroovyTaskFactory(String tasksDir, GroovyScriptEngine engine) {
-		this(new File(tasksDir), engine, bindingBuilder.getBinding());
-	}
-	
-	/**
-	 * Constructor with DI for unit testing
-	 * 
-	 * @param tasksDir
-	 * @param engine
-	 * @param binding
-	 */
-	protected GroovyTaskFactory(File tasksDir, GroovyScriptEngine engine, Binding binding) {
+	public GroovyTaskFactory(BindingProvider bindingProvider, File tasksDir, GroovyScriptEngine engine) {
+		this.bindingProvider = bindingProvider;
 		this.tasksDir = tasksDir;
 		this.engine = engine;
-		this.binding = binding;
-		
 		if (!tasksDir.isDirectory() || !tasksDir.canRead()) {
 			throw new RuntimeException("Could not find the tasks directory " + tasksDir.getAbsolutePath());
 		}
 	}
-	
+
 	/**
 	 * Recurses through the tasks directory and loads the groovy files
 	 * 
 	 * @return a list of Tasks
 	 */
-	public List<GroovyTask> getTasks() {
-		List<GroovyTask> tasks = new ArrayList<GroovyTask>();
+	public List<Task> getTasks() {
+		List<Task> tasks = new ArrayList<Task>();
 		for (File file : getFiles(tasksDir)) {
 			try {
-				Script script = engine.createScript(file.getAbsolutePath(), this.binding);
+				Script script = engine.createScript(file.getAbsolutePath(), getBinding());
 				tasks.add(new GroovyTask(script));
 			} catch (ResourceException e) {
 				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
@@ -111,9 +100,16 @@ public class GroovyTaskFactory {
 	}
 
 	/**
+	 * @return the binding provider
+	 */
+	public BindingProvider getBindingProvider() {
+		return bindingProvider;
+	}
+
+	/**
 	 * @return the binding
 	 */
 	public Binding getBinding() {
-		return binding;
+		return bindingProvider.getBinding();
 	}
 }

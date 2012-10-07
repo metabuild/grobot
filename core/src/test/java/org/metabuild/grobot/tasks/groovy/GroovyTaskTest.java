@@ -1,10 +1,10 @@
-package org.metabuild.grobot.tasks;
+package org.metabuild.grobot.tasks.groovy;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
-import org.metabuild.grobot.tasks.GroovyTask;
+import org.metabuild.grobot.tasks.groovy.GroovyTask;
 
 import groovy.lang.Script;
 

@@ -1,6 +1,8 @@
-package org.metabuild.grobot.tasks;
+package org.metabuild.grobot.tasks.groovy;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.metabuild.grobot.tasks.Task;
 
 import groovy.lang.Script;
 
@@ -10,7 +12,7 @@ import groovy.lang.Script;
  * @author jburbrid
  * @since 9/28/2012
  */
-public class GroovyTask {
+public class GroovyTask implements Task {
 
 	private final Script script;
 	private final AtomicInteger timesRuns = new AtomicInteger();
@@ -20,7 +22,7 @@ public class GroovyTask {
 	}
 	
 	public boolean hasRun() {
-		return timesRuns.intValue() > 0;
+		return getTimesRun() > 0;
 	}
 	
 	public Object run() {
