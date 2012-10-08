@@ -55,11 +55,24 @@ public class AppConfig {
 		return environment.getProperty("grobot.server.activemq.uri");
 	}
 
-	@Bean(name="connectionFactory")
-	public ConnectionFactory jmsConnectionFactory(String activeMqUri) {
+	@Bean(name="jmsConnectionFactory")
+	public ConnectionFactory getJmsConnectionFactory(String activeMqUri) {
 	    final ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
 	    factory.setBrokerURL(activeMqUri);
 	    return factory;
+	}
+
+	@Bean(name="requestsQueue")
+	public Queue requestsQueue() {
+	    return new ActiveMQQueue("requests");
+	}
+
+	@Autowired(required=true)
+	@Bean(name="jmsTemplate")
+	public JmsOperations jmsOperations(ConnectionFactory jmsConnectionFactory, Queue requestsQueue) {
+	    final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
+	    jmsTemplate.setDefaultDestination(requestsQueue);
+	    return jmsTemplate;
 	}
 
 //	@Resource 

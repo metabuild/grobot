@@ -49,4 +49,13 @@ public class TaskRunnerTest {
 		assertNotNull(runner.getGroovyTaskFactory());
 		assertNotNull(runner.getGroovyScriptEngine());
 	}
+	
+	@Test
+	public void testRunTasks() {
+		try {
+			new TaskRunner("tasks").runTasks();
+		} catch (IOException e) {
+			fail("Should have run successfully but threw an exception: " + e.getMessage());
+		}
+	}
 }

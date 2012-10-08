@@ -11,7 +11,6 @@ import org.metabuild.grobot.client.TaskRunner;
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.Task;
 import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
-import org.metabuild.grobot.tasks.groovy.GroovyTask;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
 
 import groovy.lang.Binding;
@@ -31,6 +30,12 @@ public class TaskRunner {
 	private final String tasksDir;
 	private GroovyScriptEngine engine;
 	
+	/**
+	 * Given a directory containing tasks, instantiate a TaskRunner
+	 * 
+	 * @param tasksDir
+	 * @throws IOException
+	 */
 	public TaskRunner(String tasksDir) throws IOException {
 		this(tasksDir, new GroovyScriptEngine(tasksDir)); 
 	}
@@ -62,21 +67,23 @@ public class TaskRunner {
 		return new GroovyBindingProvider(paramMap, new Binding());
 	}
 
-	public static void main(String args[]) {
-		TaskRunner runner;
-		try {
-			runner = new TaskRunner(DEFAULT_TASKS_DIR);
-			for (Task task : runner.getGroovyTaskFactory().getTasks()) {
-				LOGGER.info("<<< Loaded task: {} >>>", task);
-				try {
-					LOGGER.info("<<< Running task: {} >>>", task);
-					Object result = task.run();
-					LOGGER.info("<<< Task \"{}\" returned: {} >>>", task, result);
-					LOGGER.info("<<< Task \"{}\" has run {} times >>>", task, task.getTimesRun());
-				} catch (Exception e) {
-					LOGGER.error("Task \"{}\" threw an exception: {}", task, e.getMessage());
-				}
+	public void runTasks() {
+		for (Task task : getGroovyTaskFactory().getTasks()) {
+			LOGGER.info("<<< Loaded task: {} >>>", task);
+			try {
+				LOGGER.info("<<< Running task: {} >>>", task);
+				Object result = task.run();
+				LOGGER.info("<<< Task \"{}\" returned: {} >>>", task, result);
+				LOGGER.info("<<< Task \"{}\" has run {} times >>>", task, task.getTimesRun());
+			} catch (Exception e) {
+				LOGGER.error("Task \"{}\" threw an exception: {}", task, e.getMessage());
 			}
+		}
+	}
+	
+	public static void main(String args[]) {
+		try {
+			new TaskRunner(DEFAULT_TASKS_DIR).runTasks();
 		} catch (IOException e) {
 			LOGGER.warn("The TaskRunner threw an exception {}", e.getClass());
 		}

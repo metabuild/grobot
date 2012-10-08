@@ -3,6 +3,8 @@ package org.metabuild.grobot.tasks.groovy;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.metabuild.grobot.tasks.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import groovy.lang.Script;
 
@@ -14,6 +16,8 @@ import groovy.lang.Script;
  */
 public class GroovyTask implements Task {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTask.class);
+	
 	private final Script script;
 	private final AtomicInteger timesRuns = new AtomicInteger();
 	
@@ -26,6 +30,7 @@ public class GroovyTask implements Task {
 	}
 	
 	public Object run() {
+		LOGGER.debug("Running task {} for the {}th time", toString(), getTimesRun());
 		timesRuns.incrementAndGet();
 		return script.run();
 	}

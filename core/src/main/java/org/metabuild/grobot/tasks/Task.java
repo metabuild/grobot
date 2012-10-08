@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.metabuild.grobot.tasks;
 
 /**
@@ -10,8 +7,9 @@ package org.metabuild.grobot.tasks;
 public interface Task {
 
 	/**
-	 * Runs the task and provides a plain object as a return value
-	 * @return
+	 * Runs the task
+	 * 
+	 * @return the return value of the task run
 	 */
 	public Object run();
 	
