@@ -25,16 +25,19 @@ public class GroovyTask implements Task {
 		this.script = script;
 	}
 	
+	@Override
 	public boolean hasRun() {
 		return getTimesRun() > 0;
 	}
 	
+	@Override
 	public Object run() {
 		LOGGER.debug("Running task {} for the {}th time", toString(), getTimesRun());
 		timesRuns.incrementAndGet();
 		return script.run();
 	}
 	
+	@Override
 	public int getTimesRun() {
 		return timesRuns.get();
 	}

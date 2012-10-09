@@ -26,6 +26,7 @@ public class PingServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.trace("{}: ping request received", PingServlet.class.getName());
 		response.setContentType("text/plain");

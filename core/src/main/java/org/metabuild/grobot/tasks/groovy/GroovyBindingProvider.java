@@ -50,6 +50,7 @@ public class GroovyBindingProvider implements BindingProvider {
 	/**
 	 * @return the binding
 	 */
+	@Override
 	public Binding getBinding() {
 		LOGGER.debug("Populating binding with parameter map");
 		for (Entry<Object,Object> entry : bindingParameters.entrySet()) {

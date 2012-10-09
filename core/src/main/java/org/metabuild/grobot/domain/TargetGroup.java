@@ -100,6 +100,7 @@ public class TargetGroup implements Target {
 		this.targets = targets;
 	}
 	
+	@Override
 	public String toString() {
 		return name;
 	}

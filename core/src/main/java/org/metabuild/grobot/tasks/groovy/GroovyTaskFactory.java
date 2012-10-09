@@ -51,6 +51,7 @@ public class GroovyTaskFactory implements TaskFactory {
 	 * 
 	 * @return a list of Tasks
 	 */
+	@Override
 	public List<Task> getTasks() {
 		List<Task> tasks = new ArrayList<Task>();
 		for (File file : getFiles(tasksDir)) {

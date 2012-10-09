@@ -26,5 +26,6 @@ public interface Task {
 	/**
 	 * @return the string representation of this task, usually the file name
 	 */
+	@Override
 	public String toString();
 }

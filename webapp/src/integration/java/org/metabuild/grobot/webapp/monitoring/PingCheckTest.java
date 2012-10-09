@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -46,8 +47,7 @@ public class PingCheckTest {
 		StringBuilder resultString = new StringBuilder();
 		HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
 		connection.connect();
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(url.openStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), Charset.forName("UTF-8")));
 		String inputLine;
 		while ((inputLine = in.readLine()) != null) {
 			resultString.append(inputLine);

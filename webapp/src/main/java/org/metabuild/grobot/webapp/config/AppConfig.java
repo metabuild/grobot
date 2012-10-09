@@ -1,12 +1,10 @@
 package org.metabuild.grobot.webapp.config;
 
-import javax.annotation.Resource;
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
-import org.metabuild.grobot.server.SimpleRequestProcessor;
 import org.metabuild.grobot.webapp.domain.GreetingMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.listener.AbstractJmsListeningContainer;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
-import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 
 
 /**
