@@ -8,5 +8,8 @@ apply from: rootDir.path + '/gradle/groovy.gradle'
  
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:1.8.6',
-	'org.springframework:spring-core:3.1.2.RELEASE'
+	'org.springframework:spring-core:3.1.2.RELEASE',
+	'org.springframework:spring-jms:3.1.2.RELEASE',
+	'org.apache.activemq:activemq-core:5.6.0',
+	'javax.jms:jms:1.1';
 }
