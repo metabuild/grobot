@@ -1,4 +1,4 @@
-package org.metabuild.grobot.webapp.config;
+package org.metabuild.grobot.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

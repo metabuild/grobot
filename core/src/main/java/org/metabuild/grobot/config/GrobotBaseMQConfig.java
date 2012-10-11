@@ -1,24 +1,27 @@
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.config;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
-@ComponentScan(basePackages = {"org.metabuild.grobot.mq"})
 @PropertySource("file:${user.home}/.grobot/grobot.properties")
-public class HeartbeatConfig {
+public class GrobotBaseMQConfig {
 
+	@Autowired
+	Environment environment;
+	
 	@Bean(name="activeMqUri")
 	public String getActiveMqUri() {
-		return "tcp://localhost:61616";
+		return environment.getProperty("grobot.server.activemq.uri");
 	}
 	
 	@Bean(name="jmsConnectionFactory")
@@ -28,31 +31,16 @@ public class HeartbeatConfig {
 	    return factory;
 	}
 	
-	@Bean(name="destination")
+	@Bean(name="grobotHostsQueue")
 	public ActiveMQQueue getDestination() {
 		return new ActiveMQQueue("grobot.hosts");
 	}
 	
 	@Bean(name="jmsTemplate")
-	public JmsTemplate getJmsTemplate(ConnectionFactory connectionFactory, Destination destination) {
+	public JmsTemplate getJmsTemplate(ConnectionFactory connectionFactory, Destination grobotHostsQueue) {
 		JmsTemplate jmsTemplate = new JmsTemplate();
 		jmsTemplate.setConnectionFactory(connectionFactory);
-		jmsTemplate.setDefaultDestination(destination);
+		jmsTemplate.setDefaultDestination(grobotHostsQueue);
 		return jmsTemplate;
 	}
-	
-	@Bean(name="heartbeatProducer")
-	public HeartbeatProducer getHeartbeatProducer(JmsTemplate jmsTemplate) {
-		HeartbeatProducer producer = new HeartbeatProducer();
-		producer.setJmsTemplate(jmsTemplate);
-		return producer;
-	}
-
-	// TODO: figure out hot to register the message listener with the container
-	@Bean(name="heartbeatListner")
-	public HeartbeatListener getHeartbeatListener(JmsTemplate jmsTemplate) {
-		HeartbeatListener listener = new HeartbeatListener();
-		return listener;
-	}
-
 }
