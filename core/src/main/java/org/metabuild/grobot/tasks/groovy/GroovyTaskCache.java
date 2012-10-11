@@ -36,7 +36,7 @@ public class GroovyTaskCache {
 	}
 	
 	/**
-	 * @param the task registry map to be populated
+	 * @param registry map to be populated
 	 * @return the populated registry map
 	 */
 	protected Map<String, GroovyTask> loadTasks(Map<String, GroovyTask> registry) {
@@ -47,7 +47,7 @@ public class GroovyTaskCache {
 	}
 	
 	/**
-	 * @param the task name
+	 * @param name
 	 * @return the task
 	 */
 	public GroovyTask getTask(String name) {

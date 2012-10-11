@@ -24,9 +24,7 @@ public class GroovyTaskCacheTest {
 	 */
 	@Test
 	public void testGroovyTaskCacheGroovyTaskFactoryMapOfStringGroovyTask() {
-		GroovyTaskCache taskCache = new GroovyTaskCache(getMockTaskFactory(), new HashMap<String, GroovyTask>());
-		assertNotNull(taskCache);
-		assertTrue(taskCache instanceof GroovyTaskCache);
+		assertNotNull(new GroovyTaskCache(getMockTaskFactory(), new HashMap<String, GroovyTask>()));
 	}
 
 	/**
