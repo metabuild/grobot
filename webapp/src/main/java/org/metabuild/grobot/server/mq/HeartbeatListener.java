@@ -24,6 +24,19 @@ public class HeartbeatListener implements MessageListener {
 	@Autowired
 	private TargetCache targetCache;
 	
+	public HeartbeatListener() {
+		LOGGER.info("Initializing HeartbeatListener...");
+	}
+	
+	/**
+	 * Constructor with DI for unit testing
+	 * @param targetCache
+	 */
+	protected HeartbeatListener(TargetCache targetCache) {
+		this();
+		this.targetCache = targetCache;
+	}
+	
 	@Override
 	public void onMessage(Message message) {
 		try {
@@ -37,7 +50,9 @@ public class HeartbeatListener implements MessageListener {
 		} catch (JMSException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		
 	}
-
+	
+	protected TargetCache getTargetCache() {
+		return targetCache;
+	}
 }

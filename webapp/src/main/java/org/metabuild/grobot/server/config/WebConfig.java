@@ -15,15 +15,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@Import(AppConfig.class)
+@Import({AppConfig.class, ServerJmsConfig.class})
 @ComponentScan(basePackages = "org.metabuild.grobot.webapp.controllers")
 public class WebConfig {
 
-    @Bean
-    public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver ir = new InternalResourceViewResolver();
-        ir.setPrefix("/WEB-INF/jsp/");
-        ir.setSuffix(".jsp");
-        return ir;
-    }
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		InternalResourceViewResolver ir = new InternalResourceViewResolver();
+		ir.setPrefix("/WEB-INF/jsp/");
+		ir.setSuffix(".jsp");
+		return ir;
+	}
 }

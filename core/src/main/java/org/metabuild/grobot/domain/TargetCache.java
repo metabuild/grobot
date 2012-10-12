@@ -36,4 +36,8 @@ public class TargetCache {
 	public void put(String targetName, Target target) {
 		targetMap.put(targetName, target);
 	}
+	
+	public int size() {
+		return targetMap.size();
+	}
 }

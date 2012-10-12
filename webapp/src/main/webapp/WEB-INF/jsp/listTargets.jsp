@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.metabuild.grobot.webapp.domain.*" %>
+<%@ page import="org.metabuild.grobot.webapp.domain.GreetingMessage" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +7,6 @@
 <title>Grobot Server Console</title>
 </head>
 <body>
-The grobot homepage says: ${hello}
+The number of currently registered targets: ${targetCache}
 </body>
 </html>

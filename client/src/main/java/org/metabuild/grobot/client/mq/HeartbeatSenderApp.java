@@ -1,8 +1,8 @@
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.client.mq;
 
 import javax.jms.JMSException;
 
-import org.metabuild.grobot.config.HeartbeatProducerConfig;
+import org.metabuild.grobot.client.config.ClientJmsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -18,8 +18,8 @@ public class HeartbeatSenderApp {
 	
 	public static void main(String[] args) throws JMSException, InterruptedException {
 		LOGGER.info("Sending heartbeat to queue");
-		ApplicationContext context = new AnnotationConfigApplicationContext(HeartbeatProducerConfig.class); 
-		HeartbeatProducer producer = (HeartbeatProducer) context.getBean(HeartbeatProducer.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(ClientJmsConfig.class); 
+		HeartbeatProducerImpl producer = (HeartbeatProducerImpl) context.getBean(HeartbeatProducerImpl.class);
 		int x = 0;
 		while (x++ < 10) {
 			producer.sendHeartbeat();

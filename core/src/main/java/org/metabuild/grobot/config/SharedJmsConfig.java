@@ -14,14 +14,15 @@ import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
 @PropertySource("file:${user.home}/.grobot/grobot.properties")
-public class GrobotBaseMQConfig {
+public class SharedJmsConfig {
 
 	@Autowired
 	Environment environment;
 	
 	@Bean(name="activeMqUri")
 	public String getActiveMqUri() {
-		return environment.getProperty("grobot.server.activemq.uri");
+		String activeMqUri = environment.getProperty("grobot.server.activemq.uri");
+		return activeMqUri;
 	}
 	
 	@Bean(name="jmsConnectionFactory")

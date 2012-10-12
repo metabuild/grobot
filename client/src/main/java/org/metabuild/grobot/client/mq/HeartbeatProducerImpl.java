@@ -1,6 +1,5 @@
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.client.mq;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.jms.JMSException;
@@ -17,23 +16,30 @@ import org.springframework.jms.core.MessageCreator;
  * @author jburbridge
  *
  */
-public class HeartbeatProducer {
+public class HeartbeatProducerImpl implements HeartbeatProducer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatProducer.class);
-    
-    protected JmsTemplate jmsTemplate; 
-    
-    public JmsTemplate getJmsTemplate() {
-		return jmsTemplate;
+	private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatProducerImpl.class);
+	private final HostnameResolver hostnameResolver; 
+	
+	protected JmsTemplate jmsTemplate;
+
+	public HeartbeatProducerImpl() throws UnknownHostException {
+		this.hostnameResolver = new HostnameResolver();
 	}
-
-	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+	
+	/**
+	 * Constructor with DI for unit testing
+	 * @param hostnameResolver
+	 */
+	protected HeartbeatProducerImpl(HostnameResolver hostnameResolver, JmsTemplate jmsTemplate) {
+		this.hostnameResolver = hostnameResolver;
 		this.jmsTemplate = jmsTemplate;
 	}
-
+	
+	@Override
 	public void sendHeartbeat() throws JMSException {
 		final String ping = "PING";
-		final String hostname = getHostname();
+		final String hostname = hostnameResolver.getHostname();
 		final MessageCreator messageCreator = new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
@@ -46,16 +52,12 @@ public class HeartbeatProducer {
 		};
 		jmsTemplate.send(messageCreator);
 	}
+	
+	public JmsTemplate getJmsTemplate() {
+		return jmsTemplate;
+	}
 
-	private String getHostname() {
-		String hostname = null;
-		try {
-		    InetAddress addr = InetAddress.getLocalHost();
-		    // byte[] ipAddr = addr.getAddress();
-		    hostname = addr.getHostName();
-		} catch (UnknownHostException e) {
-			LOGGER.error("Could not set hostname", e);
-		}
-		return hostname;
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
 	}
 }
