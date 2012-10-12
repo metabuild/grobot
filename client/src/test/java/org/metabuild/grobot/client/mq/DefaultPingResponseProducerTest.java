@@ -15,16 +15,16 @@ import org.springframework.jms.core.JmsTemplate;
  * @author jburbridge
  *
  */
-public class HeartbeatProducerImplTest {
+public class DefaultPingResponseProducerTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.HeartbeatProducerImpl#sendHeartbeat()}.
+	 * Test method for {@link org.metabuild.grobot.client.mq.DefaultPingResponseProducer#sendPingResponse()}.
 	 * @throws JMSException 
 	 */
 	@Test
-	public void testSendHeartbeat() throws JMSException {
-		HeartbeatProducerImpl producer = new HeartbeatProducerImpl(getMockHostnameResolver("fooooey"), getMockJmsTemplate());
-		producer.sendHeartbeat();
+	public void testSendPing() throws JMSException {
+		PingResponseProducer producer = new DefaultPingResponseProducer(getMockHostnameResolver("fooooey"), getMockJmsTemplate());
+		producer.sendPingResponse();
 	}
 	
 	private JmsTemplate getMockJmsTemplate() {

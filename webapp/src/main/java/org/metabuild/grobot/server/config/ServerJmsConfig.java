@@ -5,7 +5,7 @@ import javax.jms.Destination;
 import javax.jms.MessageListener;
 
 import org.metabuild.grobot.config.SharedJmsConfig;
-import org.metabuild.grobot.server.mq.HeartbeatListener;
+import org.metabuild.grobot.server.mq.PingListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -20,9 +20,9 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 @PropertySource("file:${user.home}/.grobot/grobot.properties")
 public class ServerJmsConfig {
 
-	@Bean(name="heartbeatListner")
-	public MessageListener getHeartbeatListener(JmsTemplate jmsTemplate) {
-		return new HeartbeatListener();
+	@Bean(name="pingListner")
+	public MessageListener getPingListener(JmsTemplate jmsTemplate) {
+		return new PingListener();
 	}
 
 	@Bean(name="jmsContainer")
@@ -38,8 +38,8 @@ public class ServerJmsConfig {
 	}
 	 
 	@Bean(name="jmsListenerAdapter")
-	public MessageListenerAdapter messageListenerAdapter(HeartbeatListener heartbeatListner) {
-		final MessageListenerAdapter adapter = new MessageListenerAdapter(heartbeatListner);
+	public MessageListenerAdapter messageListenerAdapter(PingListener pingListner) {
+		final MessageListenerAdapter adapter = new MessageListenerAdapter(pingListner);
 		adapter.setDefaultListenerMethod("onMessage");
 		return adapter;
 	}

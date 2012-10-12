@@ -2,8 +2,8 @@ package org.metabuild.grobot.client.config;
 
 import java.net.UnknownHostException;
 
-import org.metabuild.grobot.client.mq.HeartbeatProducer;
-import org.metabuild.grobot.client.mq.HeartbeatProducerImpl;
+import org.metabuild.grobot.client.mq.PingResponseProducer;
+import org.metabuild.grobot.client.mq.DefaultPingResponseProducer;
 import org.metabuild.grobot.config.SharedJmsConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +14,9 @@ import org.springframework.jms.core.JmsTemplate;
 @Configuration
 public class ClientJmsConfig {
 
-	@Bean(name="heartbeatProducer")
-	public HeartbeatProducer getHeartbeatProducer(JmsTemplate jmsTemplate) throws UnknownHostException {
-		HeartbeatProducer producer = new HeartbeatProducerImpl();
+	@Bean(name="pingProducer")
+	public PingResponseProducer getPingProducer(JmsTemplate jmsTemplate) throws UnknownHostException {
+		PingResponseProducer producer = new DefaultPingResponseProducer();
 		producer.setJmsTemplate(jmsTemplate);
 		return producer;
 	}

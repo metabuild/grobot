@@ -33,7 +33,7 @@ public class HostnameResolverTest {
 	@Test
 	public void testGetAddress() {
 		HostnameResolver resolver = new HostnameResolver(getMockInetAddress());
-		assertEquals(addressBytes.toString(), resolver.getAddress().toString());
+		assertEquals(addressBytes, resolver.getAddress());
 	}
 	
 	private InetAddress getMockInetAddress() {

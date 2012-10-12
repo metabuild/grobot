@@ -1,12 +1,14 @@
 package org.metabuild.grobot.client.mq;
 
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
+import org.metabuild.grobot.mq.PingResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -16,14 +18,14 @@ import org.springframework.jms.core.MessageCreator;
  * @author jburbridge
  *
  */
-public class HeartbeatProducerImpl implements HeartbeatProducer {
+public class DefaultPingResponseProducer implements PingResponseProducer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatProducerImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPingResponseProducer.class);
 	private final HostnameResolver hostnameResolver; 
 	
 	protected JmsTemplate jmsTemplate;
 
-	public HeartbeatProducerImpl() throws UnknownHostException {
+	public DefaultPingResponseProducer() throws UnknownHostException {
 		this.hostnameResolver = new HostnameResolver();
 	}
 	
@@ -31,22 +33,22 @@ public class HeartbeatProducerImpl implements HeartbeatProducer {
 	 * Constructor with DI for unit testing
 	 * @param hostnameResolver
 	 */
-	protected HeartbeatProducerImpl(HostnameResolver hostnameResolver, JmsTemplate jmsTemplate) {
+	protected DefaultPingResponseProducer(HostnameResolver hostnameResolver, JmsTemplate jmsTemplate) {
 		this.hostnameResolver = hostnameResolver;
 		this.jmsTemplate = jmsTemplate;
 	}
 	
 	@Override
-	public void sendHeartbeat() throws JMSException {
-		final String ping = "PING";
+	public void sendPingResponse() throws JMSException {
 		final String hostname = hostnameResolver.getHostname();
+		final PingResponse pingResponse = new PingResponse(hostname, System.getenv(), new HashMap<String,String>());
 		final MessageCreator messageCreator = new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				TextMessage textMessage = session.createTextMessage(ping);
-				textMessage.setStringProperty("hostname", hostname);
-				LOGGER.info("Sending heartbeat ping to grobot master for {}", hostname);
-				return textMessage;
+				ObjectMessage objectMessage = session.createObjectMessage(pingResponse);
+				objectMessage.setStringProperty("hostname", pingResponse.getHostname());
+				LOGGER.info("Sending ping response to message queue for {}", pingResponse.getHostname());
+				return objectMessage;
 			}
 			
 		};

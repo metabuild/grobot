@@ -20,11 +20,11 @@ import org.metabuild.grobot.domain.TargetHost;
  * @author jburbridge
  *
  */
-public class HeartbeatListenerTest {
+public class PingListenerTest {
 
 	@Test
 	public void test() throws JMSException {
-		HeartbeatListener listener = new HeartbeatListener(new TargetCache());
+		PingListener listener = new PingListener(new TargetCache());
 		listener.onMessage(getMockTextMessage("test1"));
 		assertEquals(1,listener.getTargetCache().size());
 		listener.onMessage(getMockTextMessage("test2"));
