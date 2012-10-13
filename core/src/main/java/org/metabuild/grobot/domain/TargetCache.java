@@ -19,7 +19,7 @@ public class TargetCache {
 	 * Default constructor
 	 */
 	public TargetCache() {
-		this.targetMap = Collections.synchronizedMap(new HashMap<String,Target>());
+		this(Collections.synchronizedMap(new HashMap<String,Target>()));
 	}
 	
 	/**

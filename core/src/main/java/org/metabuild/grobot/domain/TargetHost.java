@@ -29,17 +29,24 @@ public class TargetHost implements Target {
 	public TargetHost(String name, String address, boolean active) {
 		this.name = name;
 		this.address = address;
+		this.active = active;
 		this.systemProperties = new Properties();
 		this.otherProperties = new Properties();
 		this.targets = new ArrayList<Target>();
 		targets.add(this);
 	}
 	
+	/**
+	 * Constructor for creating TargetHost from PingResponses
+	 * 
+	 * @param pingResponse
+	 */
 	public TargetHost(PingResponse pingResponse) {
 		this.name = pingResponse.getHostname();
 		this.address = pingResponse.getHostname();
 		this.systemProperties = pingResponse.getSystemProperties();
 		this.otherProperties = pingResponse.getOtherProperties();
+		this.active = true;
 	}
 
 	/* (non-Javadoc)
