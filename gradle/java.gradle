@@ -10,6 +10,13 @@ apply plugin: 'maven'
 sourceCompatibility = 1.6;
 targetCompatibility = 1.6;
 
+/*
+ * Adding the intergration-test folder to each java project
+ */
+sourceSets {
+	integration
+}
+
 dependencies {
 	
 	compile 'org.slf4j:slf4j-api:1.7.1',
@@ -17,6 +24,12 @@ dependencies {
 		
 	testCompile 'junit:junit:4.10', 
 		'org.mockito:mockito-all:1.8.5'
+		
+	integrationCompile sourceSets.main.output,
+		configurations.testCompile,
+		sourceSets.test.output;
+	
+	integrationRuntime configurations.testRuntime;
 }
 
 /*
@@ -54,13 +67,6 @@ jar {
 				   'Implementation-Vendor': 'Metabuild Software',
 				   'Implementation-Version': version;
 	}
-}
-
-/*
- * Adding the intergration-test folder to each java project
- */
-sourceSets {
-	integration
 }
 
 /*

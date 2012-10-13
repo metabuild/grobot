@@ -26,6 +26,12 @@ dependencies {
 	
 	testCompile 'junit:junit:4.10', 
 		'org.mockito:mockito-all:1.8.5'
+		
+	integrationCompile sourceSets.main.output,
+		configurations.testCompile,
+		sourceSets.test.output
+	
+	integrationRuntime configurations.testRuntime
 }
 
 
