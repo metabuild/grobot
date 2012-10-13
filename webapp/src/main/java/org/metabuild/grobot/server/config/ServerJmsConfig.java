@@ -1,11 +1,15 @@
 package org.metabuild.grobot.server.config;
 
+import java.net.UnknownHostException;
+
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
-import javax.jms.MessageListener;
-
 import org.metabuild.grobot.config.SharedJmsConfig;
-import org.metabuild.grobot.server.mq.PingListener;
+import org.metabuild.grobot.server.mq.PingRequestProducerImpl;
+import org.metabuild.grobot.server.mq.PingRequestProducer;
+import org.metabuild.grobot.server.mq.PingResponseListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -20,13 +24,19 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 @PropertySource("file:${user.home}/.grobot/grobot.properties")
 public class ServerJmsConfig {
 
-	@Bean(name="pingListner")
-	public MessageListener getPingListener(JmsTemplate jmsTemplate) {
-		return new PingListener();
+	@Autowired(required=true)
+	@Qualifier(value="jmsTemplate")
+	@Bean(name="pingResponseListner")
+	public PingResponseListener getPingResponseListener(JmsTemplate jmsTemplate) {
+		PingResponseListener pingResponseListener = new PingResponseListener();
+		pingResponseListener.setJmsTemplate(jmsTemplate);
+		return pingResponseListener;
 	}
 
+	@Autowired(required=true)
+	@Qualifier(value="pingTopicDestination")
 	@Bean(name="jmsContainer")
-	public AbstractJmsListeningContainer jmsContainer(ConnectionFactory jmsConnectionFactory, Destination destination, 
+	public AbstractJmsListeningContainer getPingTopicContainer(ConnectionFactory jmsConnectionFactory, Destination destination, 
 			MessageListenerAdapter jmsListenerAdapter) {
 		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 		container.setConnectionFactory(jmsConnectionFactory);
@@ -38,9 +48,16 @@ public class ServerJmsConfig {
 	}
 	 
 	@Bean(name="jmsListenerAdapter")
-	public MessageListenerAdapter messageListenerAdapter(PingListener pingListner) {
-		final MessageListenerAdapter adapter = new MessageListenerAdapter(pingListner);
-		adapter.setDefaultListenerMethod("onMessage");
+	public MessageListenerAdapter messageListenerAdapter(PingResponseListener pingResponseListner) {
+		final MessageListenerAdapter adapter = new MessageListenerAdapter(pingResponseListner);
+		adapter.setDefaultListenerMethod("receivePingResponse");
 		return adapter;
+	}
+	
+	@Bean(name="pingRequestProducer")
+	public PingRequestProducer getPingRequestProducer(JmsTemplate jmsTemplate) throws UnknownHostException {
+		PingRequestProducer pingRequestProducer = new PingRequestProducerImpl();
+		pingRequestProducer.setJmsTemplate(jmsTemplate);
+		return pingRequestProducer;
 	}
 }

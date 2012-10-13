@@ -1,7 +1,6 @@
 package org.metabuild.grobot.webapp.controllers;
 
 import org.metabuild.grobot.domain.TargetCache;
-import org.metabuild.grobot.webapp.domain.GreetingMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

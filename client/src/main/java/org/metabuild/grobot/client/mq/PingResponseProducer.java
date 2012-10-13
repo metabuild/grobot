@@ -13,8 +13,16 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public interface PingResponseProducer {
 
+	/**
+	 * Sends the ping response to the message topic
+	 * @throws JMSException
+	 */
 	public void sendPingResponse() throws JMSException;
 
+	/**
+	 * Allows for the jmsTemplate to be injected for unit testing
+	 * @param jmsTemplate
+	 */
 	public void setJmsTemplate(JmsTemplate jmsTemplate);
 	
 }

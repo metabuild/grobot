@@ -3,12 +3,12 @@
  */
 package org.metabuild.grobot.client.mq;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.jms.JMSException;
 
 import org.junit.Test;
+import org.metabuild.net.HostnameResolver;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
@@ -18,12 +18,13 @@ import org.springframework.jms.core.JmsTemplate;
 public class DefaultPingResponseProducerTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.DefaultPingResponseProducer#sendPingResponse()}.
+	 * Test method for {@link org.metabuild.grobot.client.mq.PingResponseProducerImpl#sendPingResponse()}.
 	 * @throws JMSException 
 	 */
 	@Test
 	public void testSendPing() throws JMSException {
-		PingResponseProducer producer = new DefaultPingResponseProducer(getMockHostnameResolver("fooooey"), getMockJmsTemplate());
+		PingResponseProducer producer = new PingResponseProducerImpl(getMockHostnameResolver("fooooey"));
+		producer.setJmsTemplate(getMockJmsTemplate());
 		producer.sendPingResponse();
 	}
 	

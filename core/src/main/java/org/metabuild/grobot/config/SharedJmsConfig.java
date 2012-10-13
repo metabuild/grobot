@@ -4,7 +4,7 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.metabuild.grobot.mq.PingResponseMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,21 +34,28 @@ public class SharedJmsConfig {
 	    return factory;
 	}
 	
-	@Bean(name="grobotHostsQueue")
-	public ActiveMQQueue getDestination() {
-		return new ActiveMQQueue("grobot.hosts");
+//	@Bean(name="grobotHostsQueue")
+//	public ActiveMQQueue getDestination() {
+//		return new ActiveMQQueue("grobot.hosts");
+//	}
+	
+	@Bean(name="pingTopicDestination")
+	public ActiveMQTopic getPingTopicDestination() {
+		final String topicName = environment.getProperty("grobot.ping.topic");
+		return new ActiveMQTopic(topicName);
 	}
 	
+
 	@Bean(name="pingResponseMessageConverter")
 	public MessageConverter getPingResponseMessageConverter() {
 		return new PingResponseMessageConverter();
 	}
 	
 	@Bean(name="jmsTemplate")
-	public JmsTemplate getJmsTemplate(ConnectionFactory connectionFactory, Destination grobotHostsQueue, MessageConverter messageConverter) {
+	public JmsTemplate getJmsTemplate(ConnectionFactory connectionFactory, Destination pingTopicDestination, MessageConverter messageConverter) {
 		JmsTemplate jmsTemplate = new JmsTemplate();
 		jmsTemplate.setConnectionFactory(connectionFactory);
-		jmsTemplate.setDefaultDestination(grobotHostsQueue);
+		jmsTemplate.setDefaultDestination(pingTopicDestination);
 		jmsTemplate.setMessageConverter(messageConverter);
 		return jmsTemplate;
 	}

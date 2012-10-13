@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.metabuild.grobot.client.mq;
+package org.metabuild.net;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -19,7 +19,7 @@ public class HostnameResolverTest {
 	private final byte[] addressBytes = new byte[]{0,0,0,0};
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.HostnameResolver#getHostname()}.
+	 * Test method for {@link org.metabuild.net.HostnameResolver#getHostname()}.
 	 */
 	@Test
 	public void testGetHostname() {
@@ -28,7 +28,7 @@ public class HostnameResolverTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.HostnameResolver#getAddress()}.
+	 * Test method for {@link org.metabuild.net.HostnameResolver#getAddress()}.
 	 */
 	@Test
 	public void testGetAddress() {

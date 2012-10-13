@@ -2,6 +2,9 @@ package org.metabuild.grobot.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import org.metabuild.grobot.mq.PingResponse;
 
 /**
  * @author jburbrid
@@ -12,10 +15,12 @@ public class TargetHost implements Target {
 	private String name;
 	private String address;
 	private boolean active;
+	private Properties systemProperties;
+	private Properties otherProperties;
 	private List<Target> targets;
 
 	/**
-	 * Default constructor
+	 * Default constructor - initializes the object with empty properties
 	 * 
 	 * @param name
 	 * @param address - the fully qualified host name
@@ -24,9 +29,17 @@ public class TargetHost implements Target {
 	public TargetHost(String name, String address, boolean active) {
 		this.name = name;
 		this.address = address;
-		this.active = active;
+		this.systemProperties = new Properties();
+		this.otherProperties = new Properties();
 		this.targets = new ArrayList<Target>();
 		targets.add(this);
+	}
+	
+	public TargetHost(PingResponse pingResponse) {
+		this.name = pingResponse.getHostname();
+		this.address = pingResponse.getHostname();
+		this.systemProperties = pingResponse.getSystemProperties();
+		this.otherProperties = pingResponse.getOtherProperties();
 	}
 
 	/* (non-Javadoc)
@@ -78,7 +91,35 @@ public class TargetHost implements Target {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
+	/**
+	 * @return the systemProperties
+	 */
+	public Properties getSystemProperties() {
+		return systemProperties;
+	}
+
+	/**
+	 * @param systemProperties the systemProperties to set
+	 */
+	public void setSystemProperties(Properties systemProperties) {
+		this.systemProperties = systemProperties;
+	}
+
+	/**
+	 * @return the otherProperties
+	 */
+	public Properties getOtherProperties() {
+		return otherProperties;
+	}
+
+	/**
+	 * @param otherProperties the otherProperties to set
+	 */
+	public void setOtherProperties(Properties otherProperties) {
+		this.otherProperties = otherProperties;
+	}
+
 	@Override
 	public String toString() {
 		return name;
