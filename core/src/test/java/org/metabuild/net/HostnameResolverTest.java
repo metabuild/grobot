@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  * @author jburbridge
- *
+ * @since 10/10/2012
  */
 public class HostnameResolverTest {
 
@@ -33,7 +33,7 @@ public class HostnameResolverTest {
 	@Test
 	public void testGetAddress() {
 		HostnameResolver resolver = new HostnameResolver(getMockInetAddress());
-		assertEquals(addressBytes, resolver.getAddress());
+		assertArrayEquals(addressBytes, resolver.getAddress());
 	}
 	
 	private InetAddress getMockInetAddress() {
