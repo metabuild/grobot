@@ -13,19 +13,19 @@ import org.springframework.jms.core.JmsTemplate;
 
 /**
  * @author jburbridge
- *
+ * @since 10/13/2012
  */
-public class DefaultPingResponseProducerTest {
+public class DefaultStatusResponseProducerTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.PingResponseProducerImpl#sendPingResponse()}.
+	 * Test method for {@link org.metabuild.grobot.client.mq.StatusResponseProducerImpl#sendStatusResponse()}.
 	 * @throws JMSException 
 	 */
 	@Test
-	public void testSendPing() throws JMSException {
-		PingResponseProducer producer = new PingResponseProducerImpl(getMockHostnameResolver("fooooey"));
+	public void testSendStatus() throws JMSException {
+		StatusResponseProducer producer = new StatusResponseProducerImpl(getMockHostnameResolver("fooooey"));
 		producer.setJmsTemplate(getMockJmsTemplate());
-		producer.sendPingResponse();
+		producer.sendStatusResponse();
 	}
 	
 	private JmsTemplate getMockJmsTemplate() {

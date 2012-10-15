@@ -43,7 +43,8 @@ dependencies {
 		'javax.jms:jms:1.1';
 		
 
-	runtime 'cglib:cglib:2.2.2';
+	runtime 'cglib:cglib:2.2.2',
+		'org.apache.xbean:xbean-spring:3.11';
 	
 	testCompile 'org.mockito:mockito-all:1.8.5',
 		'junit:junit:4.10',

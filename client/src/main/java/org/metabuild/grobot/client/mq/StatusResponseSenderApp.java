@@ -13,17 +13,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @author jburbridge
  * @since 10/11/2012
  */
-public class PingResponseSenderApp {
+public class StatusResponseSenderApp {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PingResponseSenderApp.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseSenderApp.class);
 	
 	public static void main(String[] args) throws JMSException, InterruptedException {
-		LOGGER.info("Sending pings to queue");
+		LOGGER.info("Sending status responses to queue");
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientJmsConfig.class); 
-		PingResponseProducerImpl producer = context.getBean(PingResponseProducerImpl.class);
+		StatusResponseProducerImpl producer = context.getBean(StatusResponseProducerImpl.class);
 		int x = 0;
 		while (x++ < 10) {
-			producer.sendPingResponse();
+			producer.sendStatusResponse();
 			Thread.sleep(1000);
 		}
 	}

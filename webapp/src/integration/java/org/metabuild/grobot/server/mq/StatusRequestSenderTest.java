@@ -17,16 +17,16 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @author jburbridge
  *
  */
-public class PingRequestSenderTest {
+public class StatusRequestSenderTest {
 
 	@Ignore("This intergration test requires that an mq broker be running")
 	@Test
 	public void test() throws JMSException, InterruptedException {
 		ApplicationContext context = new AnnotationConfigApplicationContext(ServerJmsConfig.class); 
-		PingRequestProducer producer = context.getBean(PingRequestProducer.class);
+		StatusRequestProducer producer = context.getBean(StatusRequestProducer.class);
 		int x = 0;
 		while (x++ < 10) {
-			producer.sendPingRequest();
+			producer.sendStatusRequest();
 			Thread.sleep(5000);
 		}
 	}

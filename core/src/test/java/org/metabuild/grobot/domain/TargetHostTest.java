@@ -6,7 +6,7 @@ package org.metabuild.grobot.domain;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.metabuild.grobot.mq.PingResponse;
+import org.metabuild.grobot.mq.StatusResponse;
 
 /**
  * @author jburbridge
@@ -26,15 +26,15 @@ public class TargetHostTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(org.metabuild.grobot.mq.PingResponse)}.
+	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(org.metabuild.grobot.mq.StatusResponse)}.
 	 */
 	@Test
-	public void testTargetHostPingResponse() {
-		PingResponse pingResponse = new PingResponse();
-		TargetHost targetHost = new TargetHost(pingResponse);
-		assertEquals(pingResponse.getHostname(),targetHost.getName());
-		assertEquals(pingResponse.getSystemProperties(),targetHost.getSystemProperties());
-		assertEquals(pingResponse.getOtherProperties(),targetHost.getOtherProperties());
+	public void testTargetHostStatusResponse() {
+		StatusResponse statusResponse = new StatusResponse();
+		TargetHost targetHost = new TargetHost(statusResponse);
+		assertEquals(statusResponse.getHostname(),targetHost.getName());
+		assertEquals(statusResponse.getSystemProperties(),targetHost.getSystemProperties());
+		assertEquals(statusResponse.getOtherProperties(),targetHost.getOtherProperties());
 		assertTrue(targetHost.isActive());
 	}
 

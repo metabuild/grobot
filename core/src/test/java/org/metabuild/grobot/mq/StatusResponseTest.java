@@ -12,14 +12,14 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-public class PingResponseTest {
+public class StatusResponseTest {
 
 	@Test
 	public void testNullParams() {
-		PingResponse pingResponse = new PingResponse("foo.bar.baz", System.getProperties(), new Properties());
-		assertEquals("foo.bar.baz", pingResponse.getHostname());
-		assertFalse(pingResponse.getSystemProperties().isEmpty());
-		assertTrue(pingResponse.getOtherProperties().isEmpty());
+		StatusResponse statusResponse = new StatusResponse("foo.bar.baz", System.getProperties(), new Properties());
+		assertEquals("foo.bar.baz", statusResponse.getHostname());
+		assertFalse(statusResponse.getSystemProperties().isEmpty());
+		assertTrue(statusResponse.getOtherProperties().isEmpty());
 	}
 	
 	@Test
@@ -27,7 +27,7 @@ public class PingResponseTest {
 		throws IOException, ClassNotFoundException {
 
 		// construct actual object
-		PingResponse original = new PingResponse("foo.bar.baz", System.getProperties(), new Properties());
+		StatusResponse original = new StatusResponse("foo.bar.baz", System.getProperties(), new Properties());
 		original.getOtherProperties().put("foo", "bar");
 		
 		// serialize
@@ -40,7 +40,7 @@ public class PingResponseTest {
 		byte[] pickled = out.toByteArray();
 		InputStream in = new ByteArrayInputStream(pickled);
 		ObjectInputStream ois = new ObjectInputStream(in);
-		PingResponse copy = (PingResponse) ois.readObject();
+		StatusResponse copy = (StatusResponse) ois.readObject();
 		
 		// test the result
 		assertEquals(original.getHostname(), copy.getHostname());

@@ -15,7 +15,7 @@ import org.springframework.jms.support.converter.MessageConverter;
  * @author jburbridge
  * @since 10/11/2012
  */
-public class PingResponseMessageConverter implements MessageConverter {
+public class StatusResponseMessageConverter implements MessageConverter {
 
 	/* (non-Javadoc)
 	 * @see org.springframework.jms.support.converter.MessageConverter#toMessage(java.lang.Object, javax.jms.Session)
@@ -23,8 +23,8 @@ public class PingResponseMessageConverter implements MessageConverter {
 	@Override
 	public Message toMessage(Object object, Session session)
 			throws JMSException, MessageConversionException {
-		PingResponse pingResponse = (PingResponse) object;
-		ObjectMessage message = session.createObjectMessage(pingResponse);
+		StatusResponse statusResponse = (StatusResponse) object;
+		ObjectMessage message = session.createObjectMessage(statusResponse);
 		return message;
 	}
 
@@ -35,7 +35,7 @@ public class PingResponseMessageConverter implements MessageConverter {
 	public Object fromMessage(Message message) throws JMSException,
 			MessageConversionException {
 		ObjectMessage objectMessage = (ObjectMessage) message;
-		PingResponse pingResponse = (PingResponse) objectMessage.getObject();
-		return pingResponse;
+		StatusResponse statusResponse = (StatusResponse) objectMessage.getObject();
+		return statusResponse;
 	}
 }

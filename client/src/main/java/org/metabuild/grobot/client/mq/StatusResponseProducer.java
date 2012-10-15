@@ -5,19 +5,19 @@ import javax.jms.JMSException;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
- * Classes implementing this interface respond to a ping request from the Grobot server by 
- * producing a PingResponse message and putting into the status queue.
+ * Classes implementing this interface respond to a status request from the Grobot server by 
+ * producing a StatusResponse message and putting into the status queue.
  * 
  * @author jburbridge
  * @since 10/11/2012
  */
-public interface PingResponseProducer {
+public interface StatusResponseProducer {
 
 	/**
-	 * Sends the ping response to the message topic
+	 * Sends the status response to the message topic
 	 * @throws JMSException
 	 */
-	public void sendPingResponse() throws JMSException;
+	public void sendStatusResponse() throws JMSException;
 
 	/**
 	 * Allows for the jmsTemplate to be injected for unit testing

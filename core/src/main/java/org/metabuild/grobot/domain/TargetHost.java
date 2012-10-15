@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.metabuild.grobot.mq.PingResponse;
+import org.metabuild.grobot.mq.StatusResponse;
 
 /**
  * @author jburbrid
@@ -39,13 +39,13 @@ public class TargetHost implements Target {
 	/**
 	 * Constructor for creating TargetHost from PingResponses
 	 * 
-	 * @param pingResponse
+	 * @param statusResponse
 	 */
-	public TargetHost(PingResponse pingResponse) {
-		this.name = pingResponse.getHostname();
-		this.address = pingResponse.getHostname();
-		this.systemProperties = pingResponse.getSystemProperties();
-		this.otherProperties = pingResponse.getOtherProperties();
+	public TargetHost(StatusResponse statusResponse) {
+		this.name = statusResponse.getHostname();
+		this.address = statusResponse.getHostname();
+		this.systemProperties = statusResponse.getSystemProperties();
+		this.otherProperties = statusResponse.getOtherProperties();
 		this.active = true;
 	}
 

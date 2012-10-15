@@ -28,7 +28,7 @@
                 <ul class="nav">
                   <li><a href="/home">Home</a></li>
                   <li class="divider-verital"></li>
-                  <li class="active"><a href="/ping/index.do">Minions</a></li>
+                  <li class="active"><a href="/status/index.do">Status</a></li>
                   <li class="divider-verital"></li>
                   <li><a href="/taks">Tasks</a></li>
                   <li class="divider-verital"></li>

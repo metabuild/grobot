@@ -1,7 +1,7 @@
 package org.metabuild.grobot.client;
 
 import org.metabuild.grobot.client.config.ClientJmsConfig;
-import org.metabuild.grobot.client.mq.PingRequestListener;
+import org.metabuild.grobot.client.mq.StatusRequestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ public class GrobotClientRunner {
 	public static void main(String[] args) {
 		LOGGER.info("Starting Grobot Client");
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientJmsConfig.class);
-		PingRequestListener listener = (PingRequestListener) context.getBean("pingRequestListner");
+		StatusRequestListener listener = (StatusRequestListener) context.getBean("statusRequestListner");
 		LOGGER.info("Started listener {}...", listener.getClass().getName());
 	}
 

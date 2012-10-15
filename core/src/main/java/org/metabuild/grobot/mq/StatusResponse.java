@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Properties;
 
 /**
- * A response to a ping request from the Grobot server, containing system details about the target host
+ * A response to a status update request from the Grobot server, containing system details about the target host
  * 
  * @author jburbridge
  * @since 10/11/2012
  */
-public class PingResponse implements Serializable {
+public class StatusResponse implements Serializable {
 
 	private static final long serialVersionUID = 4305522797844648205L;
 	
@@ -20,22 +20,22 @@ public class PingResponse implements Serializable {
 	/**
 	 * Default constructor, sets the hostname to "localhost" and creates empty maps
 	 */
-	public PingResponse() {
+	public StatusResponse() {
 		this("localhost", new Properties(), new Properties());
 	}
 	
 	/**
-	 * @param hostname the hostname of the system sending the ping response
+	 * @param hostname the hostname of the system sending the status response
 	 * @param systemProperties a map populated with system properties
 	 * @param otherProperties a map populated with additional properties
 	 */
-	public PingResponse(String hostname, Properties systemProperties, Properties otherProperties) {
+	public StatusResponse(String hostname, Properties systemProperties, Properties otherProperties) {
 		this.hostname = hostname;
 		this.systemProperties = systemProperties;
 		this.otherProperties = otherProperties;
 	}
 	/**
-	 * @return the hostname of the system sending the ping response
+	 * @return the hostname of the system sending the status response
 	 */
 	public String getHostname() {
 		return hostname;
@@ -58,6 +58,6 @@ public class PingResponse implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PingResponse [hostname=" + hostname + "]";
+		return "StatusResponse [hostname=" + hostname + "]";
 	}
 }

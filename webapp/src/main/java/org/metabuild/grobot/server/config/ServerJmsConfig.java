@@ -4,16 +4,20 @@ import java.net.UnknownHostException;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+
 import org.metabuild.grobot.config.SharedJmsConfig;
-import org.metabuild.grobot.server.mq.PingRequestProducerImpl;
-import org.metabuild.grobot.server.mq.PingRequestProducer;
-import org.metabuild.grobot.server.mq.PingResponseListener;
+import org.metabuild.grobot.domain.TargetCache;
+import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
+import org.metabuild.grobot.server.mq.StatusRequestProducer;
+import org.metabuild.grobot.server.mq.StatusResponseListener;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.AbstractJmsListeningContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
@@ -24,40 +28,61 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 @PropertySource("file:${user.home}/.grobot/grobot.properties")
 public class ServerJmsConfig {
 
+	/**
+	 * Sends JMS status requests to the grobot.status.topic destination
+	 * 
+	 * @param jmsTemplate
+	 * @return the StatusRequestProducer
+	 * @throws UnknownHostException
+	 */
 	@Autowired(required=true)
-	@Qualifier(value="jmsTemplate")
-	@Bean(name="pingResponseListner")
-	public PingResponseListener getPingResponseListener(JmsTemplate jmsTemplate) {
-		PingResponseListener pingResponseListener = new PingResponseListener();
-		pingResponseListener.setJmsTemplate(jmsTemplate);
-		return pingResponseListener;
+	@Bean(name="statusRequestProducer")
+	public StatusRequestProducer getStatusRequestProducer(
+			@Qualifier(value="statusTopicJmsTemplate") JmsTemplate statusTopicJmsTemplate) throws UnknownHostException {
+		StatusRequestProducer statusRequestProducer = new StatusRequestProducerImpl();
+		statusRequestProducer.setJmsTemplate(statusTopicJmsTemplate);
+		return statusRequestProducer;
 	}
 
+	/**
+	 * Listens for the JMS status responses on the grobot.status.queue destination
+	 * @param jmsTemplate
+	 * @return the status response listener
+	 */
 	@Autowired(required=true)
-	@Qualifier(value="pingTopicDestination")
-	@Bean(name="jmsContainer")
-	public AbstractJmsListeningContainer getPingTopicContainer(ConnectionFactory jmsConnectionFactory, Destination destination, 
-			MessageListenerAdapter jmsListenerAdapter) {
-		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-		container.setConnectionFactory(jmsConnectionFactory);
-		container.setDestination(destination);
-		container.setSessionTransacted(false);
-		container.setConcurrentConsumers(5);
-		container.setMessageListener(jmsListenerAdapter);
-		return container;
+	@Bean(name="statusResponseListner")
+	public StatusResponseListener getStatusResponseListener(TargetCache targetCache) {
+		return new StatusResponseListener(targetCache);
 	}
-	 
-	@Bean(name="jmsListenerAdapter")
-	public MessageListenerAdapter messageListenerAdapter(PingResponseListener pingResponseListner) {
-		final MessageListenerAdapter adapter = new MessageListenerAdapter(pingResponseListner);
-		adapter.setDefaultListenerMethod("receivePingResponse");
+
+	/**
+	 * @param statusResponseListner
+	 * @return the MessageListnerAdapter
+	 */
+	@Bean(name="statusResponseListenerAdapter")
+	public MessageListenerAdapter messageListenerAdapter(StatusResponseListener statusResponseListner) {
+		final MessageListenerAdapter adapter = new MessageListenerAdapter(statusResponseListner);
+		adapter.setDefaultListenerMethod("onMessage");
 		return adapter;
 	}
-	
-	@Bean(name="pingRequestProducer")
-	public PingRequestProducer getPingRequestProducer(JmsTemplate jmsTemplate) throws UnknownHostException {
-		PingRequestProducer pingRequestProducer = new PingRequestProducerImpl();
-		pingRequestProducer.setJmsTemplate(jmsTemplate);
-		return pingRequestProducer;
+
+	/**
+	 * @param jmsConnectionFactory
+	 * @param statusQueueDestination
+	 * @param statusResponseListenerAdapter
+	 * @return the status topic Container
+	 */
+	@Autowired(required=true)
+	@Bean(name="statusQueueJmsContainer")
+	public AbstractJmsListeningContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory, 
+			@Qualifier(value="statusQueueDestination") Destination statusQueueDestination, 
+			@Qualifier(value="statusResponseListenerAdapter") MessageListenerAdapter statusResponseListenerAdapter) {
+		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+		container.setConnectionFactory(jmsConnectionFactory);
+		container.setDestination(statusQueueDestination);
+		container.setSessionTransacted(false);
+		container.setConcurrentConsumers(5);
+		container.setMessageListener(statusResponseListenerAdapter);
+		return container;
 	}
 }
