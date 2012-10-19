@@ -9,7 +9,7 @@ apply plugin: 'eclipse'
 /* include static analysis plugins when building on jenkins */
 if (project.hasProperty('environment') && environment != 'development') {
 	
-	apply from: rootDir.toString() + '/gradle/cobertura.gradle'
+	apply from: "${rootDir.path}/gradle/cobertura.gradle"
 	apply plugin: 'findbugs'
 	
 	findbugs {

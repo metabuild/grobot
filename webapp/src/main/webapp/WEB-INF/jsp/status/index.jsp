@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Grobot &gt;&gt; Minions</title>
+    <title>Grobot &gt;&gt; Status</title>
     <!-- Bootstrap -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -46,6 +46,6 @@
         </div>
     </div>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

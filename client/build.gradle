@@ -4,7 +4,7 @@
 
 description = 'The client / agent Grobot application (minions)';
  
-apply from: rootDir.path + '/gradle/groovy.gradle'
+apply from: "${rootDir.path}/gradle/groovy.gradle"
  
 dependencies {
 	compile project(':core'),
