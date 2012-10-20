@@ -26,6 +26,7 @@ public class DefaultStatusResponseProducerTest {
 		StatusResponseProducer producer = new StatusResponseProducerImpl(getMockHostnameResolver("fooooey"));
 		producer.setJmsTemplate(getMockJmsTemplate());
 		producer.sendStatusResponse();
+		// TODO: need to figure out how to test these
 	}
 	
 	private JmsTemplate getMockJmsTemplate() {

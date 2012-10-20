@@ -1,14 +1,18 @@
 package org.metabuild.grobot.server.config;
 
 
-import org.metabuild.grobot.domain.TargetCache;
+import org.metabuild.grobot.domain.FakeTargetCacheImpl;
+import org.metabuild.grobot.domain.TargetHostCache;
+import org.metabuild.grobot.domain.TargetCacheImpl;
 import org.metabuild.grobot.webapp.domain.GreetingMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  * Main spring application configuration
@@ -18,17 +22,18 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @ComponentScan(basePackages = {"org.metabuild.grobot.webapp.domain"})
-@PropertySource("file:${user.home}/.grobot/grobot.properties")
+@PropertySource("classpath:grobot.properties")
 public class AppConfig {
 
 	@Autowired
 	Environment environment;
-	
+
 	@Bean(name="targetCache")
-	public TargetCache getTargetCache() {
-		return new TargetCache();
+	public TargetHostCache getTargetCache() {
+		return new FakeTargetCacheImpl(15);
+//		return new TargetCacheImpl();
 	}
-	
+
 	@Bean
 	public GreetingMessage greetingMessage() {
 		return new GreetingMessage();
@@ -43,4 +48,20 @@ public class AppConfig {
 	public String getHelloMessage() {
 		return environment.getProperty("grobot.server.hello.message");
 	}
+	
+//	@Profile("default")
+//	@Configuration
+//	class ProdAppConfig {
+//		
+//	}
+//	
+//	@Profile("testing")
+//	@Configuration
+//	class TestAppConfig {
+//		
+//		@Bean(name="targetCache")
+//		public TargetCache getTargetCache() {
+//			return new FakeTargetCacheImpl(15);
+//		}
+//	}
 }

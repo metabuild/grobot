@@ -4,7 +4,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import org.metabuild.grobot.domain.TargetCache;
+import org.metabuild.grobot.domain.TargetHostCache;
+import org.metabuild.grobot.domain.TargetCacheImpl;
 import org.metabuild.grobot.domain.TargetHost;
 import org.metabuild.grobot.mq.StatusResponse;
 import org.metabuild.grobot.mq.StatusResponseMessageConverter;
@@ -24,7 +25,7 @@ public class StatusResponseListener implements MessageListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseListener.class);
 	
 	@Autowired
-	private TargetCache targetCache;
+	private TargetHostCache targetHostCache;
 	
 	private final StatusResponseMessageConverter messageConverter;
 	
@@ -35,18 +36,18 @@ public class StatusResponseListener implements MessageListener {
 	
 	/**
 	 * Constructor with DI for unit testing
-	 * @param targetCache
+	 * @param targetHostCache
 	 */
-	public StatusResponseListener(TargetCache targetCache) {
+	public StatusResponseListener(TargetHostCache targetHostCache) {
 		this();
-		this.targetCache = targetCache;
+		this.targetHostCache = targetHostCache;
 	}
 	
 	/**
 	 * @return the targetCache
 	 */
-	protected TargetCache getTargetCache() {
-		return targetCache;
+	protected TargetHostCache getTargetCache() {
+		return targetHostCache;
 	}
 
 	/*
@@ -59,9 +60,9 @@ public class StatusResponseListener implements MessageListener {
 			StatusResponse statusResponse = (StatusResponse) messageConverter.fromMessage(message);
 			String hostname = statusResponse.getHostname();
 			LOGGER.info("Received ping response \"{}\" from {}", statusResponse, hostname);
-			if (hostname != null && targetCache.get(hostname) == null) {
+			if (hostname != null && targetHostCache.get(hostname) == null) {
 				LOGGER.info("Adding {} to targetCache", hostname);
-				targetCache.put(hostname, new TargetHost(hostname, hostname, true));
+				targetHostCache.put(hostname, new TargetHost(hostname, hostname, true));
 			}
 		} catch (MessageConversionException e) {
 			LOGGER.error("Could not convert Message to StatusResponse", e);

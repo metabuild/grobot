@@ -6,7 +6,8 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import org.metabuild.grobot.config.SharedJmsConfig;
-import org.metabuild.grobot.domain.TargetCache;
+import org.metabuild.grobot.domain.TargetHostCache;
+import org.metabuild.grobot.domain.TargetCacheImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusResponseListener;
@@ -25,7 +26,7 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 
 @Configuration
 @Import({SharedJmsConfig.class, AppConfig.class})
-@PropertySource("file:${user.home}/.grobot/grobot.properties")
+@PropertySource("classpath:grobot.properties")
 public class ServerJmsConfig {
 
 	/**
@@ -51,8 +52,8 @@ public class ServerJmsConfig {
 	 */
 	@Autowired(required=true)
 	@Bean(name="statusResponseListner")
-	public StatusResponseListener getStatusResponseListener(TargetCache targetCache) {
-		return new StatusResponseListener(targetCache);
+	public StatusResponseListener getStatusResponseListener(TargetHostCache targetHostCache) {
+		return new StatusResponseListener(targetHostCache);
 	}
 
 	/**

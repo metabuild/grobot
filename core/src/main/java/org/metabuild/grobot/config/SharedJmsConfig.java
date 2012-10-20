@@ -8,7 +8,6 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.metabuild.grobot.mq.StatusResponseMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -17,69 +16,69 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 
 @Configuration
-@PropertySource("file:${user.home}/.grobot/grobot.properties")
+@PropertySource("classpath:grobot.properties")
 public class SharedJmsConfig {
 
 	@Autowired
 	Environment environment;
 	
-	@Bean(name="activeMqUri")
-	public String getActiveMqUri() {
-		String activeMqUri = environment.getProperty("grobot.server.activemq.uri");
-		return activeMqUri;
-	}
-	
+	/**
+	 * @return the connection factory
+	 */
 	@Bean(name="jmsConnectionFactory")
-	public ConnectionFactory getJmsConnectionFactory(String activeMqUri) {
+	public ConnectionFactory getJmsConnectionFactory() {
+		final String activeMqUri = environment.getProperty("grobot.server.activemq.uri");
 		final ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
 		factory.setBrokerURL(activeMqUri);
 		return factory;
 	}
 
-	@Autowired(required=true)
-	@Bean(name="statusTopicName")
-	public String getStatusTopicName() {
-		return environment.getProperty("grobot.status.topic");
-	}
-	
-	@Autowired(required=true)
-	@Qualifier(value="statusTopicName")
-	@Bean(name="statusTopicDestination")
-	public Destination getStatusTopicDestination(String statusTopicName) {
-		return new ActiveMQTopic(statusTopicName);
-	}
-
-	@Autowired(required=true)
-	@Bean(name="statusTopicJmsTemplate")
-	public JmsTemplate getStatusTopicJmsTemplate(ConnectionFactory connectionFactory, 
-			@Qualifier(value="statusTopicDestination") Destination statusTopicDestination, 
-			MessageConverter messageConverter) {
-		JmsTemplate jmsTemplate = new JmsTemplate();
-		jmsTemplate.setConnectionFactory(connectionFactory);
-		jmsTemplate.setDefaultDestination(statusTopicDestination);
-		return jmsTemplate;
-	}
-
+	/**
+	 * @return the response message converter
+	 */
 	@Bean(name="statusResponseMessageConverter")
 	public MessageConverter getStatusResponseMessageConverter() {
 		return new StatusResponseMessageConverter();
 	}
 
+	/**
+	 * @return the status topic
+	 */
+	@Bean(name="statusTopicDestination")
+	public Destination getStatusTopicDestination() {
+		final String statusTopicName = environment.getProperty("grobot.status.topic");
+		return new ActiveMQTopic(statusTopicName);
+	}
+
+	/**
+	 * @return a jms template with a default destination set to the status topic
+	 */
+	@Bean(name="statusTopicJmsTemplate")
+	public JmsTemplate getStatusTopicJmsTemplate() {
+		JmsTemplate jmsTemplate = new JmsTemplate();
+		jmsTemplate.setConnectionFactory(this.getJmsConnectionFactory());
+		jmsTemplate.setDefaultDestination(this.getStatusTopicDestination());
+		return jmsTemplate;
+	}
+
+	/**
+	 * @return the status queue
+	 */
 	@Bean(name="statusQueueDestination")
 	public Destination getStatusQueueDestination() {
 		final String queueName = environment.getProperty("grobot.status.queue");
 		return new ActiveMQQueue(queueName);
 	}
 	
-	@Autowired(required=true)
+	/**
+	 * @return a jms template with a default destination set to the status queue
+	 */
 	@Bean(name="statusQueueJmsTemplate")
-	public JmsTemplate getStatusQueueJmsTemplate(ConnectionFactory connectionFactory, 
-			@Qualifier(value="statusQueueDestination") Destination statusQueueDestination, 
-			MessageConverter messageConverter) {
+	public JmsTemplate getStatusQueueJmsTemplate() {
 		JmsTemplate jmsTemplate = new JmsTemplate();
-		jmsTemplate.setConnectionFactory(connectionFactory);
-		jmsTemplate.setDefaultDestination(statusQueueDestination);
-		jmsTemplate.setMessageConverter(messageConverter);
+		jmsTemplate.setConnectionFactory(this.getJmsConnectionFactory());
+		jmsTemplate.setDefaultDestination(this.getStatusQueueDestination());
+		jmsTemplate.setMessageConverter(this.getStatusResponseMessageConverter());
 		return jmsTemplate;
 	}
 }

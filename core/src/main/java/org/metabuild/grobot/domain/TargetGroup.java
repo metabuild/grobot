@@ -13,6 +13,7 @@ public class TargetGroup implements Target {
 	private String name;
 	private List<Target> targets;
 	private TargetGroup parent;
+	private boolean active;
 
 	/**
 	 * @param name - the group's name
@@ -20,6 +21,7 @@ public class TargetGroup implements Target {
 	public TargetGroup(String name) {
 		this.name = name;
 		this.targets = Collections.synchronizedList(new ArrayList<Target>());
+		this.active = true;
 		targets.add(this);
 	}
 
@@ -103,5 +105,10 @@ public class TargetGroup implements Target {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public boolean isActive() {
+		return active;
 	}
 }

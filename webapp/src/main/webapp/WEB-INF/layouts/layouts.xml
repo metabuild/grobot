@@ -6,9 +6,9 @@
 <tiles-definitions>
   <definition name="default" template="/WEB-INF/layouts/default.jspx">
     <put-attribute name="title" value="Tiles tutorial homepage" />
-    <put-attribute name="header" value="/WEB-INF/layouts/header.jspx" />
-    <put-attribute name="navbar" value="/WEB-INF/layouts/navbar.jspx" />
-    <put-attribute name="body" value="/WEB-INF/layouts/body.jspx" />
-    <put-attribute name="footer" value="/WEB-INF/layouts/footer.jspx" />
+    <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
+    <put-attribute name="navbar" value="/WEB-INF/views/navbar.jspx" />
+    <put-attribute name="body" value="/WEB-INF/views/body.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
   </definition>
 </tiles-definitions>

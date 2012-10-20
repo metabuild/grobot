@@ -1,0 +1,56 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    version="2.0">
+    
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
+    
+        <div class="navbar navbar-inverse">
+          <div class="navbar-inner">
+            <div class="container">
+         
+              <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+         
+              <!-- Be sure to leave the brand out there if you want it shown -->
+              <a class="brand" href="/home">Grobot</a>
+         
+              <div class="nav-collapse">
+                <!-- .nav, .navbar-search, .navbar-form, etc -->
+                <ul class="nav">
+                  <li><a href="/jobs">Jobs</a></li>
+                  <li class="divider-verital"></li>
+                  <c:choose>
+	                  <c:when test="${activeHeader eq 'status'}">
+	                    <li class="active"><a href="/status">Status</a></li>
+	                  </c:when>
+	                  <c:otherwise>
+	                    <li><a href="/status">Status</a></li>
+	                  </c:otherwise>
+                  </c:choose>
+                  <li class="divider-verital"></li>
+                  <li><a href="/config">Configuration</a></li>
+                  <li class="divider-verital"></li>
+                  <li><a href="/help">Help</a></li>
+                </ul>
+                <form class="navbar-form pull-right">
+                  <table border="0">
+                    <tr>
+                      <td><input type="text" name="username" class="input-small" placeholder="Username" /></td>
+                      <td><input type="password" name="password" class="input-small" placeholder="Password" /></td>
+                      <td><button type="Submit" class="btn btn-warning btn-red">Login</button></td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+         
+            </div>
+          </div>
+        </div>
+
+</div>

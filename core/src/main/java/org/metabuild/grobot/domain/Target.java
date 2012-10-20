@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface Target {
 
+	public String getName();
+	public boolean isActive();
 	public List<Target> getTargets();
 }

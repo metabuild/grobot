@@ -14,20 +14,20 @@ import org.junit.Test;
 public class TargetCacheTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetCache#TargetCache()}.
+	 * Test method for {@link org.metabuild.grobot.domain.TargetCacheImpl#TargetCache()}.
 	 */
 	@Test
 	public void testTargetCache() {
 		// cache starts off empty
-		TargetCache targetCache = new TargetCache();
-		assertEquals(0,targetCache.size());
+		TargetCacheImpl targetCacheImpl = new TargetCacheImpl();
+		assertEquals(0,targetCacheImpl.size());
 		// add a new host and check it
-		targetCache.put("host", new TargetHost("foo", null, false));
-		assertEquals(1,targetCache.size());
-		assertEquals("foo", ((TargetHost) targetCache.get("host")).getName());
+		targetCacheImpl.put("host1", new TargetHost("foo", null, false));
+		assertEquals(1,targetCacheImpl.size());
+		assertEquals("foo", ((TargetHost) targetCacheImpl.get("host1")).getName());
 		// add a new group and check it
-		targetCache.put("group", new TargetGroup("bar"));
-		assertEquals(2,targetCache.size());
-		assertEquals("bar", ((TargetGroup) targetCache.get("group")).getName());
+		targetCacheImpl.put("host2", new TargetHost("bar", null, false));
+		assertEquals(2,targetCacheImpl.size());
+		assertEquals("bar", ((TargetHost) targetCacheImpl.get("host2")).getName());
 	}
 }
