@@ -3,8 +3,6 @@
  */
 package org.metabuild.grobot.server.mq;
 
-import static org.junit.Assert.*;
-
 import javax.jms.JMSException;
 
 import org.junit.Ignore;
