@@ -19,7 +19,7 @@ public class FakeTargetCacheImpl extends TargetCacheImpl {
 		Map<String, TargetHost> targets = new HashMap<String, TargetHost>();
 		int x = 0;
 		while (x++ < numberOfTargets) {
-			TargetHost targetHost = new TargetHost("fakehostname" + x, "fakehostaddress" + x, true);
+			TargetHost targetHost = new TargetHost("fakehostname" + x, "fake.host.address" + x, true);
 			targets.put(targetHost.getName(), targetHost);
 		}
 		return targets;
