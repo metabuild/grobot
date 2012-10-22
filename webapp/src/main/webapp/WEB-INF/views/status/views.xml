@@ -5,4 +5,8 @@
         <put-attribute name="activeHeader" value="status" />
         <put-attribute name="body" value="/WEB-INF/views/status/list.jspx" />
     </definition>
+    <definition extends="default" name="status/details">
+        <put-attribute name="activeHeader" value="status" />
+        <put-attribute name="body" value="/WEB-INF/views/status/details.jspx" />
+    </definition>
 </tiles-definitions>

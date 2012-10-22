@@ -26,6 +26,11 @@ public class GroovyTask implements Task {
 	}
 	
 	@Override
+	public String getName() {
+		return this.script.getClass().getCanonicalName();
+	}
+
+	@Override
 	public boolean hasRun() {
 		return getTimesRun() > 0;
 	}
@@ -44,7 +49,7 @@ public class GroovyTask implements Task {
 	
 	@Override
 	public String toString() {
-		return this.script.getClass().getCanonicalName();
+		return this.getName();
 	}
 }
 

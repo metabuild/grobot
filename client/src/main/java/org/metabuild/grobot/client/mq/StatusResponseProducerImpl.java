@@ -23,15 +23,25 @@ import org.springframework.jms.core.support.JmsGatewaySupport;
 public class StatusResponseProducerImpl extends JmsGatewaySupport implements StatusResponseProducer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseProducerImpl.class);
-	private final HostnameResolver hostnameResolver; 
+	private final String hostname;
 	
 	/**
 	 *  Default constructor
 	 * @throws UnknownHostException
 	 */
 	public StatusResponseProducerImpl() throws UnknownHostException {
-		this.hostnameResolver = new HostnameResolver();
+		this(new HostnameResolver());
 	}
+	
+	/**
+	 * Constructor with DI for unit testing
+	 * 
+	 * @param hostname
+	 */
+	public StatusResponseProducerImpl(String hostname) {
+		this.hostname = hostname;
+	}
+
 	
 	/**
 	 * Constructor with DI for unit testing
@@ -39,7 +49,7 @@ public class StatusResponseProducerImpl extends JmsGatewaySupport implements Sta
 	 * @param hostnameResolver
 	 */
 	protected StatusResponseProducerImpl(HostnameResolver hostnameResolver) {
-		this.hostnameResolver = hostnameResolver;
+		this.hostname = hostnameResolver.getHostname();
 	}
 	
 	/*
@@ -49,7 +59,7 @@ public class StatusResponseProducerImpl extends JmsGatewaySupport implements Sta
 	@Override
 	public void sendStatusResponse() throws JMSException {
 		// identify the sender given the hostname
-		sendStatusResponseAs(hostnameResolver.getHostname());
+		sendStatusResponseAs(hostname);
 	}
 	
 	/**

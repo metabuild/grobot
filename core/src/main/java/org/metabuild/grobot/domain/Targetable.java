@@ -8,9 +8,9 @@ import java.util.List;
  * @author jburbrid
  * @since 9/27/2012
  */
-public interface Target {
+public interface Targetable {
 
 	public String getName();
 	public boolean isActive();
-	public List<Target> getTargets();
+	public List<Targetable> getTargets();
 }

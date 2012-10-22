@@ -3,7 +3,9 @@
  */
 package org.metabuild.grobot.tasks.groovy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.metabuild.grobot.tasks.Task;
@@ -50,8 +52,14 @@ public class GroovyTaskCache {
 	 * @param name
 	 * @return the task
 	 */
-	public GroovyTask getTask(String name) {
+	public GroovyTask get(String name) {
 		return registry.get(name);
 	}
-
+	
+	/**
+	 * @return all the tasks currently cached
+	 */
+	public List<GroovyTask> getAll() {
+		return new ArrayList<GroovyTask>(registry.values());
+	}
 }

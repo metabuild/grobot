@@ -7,7 +7,7 @@ import javax.jms.Destination;
 
 import org.metabuild.grobot.config.SharedJmsConfig;
 import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetCacheImpl;
+import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusResponseListener;

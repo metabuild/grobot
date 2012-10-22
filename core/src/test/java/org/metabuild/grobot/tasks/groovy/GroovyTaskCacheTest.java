@@ -28,14 +28,14 @@ public class GroovyTaskCacheTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.tasks.groovy.GroovyTaskCache#getTask(java.lang.String)}.
+	 * Test method for {@link org.metabuild.grobot.tasks.groovy.GroovyTaskCache#get(java.lang.String)}.
 	 */
 	@Test
 	public void testGetTaskWithMatch() {
 		GroovyTaskCache taskCache = new GroovyTaskCache(getMockTaskFactory(), new HashMap<String, GroovyTask>());
-		assertNotNull(taskCache.getTask("MyMockTask"));
-		assertEquals("MyMockTask",taskCache.getTask("MyMockTask").toString());
-		assertNull(taskCache.getTask(null));
+		assertNotNull(taskCache.get("MyMockTask"));
+		assertEquals("MyMockTask",taskCache.get("MyMockTask").toString());
+		assertNull(taskCache.get(null));
 	}
 
 	private GroovyTaskFactory getMockTaskFactory() {

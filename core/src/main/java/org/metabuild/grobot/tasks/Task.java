@@ -7,6 +7,11 @@ package org.metabuild.grobot.tasks;
 public interface Task {
 
 	/**
+	 * @return the task's name
+	 */
+	public String getName();
+	
+	/**
 	 * Runs the task
 	 * 
 	 * @return the return value of the task run

@@ -5,7 +5,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 
 import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetCacheImpl;
+import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.domain.TargetHost;
 import org.metabuild.grobot.mq.StatusResponse;
 import org.metabuild.grobot.mq.StatusResponseMessageConverter;

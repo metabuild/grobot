@@ -13,21 +13,21 @@ import org.springframework.stereotype.Component;
  * @since 10/13/2012
  */
 @Component
-public class TargetCacheImpl implements TargetHostCache {
+public class TargetHostCacheImpl implements TargetHostCache {
 
 	private final Map<String,TargetHost> targetMap;
 
 	/**
 	 * Default constructor
 	 */
-	public TargetCacheImpl() {
+	public TargetHostCacheImpl() {
 		this(Collections.synchronizedMap(new HashMap<String,TargetHost>()));
 	}
 	
 	/**
 	 * @param targetMap
 	 */
-	protected TargetCacheImpl(Map<String, TargetHost> targetMap) {
+	protected TargetHostCacheImpl(Map<String, TargetHost> targetMap) {
 		this.targetMap = targetMap;
 	}
 	

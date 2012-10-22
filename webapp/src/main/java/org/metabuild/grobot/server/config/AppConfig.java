@@ -1,10 +1,19 @@
 package org.metabuild.grobot.server.config;
 
+import java.io.File;
+import java.io.IOException;
 
-import org.metabuild.grobot.domain.FakeTargetCacheImpl;
+import groovy.lang.Binding;
+import groovy.util.GroovyScriptEngine;
+
 import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.webapp.domain.GreetingMessage;
+import org.metabuild.grobot.domain.TargetHostCacheImpl;
+import org.metabuild.grobot.tasks.BindingProvider;
+import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
+import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
+import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +36,31 @@ public class AppConfig {
 
 	@Bean(name="targetCache")
 	public TargetHostCache getTargetCache() {
-		return new FakeTargetCacheImpl(15);
-//		return new TargetCacheImpl();
+//		return new FakeTargetHostCacheImpl(15);
+		return new TargetHostCacheImpl();
 	}
 
-	@Bean
-	public GreetingMessage greetingMessage() {
-		return new GreetingMessage();
+	@Bean(name="tasksDir")
+	public String getTasksDir() {
+		return environment.getProperty("user.dir") + "/tasks";
+	}
+	
+	@Autowired(required=true)
+	@Bean(name="GroovyScriptEngine")
+	public GroovyScriptEngine getGroovyScriptEngine(@Qualifier(value="tasksDir") String tasksDir) 
+			throws IOException {
+		return new GroovyScriptEngine(tasksDir);
+	}
+	
+	@Bean(name="bindingProvider")
+	public BindingProvider getBindingProvider() {
+		return new GroovyBindingProvider(System.getProperties(), new Binding());
+	}
+	
+	@Bean(name="groovyTaskCache")
+	public GroovyTaskCache getGroovyTaskCache(BindingProvider bindingProvider, String tasksDir, GroovyScriptEngine groovyScriptEngine) {
+		final GroovyTaskFactory groovyTaskFactory = new GroovyTaskFactory(bindingProvider, new File(tasksDir), groovyScriptEngine);
+		return new GroovyTaskCache(groovyTaskFactory);
 	}
 	
 	@Bean(name="serverHostname")

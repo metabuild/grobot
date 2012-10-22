@@ -8,10 +8,10 @@ import java.util.List;
  * @author jburbrid
  * @since 9/27/2012
  */
-public class TargetGroup implements Target {
+public class TargetGroup implements Targetable {
 
 	private String name;
-	private List<Target> targets;
+	private List<Targetable> targetables;
 	private TargetGroup parent;
 	private boolean active;
 
@@ -20,51 +20,51 @@ public class TargetGroup implements Target {
 	 */
 	public TargetGroup(String name) {
 		this.name = name;
-		this.targets = Collections.synchronizedList(new ArrayList<Target>());
+		this.targetables = Collections.synchronizedList(new ArrayList<Targetable>());
 		this.active = true;
-		targets.add(this);
+		targetables.add(this);
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targets - a list of sub targets (groups or hosts)
+	 * @param targetables - a list of sub targets (groups or hosts)
 	 * @param parent - a parent group
 	 */
-	public TargetGroup(String name, List<Target> targets, TargetGroup parent) {
+	public TargetGroup(String name, List<Targetable> targetables, TargetGroup parent) {
 		this.name = name;
-		this.targets = targets;
+		this.targetables = targetables;
 		this.parent = parent;
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targets - a list of sub targets (groups or hosts)
+	 * @param targetables - a list of sub targets (groups or hosts)
 	 */
-	public TargetGroup(String name, List<Target> targets) {
+	public TargetGroup(String name, List<Targetable> targetables) {
 		this.name = name;
-		this.targets = targets;
+		this.targetables = targetables;
 	}
 
 	/**
-	 * @param target
+	 * @param targetable
 	 */
-	public void addTarget(Target target) {
-		addTargets(target.getTargets());
+	public void addTarget(Targetable targetable) {
+		addTargets(targetable.getTargets());
 	}
 	
 	/**
-	 * @param targets
+	 * @param targetables
 	 */
-	public void addTargets(List<Target> targets) {
-		this.targets.addAll(targets);
+	public void addTargets(List<Targetable> targetables) {
+		this.targetables.addAll(targetables);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.metabuild.grobot.domain.Target#getTargets()
 	 */
 	@Override
-	public List<Target> getTargets() {
-		return targets;
+	public List<Targetable> getTargets() {
+		return targetables;
 	}
 
 	/**
@@ -96,10 +96,10 @@ public class TargetGroup implements Target {
 	}
 
 	/**
-	 * @param targets the targets to set
+	 * @param targetables the targets to set
 	 */
-	public void setTargets(List<Target> targets) {
-		this.targets = targets;
+	public void setTargets(List<Targetable> targetables) {
+		this.targetables = targetables;
 	}
 	
 	@Override

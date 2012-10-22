@@ -10,14 +10,14 @@ import org.metabuild.grobot.mq.StatusResponse;
  * @author jburbrid
  * @since 9/27/2012
  */
-public class TargetHost implements Target {
+public class TargetHost implements Targetable {
 	
 	private String name;
 	private String address;
 	private boolean active;
 	private Properties systemProperties;
 	private Properties otherProperties;
-	private List<Target> targets;
+	private List<Targetable> targetables;
 
 	/**
 	 * Default constructor - initializes the object with empty properties
@@ -32,8 +32,8 @@ public class TargetHost implements Target {
 		this.active = active;
 		this.systemProperties = new Properties();
 		this.otherProperties = new Properties();
-		this.targets = new ArrayList<Target>();
-		targets.add(this);
+		this.targetables = new ArrayList<Targetable>();
+		targetables.add(this);
 	}
 	
 	/**
@@ -53,8 +53,8 @@ public class TargetHost implements Target {
 	 * @see org.metabuild.grobot.domain.Target#getTargets()
 	 */
 	@Override
-	public List<Target> getTargets() {
-		return targets;
+	public List<Targetable> getTargets() {
+		return targetables;
 	}
 
 	/**

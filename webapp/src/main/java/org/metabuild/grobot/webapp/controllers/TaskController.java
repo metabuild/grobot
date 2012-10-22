@@ -8,6 +8,10 @@ import org.metabuild.grobot.domain.Targetable;
 import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.domain.TargetHost;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
+import org.metabuild.grobot.tasks.Task;
+import org.metabuild.grobot.tasks.TaskFactory;
+import org.metabuild.grobot.tasks.groovy.GroovyTask;
+import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,46 +23,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author jburbridge
- * @since 10/12/2012
+ * @since 10/21/2012
  */
-@RequestMapping("/status")
+@RequestMapping("/tasks")
 @Controller
-public class StatusController {
+public class TaskController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatusController.class);
-
-	@Autowired
-	private TargetHostCacheImpl targetHostCacheImpl;
+	private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
 	@Autowired
-	private StatusRequestProducer producer;
+	private GroovyTaskCache taskCache;
 
 	/**
-	 * Display the list of targets
+	 * Display the list of tasks
 	 */
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		List<TargetHost> targets = 	targetHostCacheImpl.getAll();
-		uiModel.addAttribute("targets", targets);
+		List<GroovyTask> tasks = taskCache.getAll();
+		uiModel.addAttribute("tasks", tasks);
 		
-		try {
-			producer.sendStatusRequest();
-		} catch (JMSException e) {
-			LOGGER.error("JMS Exception caught while attempting to send status request", e);
-		}
-		return "status/list";
+		return "tasks/list";
 	}
 	
 	/**
-	 * Display the details of a target
+	 * Display the details of a task
 	 */
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
 	public String details(@PathVariable("name") String name, Model uiModel) {
 		
-		TargetHost target = targetHostCacheImpl.get(name);
-		uiModel.addAttribute("target", target);
+		GroovyTask task = taskCache.get(name);
+		uiModel.addAttribute("task", task);
 		
-		return "status/details";
+		return "tasks/details";
 	}
 }

@@ -9,9 +9,9 @@ import java.util.Map;
  * @author jburbridge
  * @since 10/20/2012
  */
-public class FakeTargetCacheImpl extends TargetCacheImpl {
+public class FakeTargetHostCacheImpl extends TargetHostCacheImpl {
 
-	public FakeTargetCacheImpl(int numberOfTargets) {
+	public FakeTargetHostCacheImpl(int numberOfTargets) {
 		super(generateTargets(numberOfTargets));
 	}
 	
@@ -19,7 +19,7 @@ public class FakeTargetCacheImpl extends TargetCacheImpl {
 		Map<String, TargetHost> targets = new HashMap<String, TargetHost>();
 		int x = 0;
 		while (x++ < numberOfTargets) {
-			TargetHost targetHost = new TargetHost("fakehostname" + x, "fake.host.address" + x, true);
+			TargetHost targetHost = new TargetHost("fakehostname" + x, "fake.host.address" + x, false);
 			targets.put(targetHost.getName(), targetHost);
 		}
 		return targets;

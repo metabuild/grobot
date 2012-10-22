@@ -7,7 +7,7 @@ import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 
 import org.junit.Test;
-import org.metabuild.grobot.domain.TargetCacheImpl;
+import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.mq.StatusResponse;
 
 /**
@@ -19,7 +19,7 @@ public class StatusResponseListenerTest {
 	@Test
 	public void testReceiveStatusResponse() throws JMSException {
 		
-		StatusResponseListener listener = new StatusResponseListener(new TargetCacheImpl());
+		StatusResponseListener listener = new StatusResponseListener(new TargetHostCacheImpl());
 		
 		listener.onMessage(getMockObjectMessage("hostname1"));
 		assertEquals(1,listener.getTargetCache().size());

@@ -31,8 +31,8 @@ public class TargetGroupTest {
 
 		childGroup.addTargets(grandChild.getTargets());
 		parentGroup.addTargets(childGroup.getTargets());
-		List<Target> targets = parentGroup.getTargets();
-		assertEquals(4, targets.size());
+		List<Targetable> targetables = parentGroup.getTargets();
+		assertEquals(4, targetables.size());
 	}
 
 }
