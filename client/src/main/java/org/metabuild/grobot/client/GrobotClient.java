@@ -17,23 +17,23 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class GrobotClient {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GrobotClient.class);
-	private final String NAME;
+	private final String clientName;
 	private final ApplicationContext context;
 	
 	public GrobotClient(String name) {
-		NAME = name;
+		clientName = name;
 		context = new AnnotationConfigApplicationContext(ClientJmsConfig.class);
 	}
 	
 	public void start() throws JMSException {
-		LOGGER.info("Starting GrobotClient {}...", NAME);
+		LOGGER.info("Starting GrobotClient {}...", clientName);
 		// register the listener
 		StatusRequestListener listener = (StatusRequestListener) context.getBean("statusRequestListner");
-		LOGGER.info("Started listener {} for {}...", listener.getClass().getName(), NAME);
+		LOGGER.info("Started listener {} for {}...", listener.getClass().getName(), clientName);
 	}
 	
 	public void register() throws JMSException {
-		LOGGER.info("Registering GrobotClient {}...", NAME);
+		LOGGER.info("Registering GrobotClient {}...", clientName);
 		// announce to the server that we're alive
 		StatusResponseProducer responseProducer = (StatusResponseProducer) context.getBean("statusResponseProducer");
 		responseProducer.sendStatusResponse();

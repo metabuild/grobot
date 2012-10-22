@@ -27,7 +27,7 @@ public class GroovyTask implements Task {
 	
 	@Override
 	public String getName() {
-		return this.script.getClass().getCanonicalName();
+		return this.script.getClass().getName();
 	}
 
 	@Override

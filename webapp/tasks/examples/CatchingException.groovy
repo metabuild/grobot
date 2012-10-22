@@ -1,3 +1,5 @@
+package examples;
+
 // prints the local time
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

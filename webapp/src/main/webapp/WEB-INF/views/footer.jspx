@@ -6,5 +6,5 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8" />
     <jsp:output omit-xml-declaration="yes" />
     
-    <div class="navbar navbar-inverse"><small>Metabuild Software - 2012</small></div>
+    <div class="navbar navbar-inverse"><small>License - Legalese - Credits - Etc... - 2012</small></div>
 </div>

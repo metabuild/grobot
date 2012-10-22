@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.jms.JMSException;
 
+import org.metabuild.grobot.domain.TargetHostCache;
 import org.metabuild.grobot.domain.Targetable;
 import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.domain.TargetHost;
@@ -28,7 +29,7 @@ public class StatusController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusController.class);
 
 	@Autowired
-	private TargetHostCacheImpl targetHostCacheImpl;
+	private TargetHostCache targetHostCache;
 
 	@Autowired
 	private StatusRequestProducer producer;
@@ -39,7 +40,7 @@ public class StatusController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		List<TargetHost> targets = 	targetHostCacheImpl.getAll();
+		List<TargetHost> targets = 	targetHostCache.getAll();
 		uiModel.addAttribute("targets", targets);
 		
 		try {
@@ -56,7 +57,7 @@ public class StatusController {
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
 	public String details(@PathVariable("name") String name, Model uiModel) {
 		
-		TargetHost target = targetHostCacheImpl.get(name);
+		TargetHost target = targetHostCache.get(name);
 		uiModel.addAttribute("target", target);
 		
 		return "status/details";
