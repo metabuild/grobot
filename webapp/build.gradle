@@ -51,7 +51,8 @@ dependencies {
 	
 	testCompile 'org.mockito:mockito-all:1.8.5',
 		'junit:junit:4.10',
-		'org.springframework:spring-test:3.1.2.RELEASE';
+		'org.springframework:spring-test:3.1.2.RELEASE',
+		project(':core').sourceSets.test.output
 	
 	integrationCompile sourceSets.main.output,
 		configurations.testCompile,
