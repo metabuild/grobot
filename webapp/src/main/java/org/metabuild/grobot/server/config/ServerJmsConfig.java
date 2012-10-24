@@ -32,7 +32,7 @@ public class ServerJmsConfig {
 	/**
 	 * Sends JMS status requests to the grobot.status.topic destination
 	 * 
-	 * @param jmsTemplate
+	 * @param statusTopicJmsTemplate
 	 * @return the StatusRequestProducer
 	 * @throws UnknownHostException
 	 */
@@ -47,7 +47,7 @@ public class ServerJmsConfig {
 
 	/**
 	 * Listens for the JMS status responses on the grobot.status.queue destination
-	 * @param jmsTemplate
+	 * @param targetHostCache
 	 * @return the status response listener
 	 */
 	@Autowired(required=true)
