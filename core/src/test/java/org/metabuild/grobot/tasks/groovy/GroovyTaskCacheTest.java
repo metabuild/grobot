@@ -15,7 +15,7 @@ import org.metabuild.grobot.tasks.Task;
 
 /**
  * @author jburbridge
- *
+ * @since 10/23/2012
  */
 public class GroovyTaskCacheTest {
 
@@ -38,7 +38,7 @@ public class GroovyTaskCacheTest {
 		assertNull(taskCache.get(null));
 	}
 
-	private GroovyTaskFactory getMockTaskFactory() {
+	public static GroovyTaskFactory getMockTaskFactory() {
 		
 		GroovyTaskFactory taskFactory = mock(GroovyTaskFactory.class);
 		GroovyTask task = mock(GroovyTask.class);

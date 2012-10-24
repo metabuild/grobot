@@ -45,11 +45,10 @@ public class StatusControllerTest extends BaseControllerTest {
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		
 		String result = controller.list(uiModel);
 		
 		assertNotNull(result);
-		assertEquals(result, "status/list");
+		assertEquals("status/list", result);
 		
 		@SuppressWarnings("unchecked")
 		List<TargetHost> modelTargetHosts = (List<TargetHost>) uiModel.get("targets");
