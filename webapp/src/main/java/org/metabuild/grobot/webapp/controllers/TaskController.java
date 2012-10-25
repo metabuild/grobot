@@ -40,7 +40,7 @@ public class TaskController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		List<GroovyTask> tasks = taskCache.getAll();
+		final List<GroovyTask> tasks = taskCache.getAll();
 		uiModel.addAttribute("tasks", tasks);
 		
 		return "tasks/list";
@@ -52,7 +52,7 @@ public class TaskController {
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
 	public String details(@PathVariable("name") String name, Model uiModel) {
 		
-		GroovyTask task = taskCache.get(name);
+		final GroovyTask task = taskCache.get(name);
 		uiModel.addAttribute("task", task);
 		
 		return "tasks/details";

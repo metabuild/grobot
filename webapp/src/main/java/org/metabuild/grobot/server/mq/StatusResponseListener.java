@@ -4,9 +4,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.domain.TargetHostCache;
 import org.metabuild.grobot.mq.StatusResponse;
 import org.metabuild.grobot.mq.StatusResponseMessageConverter;
 import org.slf4j.Logger;
@@ -57,8 +56,8 @@ public class StatusResponseListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
 		try {
-			StatusResponse statusResponse = (StatusResponse) messageConverter.fromMessage(message);
-			String hostname = statusResponse.getHostname();
+			final StatusResponse statusResponse = (StatusResponse) messageConverter.fromMessage(message);
+			final String hostname = statusResponse.getHostname();
 			LOGGER.info("Received ping response \"{}\" from {}", statusResponse, hostname);
 			if (hostname != null && targetHostCache.get(hostname) == null) {
 				LOGGER.info("Adding {} to targetCache", hostname);

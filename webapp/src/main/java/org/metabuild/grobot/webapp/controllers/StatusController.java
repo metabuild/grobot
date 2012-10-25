@@ -41,7 +41,7 @@ public class StatusController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		List<TargetHost> targets = 	targetHostCache.getAll();
+		final List<TargetHost> targets = 	targetHostCache.getAll();
 		uiModel.addAttribute("targets", targets);
 		
 		try {
@@ -58,7 +58,7 @@ public class StatusController {
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
 	public String details(@PathVariable("name") String name, Model uiModel) {
 		
-		TargetHost target = targetHostCache.get(name);
+		final TargetHost target = targetHostCache.get(name);
 		uiModel.addAttribute("target", target);
 		
 		return "status/details";

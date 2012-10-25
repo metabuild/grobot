@@ -21,7 +21,7 @@ public class GrobotClientRunner {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GrobotClient client = new GrobotClient(System.getProperty("hostname"));
+		final GrobotClient client = new GrobotClient(System.getProperty("hostname"));
 		
 		try {
 			client.start(); 

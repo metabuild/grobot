@@ -19,7 +19,7 @@
               </a>
          
               <!-- Be sure to leave the brand out there if you want it shown -->
-              <a class="brand" href="/home">Grobot</a>
+              <a class="brand" href="/">Grobot</a>
          
               <div class="nav-collapse">
                 <!-- .nav, .navbar-search, .navbar-form, etc -->
@@ -42,13 +42,7 @@
                   <li><a href="/help"><c:out value="${activeHeader}" /></a></li>
                 </ul>
                 <form class="navbar-form pull-right">
-                  <table border="0">
-                    <tr>
-                      <td><input type="text" name="username" class="input-small" placeholder="Username" /></td>
-                      <td><input type="password" name="password" class="input-small" placeholder="Password" /></td>
-                      <td><button type="Submit" class="btn btn-warning btn-red">Login</button></td>
-                    </tr>
-                  </table>
+                      <button type="Submit" class="btn btn-inverse">Logout</button>
                 </form>
               </div>
          

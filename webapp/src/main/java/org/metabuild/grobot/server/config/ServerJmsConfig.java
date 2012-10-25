@@ -40,7 +40,7 @@ public class ServerJmsConfig {
 	@Bean(name="statusRequestProducer")
 	public StatusRequestProducer getStatusRequestProducer(
 			@Qualifier(value="statusTopicJmsTemplate") JmsTemplate statusTopicJmsTemplate) throws UnknownHostException {
-		StatusRequestProducer statusRequestProducer = new StatusRequestProducerImpl();
+		final StatusRequestProducer statusRequestProducer = new StatusRequestProducerImpl();
 		statusRequestProducer.setJmsTemplate(statusTopicJmsTemplate);
 		return statusRequestProducer;
 	}

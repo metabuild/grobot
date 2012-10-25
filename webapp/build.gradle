@@ -13,7 +13,7 @@ apply plugin: 'war';
 apply plugin: 'jetty';
 apply plugin: 'eclipse-wtp';
 
-/* include static analysis and deployment plugins when building on jenkins */
+// include static analysis and deployment plugins when building on jenkins 
 if (project.hasProperty('environment') && environment != 'development') {
 
 	apply from: "${rootDir.path}/gradle/cobertura.gradle";
@@ -22,6 +22,14 @@ if (project.hasProperty('environment') && environment != 'development') {
 	
 	findbugs {
 		ignoreFailures = true;
+	}
+}
+
+// add the spring nature to eclipse 
+eclipse {
+	project {
+		buildCommand 'org.springframework.ide.eclipse.core.springbuilder'
+		natures << 'org.springframework.ide.eclipse.core.springnature'
 	}
 }
 
@@ -52,7 +60,7 @@ dependencies {
 	testCompile 'org.mockito:mockito-all:1.8.5',
 		'junit:junit:4.10',
 		'org.springframework:spring-test:3.1.2.RELEASE',
-		project(':core').sourceSets.test.output
+		project(':core').sourceSets.test.output // import test utils
 	
 	integrationCompile sourceSets.main.output,
 		configurations.testCompile,
@@ -60,6 +68,11 @@ dependencies {
 	
 	integrationRuntime configurations.testRuntime;
 	
+}
+
+// exclude the BaseControllerTest since it doesn't have any test methods of it's own
+test {
+	exclude '**/BaseControllerTest*'
 }
 
 war {

@@ -55,5 +55,31 @@ public class StatusControllerTest extends BaseControllerTest {
 		
 		assertEquals(1, modelTargetHosts.size());
 	}
+	
+	@Test
+	public void testDetail() {
+		
+		TargetHostCache targetHostCache = mock(TargetHostCacheImpl.class);
+		when(targetHostCache.get(anyString())).thenReturn(targets.get(0));
+		
+		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
+		
+		StatusController controller = new StatusController();
+		
+		ReflectionTestUtils.setField(controller, "targetHostCache", targetHostCache);
+		ReflectionTestUtils.setField(controller, "producer", producer);
+		
+		ExtendedModelMap uiModel = new ExtendedModelMap();
+		String result = controller.details("hostname1", uiModel);
+		
+		assertNotNull(result);
+		assertEquals("status/details", result);
+		
+		TargetHost targetHost = (TargetHost) uiModel.get("target");
+		assertEquals("hostname1", targetHost.getName());
+		assertEquals("hostaddress1", targetHost.getAddress());
+		assertTrue(targetHost.isActive());
+
+	}
 
 }

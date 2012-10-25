@@ -38,15 +38,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean(name="tilesViewResolver")
 	public ViewResolver getUrlBasedViewResolver() {
-		UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+		final UrlBasedViewResolver resolver = new UrlBasedViewResolver();
 		resolver.setViewClass(org.springframework.web.servlet.view.tiles2.TilesView.class);
 		return resolver;
 	}
 	
 	@Bean(name="tilesConfigurer")
 	public TilesConfigurer getTilesConfigurer() {
-		TilesConfigurer configurer = new TilesConfigurer();
-		String[] definitions = { "/WEB-INF/layouts/layouts.xml", "/WEB-INF/views/**/views.xml" };
+		final TilesConfigurer configurer = new TilesConfigurer();
+		final String[] definitions = { "/WEB-INF/layouts/layouts.xml", "/WEB-INF/views/**/views.xml" };
 		configurer.setDefinitions(definitions);
 		configurer.setValidateDefinitions(true);
 		return configurer;

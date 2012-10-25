@@ -28,7 +28,7 @@ public class StatusRequestProducerImpl extends JmsGatewaySupport implements Stat
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusRequestProducerImpl.class);
 	private final HostnameResolver hostnameResolver; 
-	private final long timeToLive = 10000L;
+//	private final long timeToLive = 10000L;
 
 	/**
 	 * Default constructor
