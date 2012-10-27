@@ -7,7 +7,6 @@ import javax.jms.Destination;
 
 import org.metabuild.grobot.config.SharedJmsConfig;
 import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusResponseListener;
@@ -24,6 +23,12 @@ import org.springframework.jms.listener.AbstractJmsListeningContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 
+/**
+ * Server JMS Configuration
+ * 
+ * @author jburbridge
+ * @since 10/13/2012
+ */
 @Configuration
 @Import({SharedJmsConfig.class, AppConfig.class})
 @PropertySource("classpath:grobot.properties")

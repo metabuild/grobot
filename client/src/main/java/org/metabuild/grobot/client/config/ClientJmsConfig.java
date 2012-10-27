@@ -4,13 +4,14 @@ import java.net.UnknownHostException;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+
 import org.metabuild.grobot.client.mq.StatusRequestListener;
 import org.metabuild.grobot.client.mq.StatusResponseProducer;
 import org.metabuild.grobot.client.mq.StatusResponseProducerImpl;
 import org.metabuild.grobot.config.SharedJmsConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -20,6 +21,12 @@ import org.springframework.jms.listener.AbstractJmsListeningContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 
+/**
+ * Client JMS Configuration
+ * 
+ * @author jburbridge
+ * @since 10/13/2012
+ */
 @Import(SharedJmsConfig.class)
 @Configuration
 public class ClientJmsConfig {

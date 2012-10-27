@@ -15,6 +15,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 
+/**
+ * Shared JMS Configuration
+ * 
+ * @author jburbridge
+ * @since 10/13/2012
+ */
 @Configuration
 @PropertySource("classpath:grobot.properties")
 public class SharedJmsConfig {
