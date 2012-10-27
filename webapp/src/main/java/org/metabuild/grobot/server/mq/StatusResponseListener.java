@@ -4,6 +4,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
+import org.joda.time.DateTime;
 import org.metabuild.grobot.domain.TargetHost;
 import org.metabuild.grobot.domain.TargetHostCache;
 import org.metabuild.grobot.mq.StatusResponse;
@@ -58,11 +59,15 @@ public class StatusResponseListener implements MessageListener {
 		try {
 			final StatusResponse statusResponse = (StatusResponse) messageConverter.fromMessage(message);
 			final String hostname = statusResponse.getHostname();
-			LOGGER.info("Received ping response \"{}\" from {}", statusResponse, hostname);
+			LOGGER.info("Received \"{}\" from {}", statusResponse, hostname);
+			
 			if (hostname != null && targetHostCache.get(hostname) == null) {
 				LOGGER.info("Adding {} to targetCache", hostname);
-				targetHostCache.put(hostname, new TargetHost(hostname, hostname, true));
+				targetHostCache.put(hostname, new TargetHost(statusResponse));
+			} else if (hostname != null ) {
+				targetHostCache.get(hostname).setLastUpdatedStatus(new DateTime(statusResponse.getTimeStamp()));
 			}
+			
 		} catch (MessageConversionException e) {
 			LOGGER.error("Could not convert Message to StatusResponse", e);
 		} catch (JMSException e) {

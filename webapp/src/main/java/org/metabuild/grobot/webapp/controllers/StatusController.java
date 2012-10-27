@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class StatusController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusController.class);
+	private static final String STATUS_LIST_VIEW = "status/list";
+	private static final String STATUS_DETAILS_VIEW = "status/details";
 
 	@Autowired
 	private TargetHostCache targetHostCache;
@@ -49,7 +51,7 @@ public class StatusController {
 		} catch (JMSException e) {
 			LOGGER.error("JMS Exception caught while attempting to send status request", e);
 		}
-		return "status/list";
+		return STATUS_LIST_VIEW;
 	}
 	
 	/**
@@ -61,6 +63,6 @@ public class StatusController {
 		final TargetHost target = targetHostCache.get(name);
 		uiModel.addAttribute("target", target);
 		
-		return "status/details";
+		return STATUS_DETAILS_VIEW;
 	}
 }
