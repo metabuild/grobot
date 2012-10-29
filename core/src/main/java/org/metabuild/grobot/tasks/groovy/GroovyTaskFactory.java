@@ -10,6 +10,7 @@ import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.Task;
 import org.metabuild.grobot.tasks.TaskFactory;
@@ -57,7 +58,9 @@ public class GroovyTaskFactory implements TaskFactory {
 		for (File file : getFiles(tasksDir)) {
 			try {
 				Script script = engine.createScript(file.getAbsolutePath(), getBinding());
-				tasks.add(new GroovyTask(script));
+				GroovyTask groovyTask = new GroovyTask(script);
+				groovyTask.setHash(DigestUtils.md5Hex(file.toString()));
+				tasks.add(groovyTask);
 			} catch (ResourceException e) {
 				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
 			} catch (ScriptException e) {

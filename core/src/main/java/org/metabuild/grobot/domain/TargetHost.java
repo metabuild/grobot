@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.joda.time.DateTime;
+
 import org.metabuild.grobot.mq.StatusResponse;
 
 /**
@@ -17,7 +19,9 @@ public class TargetHost implements Targetable {
 	private boolean active;
 	private Properties systemProperties;
 	private Properties otherProperties;
-	private List<Targetable> targetables;
+	private List<Targetable> targets;
+	private DateTime lastUpdatedStatus;
+	private TargetHostStatus status;
 
 	/**
 	 * Default constructor - initializes the object with empty properties
@@ -32,8 +36,9 @@ public class TargetHost implements Targetable {
 		this.active = active;
 		this.systemProperties = new Properties();
 		this.otherProperties = new Properties();
-		this.targetables = new ArrayList<Targetable>();
-		targetables.add(this);
+		this.targets = new ArrayList<Targetable>();
+		this.status = TargetHostStatus.STOPPED;
+		targets.add(this);
 	}
 	
 	/**
@@ -46,6 +51,8 @@ public class TargetHost implements Targetable {
 		this.address = statusResponse.getHostname();
 		this.systemProperties = statusResponse.getSystemProperties();
 		this.otherProperties = statusResponse.getOtherProperties();
+		this.lastUpdatedStatus = new DateTime(statusResponse.getTimeStamp());
+		this.status = TargetHostStatus.IDLE;
 		this.active = true;
 	}
 
@@ -54,7 +61,7 @@ public class TargetHost implements Targetable {
 	 */
 	@Override
 	public List<Targetable> getTargets() {
-		return targetables;
+		return targets;
 	}
 
 	/**
@@ -127,6 +134,34 @@ public class TargetHost implements Targetable {
 		this.otherProperties = otherProperties;
 	}
 
+	/**
+	 * @return the lastUpdatedStatus
+	 */
+	public DateTime getLastUpdatedStatus() {
+		return lastUpdatedStatus;
+	}
+
+	/**
+	 * @param lastUpdatedStatus the lastKnownResponse to set
+	 */
+	public void setLastUpdatedStatus(DateTime lastUpdatedStatus) {
+		this.lastUpdatedStatus = lastUpdatedStatus;
+	}
+	
+	/**
+	 * @return the status
+	 */
+	public TargetHostStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(TargetHostStatus status) {
+		this.status = status;
+	}
+	
 	@Override
 	public String toString() {
 		return name;

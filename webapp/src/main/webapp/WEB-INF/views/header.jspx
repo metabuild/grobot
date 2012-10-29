@@ -7,47 +7,12 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8" />
     <jsp:output omit-xml-declaration="yes" />
     
-        <div class="navbar navbar-inverse">
-          <div class="navbar-inner">
-            <div class="container">
-         
-              <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </a>
-         
-              <!-- Be sure to leave the brand out there if you want it shown -->
-              <a class="brand" href="/">Grobot</a>
-         
-              <div class="nav-collapse">
-                <!-- .nav, .navbar-search, .navbar-form, etc -->
-                <ul class="nav">
-                  <li><a href="/tasks">Tasks</a></li>
-                  <li class="divider-verital"></li>
-                  <c:choose>
-	                  <c:when test="${activeHeader eq 'status'}">
-	                    <li class="active"><a href="/status">Bots</a></li>
-	                  </c:when>
-	                  <c:otherwise>
-	                    <li><a href="/status">Bots</a></li>
-	                  </c:otherwise>
-                  </c:choose>
-                  <li class="divider-verital"></li>
-                  <li><a href="/config">Configuration</a></li>
-                  <li class="divider-verital"></li>
-                  <li><a href="/help">Help</a></li>
-                  <li class="divider-verital"></li>
-                  <li><a href="/help"><c:out value="${activeHeader}" /></a></li>
-                </ul>
-                <form class="navbar-form pull-right">
-                      <button type="Submit" class="btn btn-inverse">Logout</button>
-                </form>
-              </div>
-         
-            </div>
-          </div>
-        </div>
+    <spring:url value="/resources/bootstrap/css/bootstrap.min.css" var="bootsrap_css_url" />
 
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${bootsrap_css_url}" />
+        <title><tiles:insertAttribute name="pageTitle" ignore="true" /></title>
+    </head>
 </div>

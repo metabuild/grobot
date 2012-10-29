@@ -12,7 +12,7 @@
             <amq:managementContext createConnector="true"/>
         </amq:managementContext>
         <amq:transportConnectors>
-            <amq:transportConnector name="nio" uri="nio://0.0.0.0:61616" />
+            <amq:transportConnector name="nio" uri="nio://0.0.0.0:61617" />
         </amq:transportConnectors>
     </amq:broker>
 </beans>

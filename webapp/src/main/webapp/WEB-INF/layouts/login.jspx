@@ -8,55 +8,30 @@
     
     <jsp:directive.page contentType="text/html;charset=UTF-8" />  
     <jsp:directive.page pageEncoding="UTF-8" /> 
-        
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=8" />
-        
-        <spring:url value="/resources/bootstrap/css/bootstrap.min.css" var="bootsrap_css_url" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${bootsrap_css_url}" />
-        
-    </head>
+    
+    <tiles:insertAttribute name="header" ignore="true" />
+    
     <body>
-        <div class="container">
-            <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <td></td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <form class="form-horizontal well table">
-                          <legend>Grobot Server Login</legend>
-                          <div class="control-group">
-                            <label class="control-label" for="inputEmail">Email</label>
-                            <div class="controls">
-                              <input type="text" id="inputEmail" placeholder="Email" />
-                            </div>
-                          </div>
-                          <div class="control-group">
-                            <label class="control-label" for="inputPassword">Password</label>
-                            <div class="controls">
-                              <input type="password" id="inputPassword" placeholder="Password" />
-                            </div>
-                          </div>
-                          <div class="control-group">
-                            <div class="controls">
-                              <label class="checkbox">
-                                <input type="checkbox" /> Remember me
-                              </label>
-                              <button type="submit" class="btn btn-inverse">Sign in</button>
-                            </div>
-                          </div>
-                        </form>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div class="container" style="vertical-align: middle">
+          <form action="status" method="GET">
+            <div id="myModal" class="modal show">
+              <div class="modal-header">
+                <h3>Grobot Server Login</h3>
+              </div>
+              <div class="modal-body">
+                <input type="text" class="span4" placeholder="Username" />
+                <input type="password" class="span4" placeholder="Password" />
+                <label class="checkbox">
+                  <input type="checkbox" name="rememberMe" /> Remember Username
+                </label>
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-warning" data-loading-text="Loggin in..." value="Login" />
+                <input type="button" class="btn btn-inverse" value="Help" />
+              </div>
             </div>
+          </form>
         </div>
+    <tiles:insertAttribute name="jsIncludes" ignore="true" />
     </body>
 </html>

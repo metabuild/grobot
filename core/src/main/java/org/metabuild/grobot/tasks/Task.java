@@ -29,6 +29,11 @@ public interface Task {
 	public int getTimesRun();
 	
 	/**
+	 * @return the md5 hash of the underlying script / file
+	 */
+	public String getHash();
+	
+	/**
 	 * @return the string representation of this task, usually the file name
 	 */
 	@Override

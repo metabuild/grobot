@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      xmlns:joda="http://www.joda.org/joda/time/tags"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0">
@@ -9,21 +10,67 @@
     <jsp:output omit-xml-declaration="yes"/>
     
     <h3>Bot Details</h3>  
-    <table class="table table-striped table-bordered">
+    <table class="table">
         <thead>
             <tr>
-                <th colspan="2">${target.name}</th>
+                <th colspan="2"><h4>${target.name}</h4></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Name</td><td>${target.name}</td>
+                <td>Name</td>
+                <td>${target.name}</td>
             </tr>
             <tr>
-                <td>Address</td><td>${target.address}</td>
+                <td>Address</td>
+                <td>${target.address}</td>
             </tr>
             <tr>
-                <td>Active</td><td>${target.active}</td>
+                <td>Last Update</td>
+                <td>${target.lastUpdatedStatus}</td>
+            </tr>
+            <tr>
+                <td>Active</td>
+                <td>${target.active}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>${target.status}</td>
+            </tr>
+            <tr>
+                <td>System Properties</td>
+                <td><c:if test="${not empty target.systemProperties}">
+                      <div id="toggleSystemProperties" class="">
+                        <table class="table table-striped table-bordered table-condensed">
+                          <thead>
+                            <tr>
+                              <td><strong>Name</strong></td>
+                              <td><strong>Value</strong></td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <c:forEach var="entry" items="${target.systemProperties}">
+                              <tr>
+                                <td><small>${entry.key}</small></td>
+                                <td><small>
+                                  <c:choose>
+                                    <c:when test="${fn:length(entry.value) > 60}">${fn:substring(entry.value, 0, 57)}...</c:when>
+                                    <c:otherwise>${entry.value}</c:otherwise>
+                                  </c:choose></small>
+                                </td>
+                              </tr>
+                            </c:forEach>
+                          </tbody>
+                      </table>
+                    </div>
+                  </c:if>
+                </td>
+            </tr>
+            <tr>
+                <td>Custom Properties</td>
+                <td><div id="toggleCustomProperties"><a href="#customProperties" data-toggle="collapse">View Custom Properties</a></div>
+                    <div id="customProperties" class="collapse">${target.otherProperties}</div>
+                </td>
             </tr>
         </tbody>
     </table>

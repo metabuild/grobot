@@ -43,14 +43,14 @@ public class TaskController {
 	/**
 	 * Display the details of a task
 	 */
-	@RequestMapping(value="/{name}", method=RequestMethod.GET)
-	public String details(@PathVariable("name") String name, Model uiModel) {
+	@RequestMapping(value="/{hash}", method=RequestMethod.GET)
+	public String details(@PathVariable("hash") String hash, Model uiModel) {
 		
-		final GroovyTask task = taskCache.get(name);
+		final GroovyTask task = taskCache.get(hash);
 		if (task != null) {
 			uiModel.addAttribute("task", task);
 		} else {
-			LOGGER.warn("Couldn't find task named {} in task cache.", name);
+			LOGGER.warn("Couldn't find task with hash {} in task cache.", hash);
 		}
 		
 		return "tasks/details";

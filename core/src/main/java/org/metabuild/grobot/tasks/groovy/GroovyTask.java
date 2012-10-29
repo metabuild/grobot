@@ -20,6 +20,7 @@ public class GroovyTask implements Task {
 	
 	private final Script script;
 	private final AtomicInteger timesRuns = new AtomicInteger();
+	private String md5Hash;
 	
 	public GroovyTask(Script script) {
 		this.script = script;
@@ -50,6 +51,18 @@ public class GroovyTask implements Task {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+
+	@Override
+	public String getHash() {
+		return md5Hash;
+	}
+	
+	/**
+	 * @param md5Hash the md5Hash to set
+	 */
+	public void setHash(String md5Hash) {
+		this.md5Hash = md5Hash;
 	}
 }
 

@@ -33,8 +33,8 @@ public class GroovyTaskCacheTest {
 	@Test
 	public void testGetTaskWithMatch() {
 		GroovyTaskCache taskCache = new GroovyTaskCache(getMockTaskFactory(), new HashMap<String, GroovyTask>());
-		assertNotNull(taskCache.get("MyMockTask"));
-		assertEquals("MyMockTask",taskCache.get("MyMockTask").toString());
+		assertNotNull(taskCache.get("MyMockTaskHash"));
+		assertEquals("MyMockTaskName",taskCache.get("MyMockTaskHash").toString());
 		assertNull(taskCache.get(null));
 	}
 
@@ -42,7 +42,8 @@ public class GroovyTaskCacheTest {
 		
 		GroovyTaskFactory taskFactory = mock(GroovyTaskFactory.class);
 		GroovyTask task = mock(GroovyTask.class);
-		when(task.toString()).thenReturn("MyMockTask");
+		when(task.getHash()).thenReturn("MyMockTaskHash");
+		when(task.toString()).thenReturn("MyMockTaskName");
 		List<Task> tasks = new ArrayList<Task>();
 		tasks.add(task);
 		when(taskFactory.getTasks()).thenReturn(tasks);

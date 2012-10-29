@@ -10,14 +10,16 @@
     
     <spring:url value="/status" var="showTargetDetailsUrl" />
     
-    <h3>Bots</h3>
+    <h3>Bots - ${activeNavItem}</h3>
     <c:if test="${not empty targets}">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th/>
                     <th>Target Name</th>
                     <th>Address</th>
+                    <th>Last Update</th>
+                    <th>Status</th>
                     <th>Active</th>
                 </tr>
             </thead>
@@ -27,6 +29,8 @@
                         <td><a class="btn btn-small" href="#"><i class="icon-star"></i></a></td>
                         <td><a href="${showTargetDetailsUrl}/${target.name}">${target.name}</a></td>
                         <td>${target.address}</td>
+                        <td>${target.lastUpdatedStatus}</td>
+                        <td>${target.status}</td>
                         <td>${target.active}</td>
                     </tr>
                 </c:forEach>

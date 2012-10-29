@@ -43,17 +43,17 @@ public class GroovyTaskCache {
 	 */
 	protected Map<String, GroovyTask> loadTasks(Map<String, GroovyTask> registry) {
 		for (Task task : groovyTaskFactory.getTasks()) {
-			registry.put(task.toString(), (GroovyTask) task);
+			registry.put(task.getHash(), (GroovyTask) task);
 		}
 		return registry;
 	}
 	
 	/**
-	 * @param name
+	 * @param hash
 	 * @return the task
 	 */
-	public GroovyTask get(String name) {
-		return registry.get(name);
+	public GroovyTask get(String hash) {
+		return registry.get(hash);
 	}
 	
 	/**
