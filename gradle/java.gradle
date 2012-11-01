@@ -41,6 +41,11 @@ dependencies {
  * should always be the first and our metabuild distribution repo should always be defined last.
  */
 repositories {
+	maven {
+		name 'mavenCentral'
+		url 'http://repo1.maven.org/maven2'
+		artifactUrls 'http://repository.jboss.org/nexus/content/groups/public'
+	}	
 	if (project.hasProperty('environment') && environment == 'build') {
 		maven {
 			name 'snapshotsRepo';
@@ -58,7 +63,6 @@ repositories {
 		name 'allCombinedRepos';
 		url repositoryUrl;
 	}
-	mavenCentral();
 }
 
 jar {

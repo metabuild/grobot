@@ -6,7 +6,7 @@
  * itself, but can be imported into eclipse to make working in eclipse a bit easier.
  */
 
- description = 'The root of the Grobot project';
+description = 'The root of the Grobot project';
  
 apply plugin: 'groovy'
 
