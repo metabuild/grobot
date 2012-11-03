@@ -147,7 +147,7 @@ public class TargetHost implements Targetable {
 	public void setLastUpdatedStatus(DateTime lastUpdatedStatus) {
 		this.lastUpdatedStatus = lastUpdatedStatus;
 	}
-	
+
 	/**
 	 * @return the status
 	 */

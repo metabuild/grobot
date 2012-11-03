@@ -11,7 +11,7 @@ import java.util.List;
 public class TargetGroup implements Targetable {
 
 	private String name;
-	private List<Targetable> targetables;
+	private List<Targetable> targets;
 	private TargetGroup parent;
 	private boolean active;
 
@@ -20,29 +20,29 @@ public class TargetGroup implements Targetable {
 	 */
 	public TargetGroup(String name) {
 		this.name = name;
-		this.targetables = Collections.synchronizedList(new ArrayList<Targetable>());
+		this.targets = Collections.synchronizedList(new ArrayList<Targetable>());
 		this.active = true;
-		targetables.add(this);
+		targets.add(this);
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targetables - a list of sub targets (groups or hosts)
+	 * @param targets - a list of sub targets (groups or hosts)
 	 * @param parent - a parent group
 	 */
-	public TargetGroup(String name, List<Targetable> targetables, TargetGroup parent) {
+	public TargetGroup(String name, List<Targetable> targets, TargetGroup parent) {
 		this.name = name;
-		this.targetables = targetables;
+		this.targets = targets;
 		this.parent = parent;
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targetables - a list of sub targets (groups or hosts)
+	 * @param targets - a list of sub targets (groups or hosts)
 	 */
-	public TargetGroup(String name, List<Targetable> targetables) {
+	public TargetGroup(String name, List<Targetable> targets) {
 		this.name = name;
-		this.targetables = targetables;
+		this.targets = targets;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class TargetGroup implements Targetable {
 	 * @param targetables
 	 */
 	public void addTargets(List<Targetable> targetables) {
-		this.targetables.addAll(targetables);
+		this.targets.addAll(targetables);
 	}
 	
 	/* (non-Javadoc)
@@ -64,7 +64,7 @@ public class TargetGroup implements Targetable {
 	 */
 	@Override
 	public List<Targetable> getTargets() {
-		return targetables;
+		return targets;
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class TargetGroup implements Targetable {
 	 * @param targetables the targets to set
 	 */
 	public void setTargets(List<Targetable> targetables) {
-		this.targetables = targetables;
+		this.targets = targetables;
 	}
 	
 	@Override
