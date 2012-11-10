@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Fake bot spawner for testing client/server locally
+ * Fake bot spawner for testing server locally
  * 
  * @author jburbridge
  * @since 10/12/2012
