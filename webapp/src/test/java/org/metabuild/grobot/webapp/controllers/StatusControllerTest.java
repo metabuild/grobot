@@ -39,7 +39,7 @@ public class StatusControllerTest extends BaseControllerTest {
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
-		StatusController controller = new StatusController();
+		BotsController controller = new BotsController();
 		
 		ReflectionTestUtils.setField(controller, "targetHostCache", targetHostCache);
 		ReflectionTestUtils.setField(controller, "producer", producer);
@@ -48,7 +48,7 @@ public class StatusControllerTest extends BaseControllerTest {
 		String result = controller.list(uiModel);
 		
 		assertNotNull(result);
-		assertEquals("status/list", result);
+		assertEquals("bots/list", result);
 		
 		@SuppressWarnings("unchecked")
 		List<TargetHost> modelTargetHosts = (List<TargetHost>) uiModel.get("targets");
@@ -64,7 +64,7 @@ public class StatusControllerTest extends BaseControllerTest {
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
-		StatusController controller = new StatusController();
+		BotsController controller = new BotsController();
 		
 		ReflectionTestUtils.setField(controller, "targetHostCache", targetHostCache);
 		ReflectionTestUtils.setField(controller, "producer", producer);
@@ -73,7 +73,7 @@ public class StatusControllerTest extends BaseControllerTest {
 		String result = controller.details("hostname1", uiModel);
 		
 		assertNotNull(result);
-		assertEquals("status/details", result);
+		assertEquals("bots/details", result);
 		
 		TargetHost targetHost = (TargetHost) uiModel.get("target");
 		assertEquals("hostname1", targetHost.getName());

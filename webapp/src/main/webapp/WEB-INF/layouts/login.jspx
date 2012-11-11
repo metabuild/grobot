@@ -13,7 +13,7 @@
     
     <body>
         <div class="container" style="vertical-align: middle">
-          <form action="status" method="GET">
+          <form action="bots" method="GET">
             <div id="myModal" class="modal show">
               <div class="modal-header">
                 <h3>Grobot Server Login</h3>

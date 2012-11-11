@@ -8,32 +8,18 @@
     <jsp:output omit-xml-declaration="yes" />
     
     <spring:url value="/" var="homeUrl" />
-    <spring:url value="/tasks" var="tasksUrl" />
-    <spring:url value="/status" var="statusUrl" />
-    <spring:url value="/config" var="configUrl" />
-    <spring:url value="/help" var="helpUrl" />
     
-    <c:set var="currentPageName" value="${currentPage}" />
-    
+    <!--  activeNavItem: ${selectedMenuItem} -->
         <div class="navbar navbar-inverse">
           <div class="navbar-inner">
             <div class="container">
-         
-              <!-- Be sure to leave the brand out there if you want it shown -->
               <a class="brand" href="${homeUrl}">Grobot</a>
-         
               <div class="nav-collapse">
-                <!-- .nav, .navbar-search, .navbar-form, etc -->
                 <ul class="nav">
-                  <li class="active"><a href="${statusUrl}">Bots</a></li>
-                  <li class="divider-verital"></li>
-                  <li><a href="${tasksUrl}">Tasks</a></li>
-                  <li class="divider-verital"></li>
-                  <li><a href="${configUrl}">Configuration</a></li>
-                  <li class="divider-verital"></li>
-                  <li><a href="${helpUrl}">Help</a></li>
-                  <li class="divider-verital"></li>
-                  <li>activeNavItem: ${activeNavItem}</li>
+                  <c:forEach var="item" items="${navMenuItems}">
+                      <li><a href="${homeUrl}${item}">${item}</a></li>
+	                  <li class="divider-verital"></li>
+                  </c:forEach>
                 </ul>
                 <form class="navbar-form pull-right">
                       <button type="Submit" class="btn btn-inverse">Logout</button>

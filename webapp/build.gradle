@@ -48,6 +48,7 @@ dependencies {
 		'org.springframework:spring-tx:3.1.2.RELEASE',
 		'org.springframework:spring-jms:3.1.2.RELEASE',
 		'org.apache.tiles:tiles-core:2.2.2',
+		'org.apache.tiles:tiles-template:2.2.2',
 		'org.apache.tiles:tiles-jsp:2.2.2',
 		'org.apache.activemq:activemq-core:5.6.0',
 		'javax.jms:jms:1.1';
@@ -91,7 +92,7 @@ task testJar(type: Jar, dependsOn: test) {
 // produce a jar file for our source files
 task sourceJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
-	from sourceSets.test.java
+	from sourceSets.main.java
 }
 
 // produce a jar file for our javadoc

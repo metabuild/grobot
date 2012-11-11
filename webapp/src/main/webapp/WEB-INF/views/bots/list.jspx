@@ -8,9 +8,9 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <spring:url value="/status" var="showTargetDetailsUrl" />
+    <spring:url value="/bots" var="showTargetDetailsUrl" />
     
-    <h3>Bots - ${activeNavItem}</h3>
+    <h3>Bots</h3>
     <c:if test="${not empty targets}">
         <table class="table table-striped">
             <thead>

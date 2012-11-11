@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author jburbridge
- *
+ * @since 10/11/2012
  */
 @Controller
 @RequestMapping("/")
 public class HomePageController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
+	private static final String HOMEPAGE_INDEX_VIEW = "index";
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getIndex(Model model) {
 		// TODO: implement authentication
 		LOGGER.debug("User not authenticated - presenting login form");
-		return "index";
+		return HOMEPAGE_INDEX_VIEW;
 	}
 }

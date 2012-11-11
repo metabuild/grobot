@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author jburbridge
  * @since 10/12/2012
  */
-@RequestMapping("/status")
+@RequestMapping("/bots")
 @Controller
-public class StatusController {
+public class BotsController extends AbstractBaseController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatusController.class);
-	private static final String STATUS_LIST_VIEW = "status/list";
-	private static final String STATUS_DETAILS_VIEW = "status/details";
+	private static final Logger LOGGER = LoggerFactory.getLogger(BotsController.class);
+	private static final String BOTS_LIST_VIEW = "bots/list";
+	private static final String BOTS_DETAILS_VIEW = "bots/details";
 
 	@Autowired
 	private TargetHostCache targetHostCache;
@@ -45,13 +45,14 @@ public class StatusController {
 		
 		final List<TargetHost> targets = 	targetHostCache.getAll();
 		uiModel.addAttribute("targets", targets);
+		addSelectedMenuItem(uiModel);
 		
 		try {
 			producer.sendStatusRequest();
 		} catch (JMSException e) {
-			LOGGER.error("JMS Exception caught while attempting to send status request", e);
+			LOGGER.error("JMS Exception caught while attempting to send a status update request", e);
 		}
-		return STATUS_LIST_VIEW;
+		return BOTS_LIST_VIEW;
 	}
 	
 	/**
@@ -62,7 +63,13 @@ public class StatusController {
 		
 		final TargetHost target = targetHostCache.get(name);
 		uiModel.addAttribute("target", target);
+		addSelectedMenuItem(uiModel);
 		
-		return STATUS_DETAILS_VIEW;
+		return BOTS_DETAILS_VIEW;
+	}
+
+	@Override
+	public NavMenuItems getSelectedNavMenuItem() {
+		return NavMenuItems.BOTS;
 	}
 }

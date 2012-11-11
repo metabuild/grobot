@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @RequestMapping("/tasks")
 @Controller
-public class TaskController {
+public class TaskController extends AbstractBaseController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
@@ -36,6 +36,7 @@ public class TaskController {
 		
 		final List<GroovyTask> tasks = taskCache.getAll();
 		uiModel.addAttribute("tasks", tasks);
+		addSelectedMenuItem(uiModel);
 		
 		return "tasks/list";
 	}
@@ -52,7 +53,13 @@ public class TaskController {
 		} else {
 			LOGGER.warn("Couldn't find task with hash {} in task cache.", hash);
 		}
+		addSelectedMenuItem(uiModel);
 		
 		return "tasks/details";
+	}
+	
+	@Override
+	public NavMenuItems getSelectedNavMenuItem() {
+		return NavMenuItems.TASKS;
 	}
 }
