@@ -73,6 +73,11 @@ dependencies {
 // exclude the BaseControllerTest since it doesn't have any test methods of it's own
 test {
 	exclude '**/BaseControllerTest*'
+	systemProperty 'spring.profiles.active', 'default,test'
+}
+
+integrationTest {
+	systemProperty 'spring.profiles.active', 'default,test'
 }
 
 war {

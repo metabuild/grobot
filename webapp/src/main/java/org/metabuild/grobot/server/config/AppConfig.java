@@ -3,6 +3,8 @@ package org.metabuild.grobot.server.config;
 import java.io.File;
 import java.io.IOException;
 
+import javax.sql.DataSource;
+
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 
@@ -17,8 +19,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
  * Main spring application configuration
@@ -27,6 +32,7 @@ import org.springframework.core.env.Environment;
  * @since 9/30/2012
  */
 @Configuration
+@Profile("default")
 @ComponentScan(basePackages = {"org.metabuild.grobot.webapp.domain"})
 @PropertySource("classpath:grobot.properties")
 public class AppConfig {
@@ -34,15 +40,12 @@ public class AppConfig {
 	@Autowired
 	Environment environment;
 
-	@Bean(name="targetCache")
-	public TargetHostCache getTargetCache() {
-//		return new FakeTargetHostCacheImpl(15);
-		return new TargetHostCacheImpl();
-	}
-
 	@Bean(name="tasksDir")
 	public String getTasksDir() {
-		return environment.getProperty("user.dir") + "/tasks";
+		return new StringBuilder(environment.getProperty("user.dir"))
+			.append(File.pathSeparator)
+			.append("tasks")
+			.toString();
 	}
 	
 	@Autowired(required=true)
@@ -68,24 +71,35 @@ public class AppConfig {
 		return environment.getProperty("grobot.server.hostname");
 	}
 	
-	@Bean(name="helloMessage")
-	public String getHelloMessage() {
-		return environment.getProperty("grobot.server.hello.message");
+//	@Bean(name="helloMessage")
+//	public String getHelloMessage() {
+//		return environment.getProperty("grobot.server.hello.message");
+//	}
+
+	@Profile("dev")
+	@Configuration
+	class DevelopmentAppConfig {
+		
+		@Bean(name="targetCache")
+		public TargetHostCache getTargetCache() {
+			return new TargetHostCacheImpl();
+		}
+		
+		@Bean(name="dataSource")
+		public DataSource getDataSource() {
+			return new EmbeddedDatabaseBuilder()
+				.setType(EmbeddedDatabaseType.H2)
+				.build();
+		}
 	}
-	
-//	@Profile("default")
-//	@Configuration
-//	class ProdAppConfig {
-//		
-//	}
-//	
-//	@Profile("testing")
-//	@Configuration
-//	class TestAppConfig {
-//		
-//		@Bean(name="targetCache")
-//		public TargetCache getTargetCache() {
-//			return new FakeTargetCacheImpl(15);
-//		}
-//	}
+
+	@Profile("production")
+	@Configuration
+	class ProdAppConfig {
+		
+		@Bean(name="targetCache")
+		public TargetHostCache getTargetCache() {
+			return new TargetHostCacheImpl();
+		}
+	}
 }
