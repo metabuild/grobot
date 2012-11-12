@@ -1,25 +1,42 @@
 package org.metabuild.grobot.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.joda.time.DateTime;
 
 import org.metabuild.grobot.mq.StatusResponse;
 
 /**
- * @author jburbrid
+ * @author jburbridge
  * @since 9/27/2012
  */
+@Entity
+@Table(name="TARGET_HOST")
 public class TargetHost implements Targetable {
 	
+	private static final long serialVersionUID = 150135564407144746L;
+	
+	private Long id;
 	private String name;
 	private String address;
 	private boolean active;
 	private Properties systemProperties;
 	private Properties otherProperties;
 	private List<Targetable> targets;
+	private Date registered;
 	private DateTime lastUpdatedStatus;
 	private TargetHostStatus status;
 
@@ -65,8 +82,19 @@ public class TargetHost implements Targetable {
 	}
 
 	/**
+	 * @return the id
+	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "ID")
+	public Long getId() {
+		return this.id;
+	}
+	
+	/**
 	 * @return the name
 	 */
+	@Column(name = "NAME")
 	public String getName() {
 		return name;
 	}
@@ -81,6 +109,7 @@ public class TargetHost implements Targetable {
 	/**
 	 * @return the address
 	 */
+	@Column(name = "ADDRESS")
 	public String getAddress() {
 		return address;
 	}
@@ -132,6 +161,22 @@ public class TargetHost implements Targetable {
 	 */
 	public void setOtherProperties(Properties otherProperties) {
 		this.otherProperties = otherProperties;
+	}
+
+	/**
+	 * @return the registered date
+	 */
+	@Temporal(TemporalType.DATE)
+	@Column(name = "REGISTERED")
+	public Date getRegistered() {
+		return registered;
+	}
+
+	/**
+	 * @param registered the date to set
+	 */
+	public void setRegistered(Date registered) {
+		this.registered = registered;
 	}
 
 	/**

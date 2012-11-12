@@ -1,5 +1,6 @@
 package org.metabuild.grobot.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author jburbrid
  * @since 9/27/2012
  */
-public interface Targetable {
+public interface Targetable extends Serializable {
 
 	public String getName();
 	public boolean isActive();
