@@ -30,7 +30,7 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
  * @since 10/13/2012
  */
 @Configuration
-@Import({SharedJmsConfig.class, AppConfig.class})
+@Import({SharedJmsConfig.class, DefaultAppConfig.class})
 @PropertySource("classpath:grobot.properties")
 public class ServerJmsConfig {
 

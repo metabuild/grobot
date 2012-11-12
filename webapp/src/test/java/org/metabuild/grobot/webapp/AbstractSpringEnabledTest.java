@@ -1,7 +1,7 @@
-package org.metabuild.grobot.webapp.controllers;
+package org.metabuild.grobot.webapp;
 
 import org.junit.runner.RunWith;
-import org.metabuild.grobot.server.config.ControllerTestConfig;
+import org.metabuild.grobot.server.config.TestAppConfig;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,8 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @since 10/23/2012
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ControllerTestConfig.class)
-@ActiveProfiles("test")
-public class BaseControllerTest {
+@ContextConfiguration(classes = TestAppConfig.class)
+@ActiveProfiles(profiles = "default, test")
+public abstract class AbstractSpringEnabledTest {
 
 }

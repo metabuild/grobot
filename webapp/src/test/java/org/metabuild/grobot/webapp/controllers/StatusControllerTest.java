@@ -17,12 +17,13 @@ import org.metabuild.grobot.domain.TargetHostCache;
 import org.metabuild.grobot.domain.TargetHostCacheImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
+import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 
 /**
  * @author jburbridge
  *
  */
-public class StatusControllerTest extends BaseControllerTest {
+public class StatusControllerTest extends AbstractSpringEnabledTest {
 
 	private final List<TargetHost> targets = new ArrayList<TargetHost>();
 	

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.metabuild.grobot.tasks.groovy.GroovyTask;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
+import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
@@ -19,7 +20,7 @@ import org.springframework.ui.ExtendedModelMap;
  * @author jburbridge
  * @since 10/23/2012
  */
-public class TaskControllerTest extends BaseControllerTest {
+public class TaskControllerTest extends AbstractSpringEnabledTest {
 
 	private static final List<GroovyTask> tasks = new ArrayList<GroovyTask>();
 	
