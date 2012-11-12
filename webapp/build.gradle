@@ -36,13 +36,14 @@ eclipse {
 dependencies {
 
 	providedCompile 'javax.servlet:servlet-api:2.5';
-	providedRuntime 'org.eclipse.jetty:jetty-servlet:7.6.7.v20120910';
+	
+	providedRuntime 'org.eclipse.jetty:jetty-servlet:7.6.7.v20120910',
+		'org.slf4j:slf4j-simple:1.7.1';
 
 	compile project(':core'),
+		'org.slf4j:slf4j-api:1.7.1',
 		'javax.mail:mail:1.4.5',
 		'javax.activation:activation:1.1.1',
-		'org.slf4j:slf4j-api:1.6.6',
-		'org.slf4j:slf4j-log4j12:1.6.6',
 		'org.springframework:spring-webmvc:3.1.2.RELEASE',
 		'org.springframework:spring-jdbc:3.1.2.RELEASE',
 		'org.springframework:spring-tx:3.1.2.RELEASE',
@@ -55,7 +56,8 @@ dependencies {
 		
 
 	runtime 'cglib:cglib:2.2.2',
-		'org.apache.xbean:xbean-spring:3.11';
+		'org.apache.xbean:xbean-spring:3.11',
+		'com.h2database:h2:1.3.168';
 	
 	testCompile 'org.mockito:mockito-all:1.8.5',
 		'junit:junit:4.10',
@@ -66,18 +68,18 @@ dependencies {
 		configurations.testCompile,
 		sourceSets.test.output;
 	
-	integrationRuntime configurations.testRuntime;
+	integrationRuntime configurations.testRuntime
 	
 }
 
 // exclude the BaseControllerTest since it doesn't have any test methods of it's own
 test {
-	exclude '**/BaseControllerTest*'
-	systemProperty 'spring.profiles.active', 'default,test'
+	exclude '**/AbstractSpringEnabledTest*'
+	systemProperty 'spring.profiles.active', 'default, test'
 }
 
 integrationTest {
-	systemProperty 'spring.profiles.active', 'default,test'
+	systemProperty 'spring.profiles.active', 'default, dev'
 }
 
 war {
@@ -117,6 +119,10 @@ artifacts {
  * Setup jetty to run local integration tests
  */
 jettyRun {
+	doFirst {
+		System.setProperty('spring.profiles.active', 'default, dev')
+		System.setProperty('user.dir', "${projectDir}")
+	}
 	// if running from a development environment, keep Jetty running in the foreground
 	daemon = (project.hasProperty('environment') && environment != 'development');
 	httpPort = 9090;

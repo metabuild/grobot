@@ -6,7 +6,6 @@ package org.metabuild.grobot.webapp.controllers;
  */
 public enum NavMenuItems {
 
-//	HOME("home"), 
 	BOTS("bots"), 
 	TASKS("tasks"), 
 	CONFIG("config"), 
