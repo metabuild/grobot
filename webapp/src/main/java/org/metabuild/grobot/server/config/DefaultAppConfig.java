@@ -3,9 +3,12 @@ package org.metabuild.grobot.server.config;
 import java.io.File;
 import java.io.IOException;
 
+import javax.sql.DataSource;
+
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 
+import org.hibernate.SessionFactory;
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
@@ -20,6 +23,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 /**
  * Common spring application configuration
@@ -29,14 +34,21 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @Profile("default")
-@Import({ DevelopmentAppConfig.class, ProductionAppConfig.class })
-@ComponentScan(basePackages = {"org.metabuild.grobot.webapp.domain"})
+@Import({ 
+	DevelopmentAppConfig.class, 
+	ProductionAppConfig.class,
+	HibernateConfig.class
+})
+@ComponentScan(basePackages = { "org.metabuild.grobot.webapp.domain" })
 @PropertySource("classpath:grobot.properties")
 public class DefaultAppConfig {
 
 	@Autowired
 	Environment environment;
 
+	/**
+	 * @return the directory where groovy tasks are saved
+	 */
 	@Bean(name="tasksDir")
 	public String getTasksDir() {
 		return new StringBuilder(environment.getProperty("user.dir"))
@@ -45,6 +57,11 @@ public class DefaultAppConfig {
 			.toString();
 	}
 	
+	/**
+	 * @param tasksDir the directory where groovy tasks are located
+	 * @return the GroovyScriptEngine
+	 * @throws IOException
+	 */
 	@Autowired(required=true)
 	@Bean(name="GroovyScriptEngine")
 	public GroovyScriptEngine getGroovyScriptEngine(@Qualifier(value="tasksDir") String tasksDir) 
@@ -52,11 +69,20 @@ public class DefaultAppConfig {
 		return new GroovyScriptEngine(tasksDir);
 	}
 	
+	/**
+	 * @return the GroovyBindingProvider
+	 */
 	@Bean(name="bindingProvider")
 	public BindingProvider getBindingProvider() {
 		return new GroovyBindingProvider(System.getProperties(), new Binding());
 	}
 	
+	/**
+	 * @param bindingProvider
+	 * @param tasksDir
+	 * @param groovyScriptEngine
+	 * @return the in-memory cache for tasks
+	 */
 	@Autowired(required=true)
 	@Bean(name="groovyTaskCache")
 	public GroovyTaskCache getGroovyTaskCache(BindingProvider bindingProvider, String tasksDir, GroovyScriptEngine groovyScriptEngine) {
@@ -64,6 +90,9 @@ public class DefaultAppConfig {
 		return new GroovyTaskCache(groovyTaskFactory);
 	}
 	
+	/**
+	 * @return the server's fqdn
+	 */
 	@Bean(name="serverHostname")
 	public String getServerHostname() {
 		return environment.getProperty("grobot.server.hostname");

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.metabuild.grobot.domain;
 
 import static org.junit.Assert.*;
@@ -10,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * @author jburbrid
- *
+ * @author jburbridge
+ * @since 10/12/2012
  */
 public class TargetGroupTest {
 
@@ -22,9 +19,7 @@ public class TargetGroupTest {
 		assertEquals("group1", parentGroup.getName());
 
 		TargetGroup childGroup = new TargetGroup("group2");
-		TargetHost host1 = new TargetHost("host1", "localhost", true);
-		childGroup.addTarget(host1);
-		assertEquals(2,childGroup.getTargets().size());
+		assertEquals(1,childGroup.getTargets().size());
 		
 		TargetGroup grandChild = new TargetGroup("group3");
 		assertEquals(1,grandChild.getTargets().size());
@@ -32,7 +27,7 @@ public class TargetGroupTest {
 		childGroup.addTargets(grandChild.getTargets());
 		parentGroup.addTargets(childGroup.getTargets());
 		List<Targetable> targetables = parentGroup.getTargets();
-		assertEquals(4, targetables.size());
+		assertEquals(3, targetables.size());
 	}
 
 }

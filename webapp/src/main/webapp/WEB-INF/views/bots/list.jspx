@@ -27,7 +27,7 @@
                 <c:forEach items="${targets}" var="target">
                     <tr>
                         <td><a class="btn btn-small" href="#"><i class="icon-star"></i></a></td>
-                        <td><a href="${showTargetDetailsUrl}/${target.name}">${target.name}</a></td>
+                        <td><a href="${showTargetDetailsUrl}/${target.id}">${target.name}</a></td>
                         <td>${target.address}</td>
                         <td>${target.lastUpdatedStatus}</td>
                         <td>${target.status}</td>

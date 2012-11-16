@@ -22,8 +22,11 @@ import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
 @Configuration
 @EnableWebMvc
 @ImportResource(value="classpath:activeMqBrokerConfig.xml")
-@Import({DefaultAppConfig.class, ServerJmsConfig.class})
-@ComponentScan(basePackages = "org.metabuild.grobot.webapp.controllers")
+@Import({ 
+	DefaultAppConfig.class, 
+	ServerJmsConfig.class
+})
+@ComponentScan(basePackages = { "org.metabuild.grobot.webapp.controllers" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override

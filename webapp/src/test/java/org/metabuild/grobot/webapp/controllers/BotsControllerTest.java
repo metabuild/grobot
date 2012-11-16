@@ -15,6 +15,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.metabuild.grobot.domain.TargetHost;
 import org.metabuild.grobot.domain.TargetHostCache;
 import org.metabuild.grobot.domain.TargetHostCacheImpl;
+import org.metabuild.grobot.server.dao.TargetHostDaoImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
 import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
@@ -23,7 +24,7 @@ import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
  * @author jburbridge
  *
  */
-public class StatusControllerTest extends AbstractSpringEnabledTest {
+public class BotsControllerTest extends AbstractSpringEnabledTest {
 
 	private final List<TargetHost> targets = new ArrayList<TargetHost>();
 	
@@ -35,14 +36,14 @@ public class StatusControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
-		TargetHostCache targetHostCache = mock(TargetHostCacheImpl.class);
-		when(targetHostCache.getAll()).thenReturn(targets);
+		TargetHostDaoImpl targetHostDao = mock(TargetHostDaoImpl.class);
+		when(targetHostDao.findAll()).thenReturn(targets);
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostCache", targetHostCache);
+		ReflectionTestUtils.setField(controller, "targetHostDao", targetHostDao);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
@@ -60,18 +61,18 @@ public class StatusControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testDetail() {
 		
-		TargetHostCache targetHostCache = mock(TargetHostCacheImpl.class);
-		when(targetHostCache.get(anyString())).thenReturn(targets.get(0));
+		TargetHostDaoImpl targetHostDao = mock(TargetHostDaoImpl.class);
+		when(targetHostDao.find(anyLong())).thenReturn(targets.get(0));
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostCache", targetHostCache);
+		ReflectionTestUtils.setField(controller, "targetHostDao", targetHostDao);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.details("hostname1", uiModel);
+		String result = controller.details(1L, uiModel);
 		
 		assertNotNull(result);
 		assertEquals("bots/details", result);

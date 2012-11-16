@@ -1,8 +1,7 @@
 package org.metabuild.grobot.domain;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -14,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
@@ -24,22 +24,42 @@ import org.metabuild.grobot.mq.StatusResponse;
  * @since 9/27/2012
  */
 @Entity
-@Table(name="TARGET_HOST")
-public class TargetHost implements Targetable {
+@Table(name="TARGET_HOSTS")
+public class TargetHost implements Serializable {
 	
 	private static final long serialVersionUID = 150135564407144746L;
 	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "ID")
 	private Long id;
+	
+	@Column(name = "NAME")
 	private String name;
+	
+	@Column(name = "ADDRESS")
 	private String address;
-	private boolean active;
-	private Properties systemProperties;
-	private Properties otherProperties;
-	private List<Targetable> targets;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "REGISTERED")
 	private Date registered;
+
+	@Transient
+	private boolean active;
+	@Transient
+	private Properties systemProperties;
+	@Transient
+	private Properties otherProperties;
+	@Transient
 	private DateTime lastUpdatedStatus;
+	@Transient
 	private TargetHostStatus status;
 
+	/**
+	 * Default NOOP constructor for Hibernate
+	 */
+	public TargetHost() {}
+	
 	/**
 	 * Default constructor - initializes the object with empty properties
 	 * 
@@ -53,9 +73,7 @@ public class TargetHost implements Targetable {
 		this.active = active;
 		this.systemProperties = new Properties();
 		this.otherProperties = new Properties();
-		this.targets = new ArrayList<Targetable>();
 		this.status = TargetHostStatus.STOPPED;
-		targets.add(this);
 	}
 	
 	/**
@@ -73,28 +91,23 @@ public class TargetHost implements Targetable {
 		this.active = true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.metabuild.grobot.domain.Target#getTargets()
-	 */
-	@Override
-	public List<Targetable> getTargets() {
-		return targets;
-	}
-
 	/**
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
 	public Long getId() {
 		return this.id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	/**
 	 * @return the name
 	 */
-	@Column(name = "NAME")
 	public String getName() {
 		return name;
 	}
@@ -109,7 +122,6 @@ public class TargetHost implements Targetable {
 	/**
 	 * @return the address
 	 */
-	@Column(name = "ADDRESS")
 	public String getAddress() {
 		return address;
 	}
@@ -166,8 +178,6 @@ public class TargetHost implements Targetable {
 	/**
 	 * @return the registered date
 	 */
-	@Temporal(TemporalType.DATE)
-	@Column(name = "REGISTERED")
 	public Date getRegistered() {
 		return registered;
 	}
