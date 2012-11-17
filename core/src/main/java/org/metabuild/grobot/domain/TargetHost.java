@@ -3,8 +3,7 @@ package org.metabuild.grobot.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Properties;
-
-import static javax.persistence.GenerationType.IDENTITY;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
 
 import org.metabuild.grobot.mq.StatusResponse;
@@ -30,9 +30,10 @@ public class TargetHost implements Serializable {
 	private static final long serialVersionUID = 150135564407144746L;
 	
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	@Column(name = "ID")
-	private Long id;
+	private String id;
 	
 	@Column(name = "NAME")
 	private String name;
@@ -68,6 +69,7 @@ public class TargetHost implements Serializable {
 	 * @param active - is the host available for targeting
 	 */
 	public TargetHost(String name, String address, boolean active) {
+		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.address = address;
 		this.active = active;
@@ -94,14 +96,14 @@ public class TargetHost implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

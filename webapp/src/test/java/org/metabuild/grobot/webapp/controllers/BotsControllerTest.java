@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,11 +14,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
 import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetHostCacheImpl;
-import org.metabuild.grobot.server.dao.TargetHostDaoImpl;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
 import org.metabuild.grobot.server.mq.StatusRequestProducerImpl;
+import org.metabuild.grobot.server.service.TargetHostService;
+import org.metabuild.grobot.server.service.TargetHostServiceImpl;
 import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 
 /**
@@ -36,14 +36,14 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
-		TargetHostDaoImpl targetHostDao = mock(TargetHostDaoImpl.class);
-		when(targetHostDao.findAll()).thenReturn(targets);
+		TargetHostService targetHostService = mock(TargetHostServiceImpl.class);
+		when(targetHostService.findAll()).thenReturn(targets);
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostDao", targetHostDao);
+		ReflectionTestUtils.setField(controller, "targetHostService", targetHostService);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
@@ -61,18 +61,18 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testDetail() {
 		
-		TargetHostDaoImpl targetHostDao = mock(TargetHostDaoImpl.class);
-		when(targetHostDao.find(anyLong())).thenReturn(targets.get(0));
+		TargetHostService targetHostService = mock(TargetHostServiceImpl.class);
+		when(targetHostService.find(anyString())).thenReturn(targets.get(0));
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostDao", targetHostDao);
+		ReflectionTestUtils.setField(controller, "targetHostService", targetHostService);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.details(1L, uiModel);
+		String result = controller.details(UUID.randomUUID().toString(), uiModel);
 		
 		assertNotNull(result);
 		assertEquals("bots/details", result);

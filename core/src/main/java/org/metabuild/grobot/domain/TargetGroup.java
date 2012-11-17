@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class TargetGroup implements Targetable {
 
+	private static final long serialVersionUID = -8111761490319291460L;
+	
 	private String name;
 	private List<Targetable> targets;
 	private TargetGroup parent;

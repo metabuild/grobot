@@ -43,6 +43,7 @@ repositories {
 	maven {
 		name 'mavenCentral'
 		url 'http://repo1.maven.org/maven2'
+		// workaround due to licensing issues with javax packages
 		artifactUrls 'http://repository.jboss.org/nexus/content/groups/public'
 	}	
 	if (project.hasProperty('environment') && environment == 'build') {

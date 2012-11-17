@@ -3,12 +3,9 @@ package org.metabuild.grobot.server.config;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 
-import org.hibernate.SessionFactory;
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
@@ -23,8 +20,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 /**
  * Common spring application configuration

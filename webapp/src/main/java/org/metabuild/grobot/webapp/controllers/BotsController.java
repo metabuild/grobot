@@ -1,12 +1,13 @@
 package org.metabuild.grobot.webapp.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.jms.JMSException;
 
 import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.server.dao.TargetHostDao;
 import org.metabuild.grobot.server.mq.StatusRequestProducer;
+import org.metabuild.grobot.server.service.TargetHostService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class BotsController extends AbstractBaseController {
 	private static final String BOTS_DETAILS_VIEW = "bots/details";
 
 	@Autowired
-	private TargetHostDao targetHostDao;
+	private TargetHostService targetHostService;
 
 	@Autowired
 	private StatusRequestProducer producer;
@@ -43,7 +44,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		final List<TargetHost> targets = targetHostDao.findAll();
+		final List<TargetHost> targets = targetHostService.findAll();
 		uiModel.addAttribute("targets", targets);
 		addSelectedMenuItem(uiModel);
 		
@@ -59,9 +60,9 @@ public class BotsController extends AbstractBaseController {
 	 * Display the details of a target
 	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String details(@PathVariable("id") Long id, Model uiModel) {
+	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		final TargetHost target = targetHostDao.find(id);
+		final TargetHost target = targetHostService.find(id);
 		uiModel.addAttribute("target", target);
 		addSelectedMenuItem(uiModel);
 		
