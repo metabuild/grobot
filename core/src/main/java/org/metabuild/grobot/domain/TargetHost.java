@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +27,10 @@ import org.metabuild.grobot.mq.StatusResponse;
  */
 @Entity
 @Table(name="TARGET_HOSTS")
+@NamedQueries({
+	@NamedQuery(name="TargetHost.findAll", query="select th from TargetHost th"),
+	@NamedQuery(name="TargetHost.findById", query="select th from TargetHost th where th.id = :id")
+})
 public class TargetHost implements Serializable {
 	
 	private static final long serialVersionUID = 150135564407144746L;
@@ -50,7 +56,7 @@ public class TargetHost implements Serializable {
 	@Transient
 	private Properties systemProperties;
 	@Transient
-	private Properties otherProperties;
+	private Properties customProperties;
 	@Transient
 	private DateTime lastUpdatedStatus;
 	@Transient
@@ -74,7 +80,7 @@ public class TargetHost implements Serializable {
 		this.address = address;
 		this.active = active;
 		this.systemProperties = new Properties();
-		this.otherProperties = new Properties();
+		this.customProperties = new Properties();
 		this.status = TargetHostStatus.STOPPED;
 	}
 	
@@ -87,7 +93,7 @@ public class TargetHost implements Serializable {
 		this.name = statusResponse.getHostname();
 		this.address = statusResponse.getHostname();
 		this.systemProperties = statusResponse.getSystemProperties();
-		this.otherProperties = statusResponse.getOtherProperties();
+		this.customProperties = statusResponse.getOtherProperties();
 		this.lastUpdatedStatus = new DateTime(statusResponse.getTimeStamp());
 		this.status = TargetHostStatus.IDLE;
 		this.active = true;
@@ -166,15 +172,15 @@ public class TargetHost implements Serializable {
 	/**
 	 * @return the otherProperties
 	 */
-	public Properties getOtherProperties() {
-		return otherProperties;
+	public Properties getCustomProperties() {
+		return customProperties;
 	}
 
 	/**
-	 * @param otherProperties the otherProperties to set
+	 * @param customProperties the customProperties to set
 	 */
-	public void setOtherProperties(Properties otherProperties) {
-		this.otherProperties = otherProperties;
+	public void setCustomProperties(Properties customProperties) {
+		this.customProperties = customProperties;
 	}
 
 	/**

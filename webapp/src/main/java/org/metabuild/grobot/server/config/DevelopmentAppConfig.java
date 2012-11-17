@@ -44,7 +44,7 @@ public class DevelopmentAppConfig {
 			.setType(EmbeddedDatabaseType.H2)
 			.addScript("classpath:schema.sql")
 			.addScript("classpath:test-data.sql")
-			.setName("testdb")
+			.setName("grobot")
 			.build();
 	}
 }

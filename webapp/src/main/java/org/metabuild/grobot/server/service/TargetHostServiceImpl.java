@@ -21,8 +21,7 @@ public class TargetHostServiceImpl implements TargetHostService {
 	@Override
 	@Transactional(readOnly=true)
 	public List<TargetHost> findAll() {
-		return entityManager.createQuery("from " + TargetHost.class.getName())
-				.getResultList();
+		return entityManager.createNamedQuery("TargetHost.findAll", TargetHost.class).getResultList();
 	}
 
 	@Override
@@ -33,7 +32,9 @@ public class TargetHostServiceImpl implements TargetHostService {
 
 	@Override
 	public TargetHost find(String id) {
-		return null;
+		return entityManager.createNamedQuery("TargetHost.findById", TargetHost.class)
+				.setParameter("id", id)
+				.getSingleResult();
 	}
 
 	@Override

@@ -69,7 +69,7 @@
             <tr>
                 <td>Custom Properties</td>
                 <td><div id="toggleCustomProperties"><a href="#customProperties" data-toggle="collapse">View Custom Properties</a></div>
-                    <div id="customProperties" class="collapse">${target.otherProperties}</div>
+                    <div id="customProperties" class="collapse">${target.customProperties}</div>
                 </td>
             </tr>
         </tbody>

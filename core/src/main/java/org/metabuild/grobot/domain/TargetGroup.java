@@ -4,17 +4,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author jburbrid
  * @since 9/27/2012
  */
+@Entity
+@Table(name="TARGET_GROUPS")
 public class TargetGroup implements Targetable {
 
 	private static final long serialVersionUID = -8111761490319291460L;
-	
+
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@Column(name = "ID")
+	private String id;
+
+	@Column(name = "NAME")
 	private String name;
+	
+	@Transient
 	private List<Targetable> targets;
+	@Transient
 	private TargetGroup parent;
+	@Transient
 	private boolean active;
 
 	/**

@@ -5,4 +5,8 @@ insert into TARGET_HOSTS (ID, NAME, ADDRESS) values
     ('a56fde5f-0033-4050-8964-2b8d7470ee28','fake-host3', 'fake-host3.dummy.domain'),
     ('952ed06c-0283-4866-b8e6-d16ca6f57312','fake-host4', 'fake-host4.dummy.domain');
 
+insert into TARGET_GROUPS (ID, NAME) values 
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55','fake-group1',),
+    ('1848d4b8-93b9-4970-be41-b366517af44b','fake-group2',);
+
 select * from TARGET_HOSTS;

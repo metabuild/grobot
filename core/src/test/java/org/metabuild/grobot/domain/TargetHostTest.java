@@ -34,7 +34,7 @@ public class TargetHostTest {
 		TargetHost targetHost = new TargetHost(statusResponse);
 		assertEquals(statusResponse.getHostname(),targetHost.getName());
 		assertEquals(statusResponse.getSystemProperties(),targetHost.getSystemProperties());
-		assertEquals(statusResponse.getOtherProperties(),targetHost.getOtherProperties());
+		assertEquals(statusResponse.getOtherProperties(),targetHost.getCustomProperties());
 		assertTrue(targetHost.isActive());
 	}
 
