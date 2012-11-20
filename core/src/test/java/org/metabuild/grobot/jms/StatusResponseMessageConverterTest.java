@@ -15,6 +15,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.jms.StatusResponse;
+import org.metabuild.grobot.common.jms.StatusResponseMessageConverter;
 import org.springframework.jms.support.converter.MessageConversionException;
 
 /**
@@ -24,7 +26,7 @@ import org.springframework.jms.support.converter.MessageConversionException;
 public class StatusResponseMessageConverterTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.jms.StatusResponseMessageConverter#toMessage(java.lang.Object, javax.jms.Session)}.
+	 * Test method for {@link org.metabuild.grobot.common.jms.StatusResponseMessageConverter#toMessage(java.lang.Object, javax.jms.Session)}.
 	 * @throws JMSException 
 	 * @throws MessageConversionException 
 	 */
@@ -40,7 +42,7 @@ public class StatusResponseMessageConverterTest {
 	} 
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.jms.StatusResponseMessageConverter#fromMessage(javax.jms.Message)}.
+	 * Test method for {@link org.metabuild.grobot.common.jms.StatusResponseMessageConverter#fromMessage(javax.jms.Message)}.
 	 * @throws JMSException 
 	 * @throws MessageConversionException 
 	 */

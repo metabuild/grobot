@@ -1,4 +1,4 @@
-package org.metabuild.grobot.jms;
+package org.metabuild.grobot.common.jms;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

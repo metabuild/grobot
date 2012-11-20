@@ -5,9 +5,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 
 import org.joda.time.DateTime;
-import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.jms.StatusResponse;
-import org.metabuild.grobot.jms.StatusResponseMessageConverter;
+import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.jms.StatusResponse;
+import org.metabuild.grobot.common.jms.StatusResponseMessageConverter;
 import org.metabuild.grobot.server.service.TargetHostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

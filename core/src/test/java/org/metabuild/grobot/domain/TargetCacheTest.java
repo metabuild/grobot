@@ -6,6 +6,8 @@ package org.metabuild.grobot.domain;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHostCacheImpl;
 
 /**
  * @author jburbridge
@@ -14,7 +16,7 @@ import org.junit.Test;
 public class TargetCacheTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHostCacheImpl#TargetCache()}.
+	 * Test method for {@link org.metabuild.grobot.common.domain.TargetHostCacheImpl#TargetCache()}.
 	 */
 	@Test
 	public void testTargetCache() {

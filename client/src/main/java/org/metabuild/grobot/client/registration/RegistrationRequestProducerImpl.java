@@ -7,7 +7,7 @@ import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.metabuild.grobot.jms.RegistrationDetails;
+import org.metabuild.grobot.common.jms.RegistrationDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.MessageCreator;

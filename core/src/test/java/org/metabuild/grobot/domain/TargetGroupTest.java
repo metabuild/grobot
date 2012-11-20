@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.domain.TargetGroup;
+import org.metabuild.grobot.common.domain.Targetable;
 
 /**
  * @author jburbridge

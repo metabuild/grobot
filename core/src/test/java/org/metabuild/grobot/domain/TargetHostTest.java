@@ -8,7 +8,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.metabuild.grobot.jms.StatusResponse;
+import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.jms.StatusResponse;
 
 /**
  * @author jburbridge
@@ -17,7 +18,7 @@ import org.metabuild.grobot.jms.StatusResponse;
 public class TargetHostTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(java.lang.String, java.lang.String, boolean)}.
+	 * Test method for {@link org.metabuild.grobot.common.domain.TargetHost#TargetHost(java.lang.String, java.lang.String, boolean)}.
 	 */
 	@Test
 	public void testTargetHostStringStringBoolean() {
@@ -28,7 +29,7 @@ public class TargetHostTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(org.metabuild.grobot.jms.StatusResponse)}.
+	 * Test method for {@link org.metabuild.grobot.common.domain.TargetHost#TargetHost(org.metabuild.grobot.common.jms.StatusResponse)}.
 	 */
 	@Test
 	public void testTargetHostStatusResponse() {
@@ -41,7 +42,7 @@ public class TargetHostTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#isActive()}.
+	 * Test method for {@link org.metabuild.grobot.common.domain.TargetHost#isActive()}.
 	 */
 	@Test
 	public void testIsActive() {

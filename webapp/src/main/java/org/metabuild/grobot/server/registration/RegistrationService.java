@@ -5,7 +5,7 @@ import java.util.List;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 
 /**
  * Manages the registration of target hosts

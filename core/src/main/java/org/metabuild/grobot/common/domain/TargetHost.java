@@ -1,4 +1,4 @@
-package org.metabuild.grobot.domain;
+package org.metabuild.grobot.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
-import org.metabuild.grobot.jms.StatusResponse;
+import org.metabuild.grobot.common.jms.StatusResponse;
 
 /**
  * @author jburbridge

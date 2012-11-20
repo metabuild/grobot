@@ -1,10 +1,10 @@
-package org.metabuild.grobot.jms;
+package org.metabuild.grobot.common.jms;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Properties;
 
-import org.metabuild.grobot.domain.TargetHostStatus;
+import org.metabuild.grobot.common.domain.TargetHostStatus;
 
 /**
  * A response to a status update request from the Grobot server, containing system details about the target host

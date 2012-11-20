@@ -8,7 +8,7 @@ import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 
 import org.junit.Test;
-import org.metabuild.grobot.jms.StatusResponse;
+import org.metabuild.grobot.common.jms.StatusResponse;
 import org.metabuild.grobot.server.mq.FakeTargetHostServiceImpl;
 
 /**

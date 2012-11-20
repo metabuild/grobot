@@ -1,4 +1,4 @@
-package org.metabuild.grobot.config;
+package org.metabuild.grobot.common.config;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -6,7 +6,7 @@ import javax.jms.Destination;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.metabuild.grobot.jms.StatusResponseMessageConverter;
+import org.metabuild.grobot.common.jms.StatusResponseMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

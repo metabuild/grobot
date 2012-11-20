@@ -5,11 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author jburbridge
+ * @since 11/20/2012
+ */
 @Service("targetHostService")
 @Repository
 @Transactional

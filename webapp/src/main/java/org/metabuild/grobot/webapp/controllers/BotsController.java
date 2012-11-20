@@ -2,8 +2,8 @@ package org.metabuild.grobot.webapp.controllers;
 
 import java.util.List;
 
-import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.domain.TargetHostStatus;
+import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHostStatus;
 import org.metabuild.grobot.server.service.TargetHostService;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestService;

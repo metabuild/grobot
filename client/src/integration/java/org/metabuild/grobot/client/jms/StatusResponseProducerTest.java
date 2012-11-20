@@ -1,9 +1,10 @@
-package org.metabuild.grobot.client.mq;
+package org.metabuild.grobot.client.jms;
 
 import javax.jms.JMSException;
 
 import org.junit.Test;
 import org.metabuild.grobot.client.config.ClientJmsConfig;
+import org.metabuild.grobot.client.jms.StatusResponseProducerTest;
 import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

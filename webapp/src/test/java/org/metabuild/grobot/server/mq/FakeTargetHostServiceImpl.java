@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.server.service.TargetHostService;
 
 /**

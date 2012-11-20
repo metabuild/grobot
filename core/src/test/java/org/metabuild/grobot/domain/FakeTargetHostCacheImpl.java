@@ -3,6 +3,9 @@ package org.metabuild.grobot.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHostCacheImpl;
+
 /**
  * Bootstraps a map of fake/dead targets for testing purposes
  * 

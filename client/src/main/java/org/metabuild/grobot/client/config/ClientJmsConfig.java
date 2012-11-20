@@ -11,7 +11,7 @@ import org.metabuild.grobot.client.registration.RegistrationRequestProducerImpl;
 import org.metabuild.grobot.client.status.StatusRequestListener;
 import org.metabuild.grobot.client.status.StatusResponseProducer;
 import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
-import org.metabuild.grobot.config.SharedJmsConfig;
+import org.metabuild.grobot.common.config.SharedJmsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

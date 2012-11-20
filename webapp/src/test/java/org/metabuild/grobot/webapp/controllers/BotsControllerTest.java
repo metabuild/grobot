@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.server.service.TargetHostService;
 import org.metabuild.grobot.server.service.TargetHostServiceImpl;
 import org.metabuild.grobot.server.status.StatusRequestProducer;

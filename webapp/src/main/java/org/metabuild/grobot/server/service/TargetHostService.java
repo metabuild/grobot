@@ -2,7 +2,7 @@ package org.metabuild.grobot.server.service;
 
 import java.util.List;
 
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 
 /**
  * @author jburbridge

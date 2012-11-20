@@ -1,4 +1,4 @@
-package org.metabuild.grobot.domain;
+package org.metabuild.grobot.common.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;

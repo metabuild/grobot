@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
-import org.metabuild.grobot.config.SharedJmsConfig;
+import org.metabuild.grobot.common.config.SharedJmsConfig;
 import org.metabuild.grobot.server.registration.RegistrationRequestListener;
 import org.metabuild.grobot.server.registration.RegistrationResponseProducer;
 import org.metabuild.grobot.server.registration.RegistrationResponseProducerImpl;

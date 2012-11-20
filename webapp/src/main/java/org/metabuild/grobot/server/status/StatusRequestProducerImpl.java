@@ -6,7 +6,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
-import org.metabuild.grobot.jms.StatusMessageType;
+import org.metabuild.grobot.common.jms.StatusMessageType;
 import org.metabuild.net.HostnameResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

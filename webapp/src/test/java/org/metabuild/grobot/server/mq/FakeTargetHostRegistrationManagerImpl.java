@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import org.metabuild.grobot.domain.TargetHost;
+import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.server.registration.RegistrationService;
 
 public class FakeTargetHostRegistrationManagerImpl implements

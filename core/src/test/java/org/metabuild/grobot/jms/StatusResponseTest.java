@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.Properties;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.jms.StatusResponse;
 
 public class StatusResponseTest {
 

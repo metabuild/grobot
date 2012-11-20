@@ -6,6 +6,7 @@ package org.metabuild.grobot.jms;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.jms.RegistrationDetails;
 
 /**
  * @author jburbridge
@@ -14,7 +15,7 @@ import org.junit.Test;
 public class RegistrationMessageDetailsTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.jms.RegistrationDetails#RegistrationMessageDetails(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.metabuild.grobot.common.jms.RegistrationDetails#RegistrationMessageDetails(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testRegistrationMessageDetails() {

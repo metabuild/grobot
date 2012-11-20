@@ -4,8 +4,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.domain.TargetHostCacheImpl;
+import org.metabuild.grobot.common.domain.TargetHostCache;
+import org.metabuild.grobot.common.domain.TargetHostCacheImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
