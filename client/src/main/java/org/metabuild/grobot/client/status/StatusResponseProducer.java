@@ -1,4 +1,4 @@
-package org.metabuild.grobot.client.mq;
+package org.metabuild.grobot.client.status;
 
 import javax.jms.JMSException;
 

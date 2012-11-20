@@ -5,7 +5,7 @@ import java.util.List;
 import org.metabuild.grobot.domain.TargetHost;
 
 /**
- * @author jburbrid
+ * @author jburbridge
  * @since 11/16/2012
  */
 public interface TargetHostService {
@@ -19,5 +19,7 @@ public interface TargetHostService {
 	public TargetHost save(TargetHost targetHost);
 	
 	public void delete(TargetHost targetHost);
+
+	public TargetHost findByName(String hostname);
 
 }

@@ -1,14 +1,14 @@
 package org.metabuild.grobot.tasks.groovy;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import groovy.lang.Binding;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.metabuild.grobot.tasks.BindingProvider;

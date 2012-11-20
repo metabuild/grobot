@@ -7,7 +7,8 @@ import javax.jms.JMSException;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.metabuild.grobot.server.config.ServerJmsConfig;
+import org.metabuild.grobot.server.config.ServerConfig;
+import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -20,7 +21,7 @@ public class StatusRequestSenderTest {
 	@Ignore("This intergration test requires that an mq broker be running")
 	@Test
 	public void test() throws JMSException, InterruptedException {
-		ApplicationContext context = new AnnotationConfigApplicationContext(ServerJmsConfig.class); 
+		ApplicationContext context = new AnnotationConfigApplicationContext(ServerConfig.class); 
 		StatusRequestProducer producer = context.getBean(StatusRequestProducer.class);
 		int x = 0;
 		while (x++ < 10) {

@@ -1,16 +1,15 @@
 package org.metabuild.grobot.server.config;
 
-import java.io.File;
-import java.io.IOException;
-
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
+
+import java.io.File;
+import java.io.IOException;
 
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -34,13 +33,15 @@ import org.springframework.core.env.Environment;
 	ProductionAppConfig.class,
 	HibernateConfig.class
 })
-@ComponentScan(basePackages = { "org.metabuild.grobot.webapp.domain" })
+@ComponentScan(basePackages = { 
+	"org.metabuild.grobot.webapp.domain"
+})
 @PropertySource("classpath:grobot.properties")
 public class DefaultAppConfig {
 
 	@Autowired
 	Environment environment;
-
+	
 	/**
 	 * @return the directory where groovy tasks are saved
 	 */

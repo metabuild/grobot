@@ -1,10 +1,13 @@
 /**
  * 
  */
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.jms;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -21,7 +24,7 @@ import org.springframework.jms.support.converter.MessageConversionException;
 public class StatusResponseMessageConverterTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.mq.StatusResponseMessageConverter#toMessage(java.lang.Object, javax.jms.Session)}.
+	 * Test method for {@link org.metabuild.grobot.jms.StatusResponseMessageConverter#toMessage(java.lang.Object, javax.jms.Session)}.
 	 * @throws JMSException 
 	 * @throws MessageConversionException 
 	 */
@@ -37,7 +40,7 @@ public class StatusResponseMessageConverterTest {
 	} 
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.mq.StatusResponseMessageConverter#fromMessage(javax.jms.Message)}.
+	 * Test method for {@link org.metabuild.grobot.jms.StatusResponseMessageConverter#fromMessage(javax.jms.Message)}.
 	 * @throws JMSException 
 	 * @throws MessageConversionException 
 	 */

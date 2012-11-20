@@ -5,11 +5,13 @@ import java.net.UnknownHostException;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
-import org.metabuild.grobot.client.mq.StatusRequestListener;
-import org.metabuild.grobot.client.mq.StatusResponseProducer;
-import org.metabuild.grobot.client.mq.StatusResponseProducerImpl;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.metabuild.grobot.client.registration.RegistrationRequestProducer;
+import org.metabuild.grobot.client.registration.RegistrationRequestProducerImpl;
+import org.metabuild.grobot.client.status.StatusRequestListener;
+import org.metabuild.grobot.client.status.StatusResponseProducer;
+import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
 import org.metabuild.grobot.config.SharedJmsConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +35,37 @@ public class ClientJmsConfig {
 
 	@Autowired
 	Environment environment;
+	
+	/**
+	 * @return the registration request destination
+	 */
+	public Destination getRegistrationRequestQueueDestination() {
+		final String queueName = environment.getProperty("grobot.registration.request.queue");
+		return new ActiveMQQueue(queueName);
+	}
+	
+	/**
+	 * @param jmsConnectionFactory
+	 * @return the registrationRequestProducer
+	 */
+	@Bean(name="registrationRequestProducer")
+	public RegistrationRequestProducer getRegistrationRequestProducer(
+			@Qualifier(value="jmsConnectionFactory") ConnectionFactory jmsConnectionFactory) {
+		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
+		jmsTemplate.setDefaultDestination(getRegistrationRequestQueueDestination());
+		final RegistrationRequestProducer registrationRequestProducer = new RegistrationRequestProducerImpl();
+		registrationRequestProducer.setJmsTemplate(jmsTemplate);
+		return registrationRequestProducer;
+	}
+	
+	/**
+	 * @return the registration response destination
+	 */
+	@Bean(name="registrationResponseQueueDestination")
+	public Destination getRegistrationResponseQueueDestination() {
+		final String queueName = environment.getProperty("grobot.registration.response.queue");
+		return new ActiveMQQueue(queueName);
+	}
 	
 	@Autowired(required=true)
 	@Qualifier(value="statusResponseProducer")
@@ -68,9 +101,12 @@ public class ClientJmsConfig {
 	@Autowired(required=true)
 	@Bean(name="statusResponseProducer")
 	public StatusResponseProducer getStatusResponseProducer(
-			@Qualifier(value="statusQueueJmsTemplate") JmsTemplate statusQueueJmsTemplate) throws UnknownHostException {
+			@Qualifier(value="statusQueueDestination") Destination statusQueueDestination,
+			@Qualifier(value="jmsConnectionFactory") ConnectionFactory jmsConnectionFactory) throws UnknownHostException {
+		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
+		jmsTemplate.setDefaultDestination(statusQueueDestination);
 		StatusResponseProducer producer = new StatusResponseProducerImpl(environment.getProperty("hostname"));
-		producer.setJmsTemplate(statusQueueJmsTemplate);
+		producer.setJmsTemplate(jmsTemplate);
 		return producer;
 	}
 }

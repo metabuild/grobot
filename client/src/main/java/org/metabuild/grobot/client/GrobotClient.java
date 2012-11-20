@@ -2,13 +2,10 @@ package org.metabuild.grobot.client;
 
 import javax.jms.JMSException;
 
-import org.metabuild.grobot.client.config.ClientJmsConfig;
-import org.metabuild.grobot.client.mq.StatusRequestListener;
-import org.metabuild.grobot.client.mq.StatusResponseProducer;
+import org.metabuild.grobot.client.registration.RegistrationRequestProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * @author jburbridge
@@ -17,21 +14,20 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class GrobotClient implements Runnable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GrobotClient.class);
-	private final String clientName;
 	private final ApplicationContext context;
+	private final String clientName;
 	
-	public GrobotClient(String name) {
-		clientName = name;
-		context = new AnnotationConfigApplicationContext(ClientJmsConfig.class);
+	/**
+	 * @param name
+	 * @param context 
+	 */
+	public GrobotClient(String name, ApplicationContext context) {
+		this.clientName = name;
+		this.context = context;
 	}
 
 	@Override
 	public void run() {
-		try {
-			start(); 
-		} catch (JMSException e) {
-			LOGGER.error("Failed to start Grobot due to a JMSException", e);
-		} 
 		try {
 			register();
 		} catch (Exception e) {
@@ -40,15 +36,20 @@ public class GrobotClient implements Runnable {
 	}
 	
 	/**
-	 * Initializes the status request listener
+	 * Send a registration request to the grobot server
 	 * 
 	 * @throws JMSException
 	 */
-	public void start() throws JMSException {
+	public void register() throws JMSException {
 		LOGGER.info("Starting GrobotClient {}...", clientName);
+		RegistrationRequestProducer registrationRequestProducer = (RegistrationRequestProducer) context.getBean("registrationRequestProducer");
+		registrationRequestProducer.sendRegistrationRequest();
+	}
+	
+	public void startStatusRequestListener() {
 		// register the listener
-		StatusRequestListener listener = (StatusRequestListener) context.getBean("statusRequestListner");
-		LOGGER.info("Started listener {} for {}...", listener.getClass().getName(), clientName);
+//		StatusRequestListener listener = (StatusRequestListener) context.getBean("statusRequestListner");
+//		LOGGER.info("Started listener {} for {}...", listener.getClass().getName(), clientName);
 	}
 	
 	/**
@@ -56,10 +57,10 @@ public class GrobotClient implements Runnable {
 	 * 
 	 * @throws JMSException
 	 */
-	public void register() throws JMSException {
-		LOGGER.info("Registering GrobotClient {}...", clientName);
-		// announce to the server that we're alive
-		StatusResponseProducer responseProducer = (StatusResponseProducer) context.getBean("statusResponseProducer");
-		responseProducer.sendStatusResponse();
-	}
+//	public void register() throws JMSException {
+//		LOGGER.info("Registering GrobotClient {}...", clientName);
+//		// announce to the server that we're alive and need a handshake
+//		StatusResponseProducer responseProducer = (StatusResponseProducer) context.getBean("statusResponseProducer");
+//		responseProducer.sendStatusResponse();
+//	}
 }

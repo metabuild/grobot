@@ -3,10 +3,12 @@
  */
 package org.metabuild.grobot.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.metabuild.grobot.mq.StatusResponse;
+import org.metabuild.grobot.jms.StatusResponse;
 
 /**
  * @author jburbridge
@@ -26,7 +28,7 @@ public class TargetHostTest {
 	}
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(org.metabuild.grobot.mq.StatusResponse)}.
+	 * Test method for {@link org.metabuild.grobot.domain.TargetHost#TargetHost(org.metabuild.grobot.jms.StatusResponse)}.
 	 */
 	@Test
 	public void testTargetHostStatusResponse() {

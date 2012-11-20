@@ -1,4 +1,4 @@
-package org.metabuild.grobot.client.mq;
+package org.metabuild.grobot.client.status;
 
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -8,8 +8,8 @@ import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.metabuild.grobot.mq.StatusMessageType;
-import org.metabuild.grobot.mq.StatusResponse;
+import org.metabuild.grobot.jms.StatusMessageType;
+import org.metabuild.grobot.jms.StatusResponse;
 import org.metabuild.net.HostnameResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

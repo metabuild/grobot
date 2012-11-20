@@ -1,21 +1,17 @@
 package org.metabuild.grobot.webapp.controllers;
 
 import java.util.List;
-import java.util.UUID;
-
-import javax.jms.JMSException;
 
 import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.server.mq.StatusRequestProducer;
+import org.metabuild.grobot.domain.TargetHostStatus;
 import org.metabuild.grobot.server.service.TargetHostService;
-
+import org.metabuild.grobot.server.status.StatusRequestProducer;
+import org.metabuild.grobot.server.status.StatusRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,14 +41,19 @@ public class BotsController extends AbstractBaseController {
 	public String list(Model uiModel) {
 		
 		final List<TargetHost> targets = targetHostService.findAll();
+		final long lastStatusRequest = StatusRequestService.getLastRunTimestamp();
+		
+		for (TargetHost target : targets) {
+			if (target.getLastUpdatedStatus() == null || 
+					lastStatusRequest > target.getLastUpdatedStatus().getMillis() + 30000) {
+				LOGGER.debug("No activity for {} in the last 30 seconds", target);
+				target.setStatus(TargetHostStatus.STOPPED);
+			}
+		}
+		
 		uiModel.addAttribute("targets", targets);
 		addSelectedMenuItem(uiModel);
 		
-		try {
-			producer.sendStatusRequest();
-		} catch (JMSException e) {
-			LOGGER.error("JMS Exception caught while attempting to send a status update request", e);
-		}
 		return BOTS_LIST_VIEW;
 	}
 	

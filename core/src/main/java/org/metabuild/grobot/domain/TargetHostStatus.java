@@ -11,7 +11,8 @@ public enum TargetHostStatus implements Serializable {
 	STOPPED("Stopped"), 
 	IDLE("Idle"), 
 	WORKING("Working"), 
-	TIMEOUT("Timeout");
+	TIMEOUT("Timeout"), 
+	INITIALIZING("Initializing");
 
 	private String status;
 	

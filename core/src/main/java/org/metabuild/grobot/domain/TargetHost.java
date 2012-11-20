@@ -18,8 +18,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
-
-import org.metabuild.grobot.mq.StatusResponse;
+import org.metabuild.grobot.jms.StatusResponse;
 
 /**
  * @author jburbridge
@@ -29,7 +28,8 @@ import org.metabuild.grobot.mq.StatusResponse;
 @Table(name="TARGET_HOSTS")
 @NamedQueries({
 	@NamedQuery(name="TargetHost.findAll", query="select th from TargetHost th"),
-	@NamedQuery(name="TargetHost.findById", query="select th from TargetHost th where th.id = :id")
+	@NamedQuery(name="TargetHost.findById", query="select th from TargetHost th where th.id = :id"),
+	@NamedQuery(name="TargetHost.findByName", query="select th from TargetHost th where th.name = :hostname")
 })
 public class TargetHost implements Serializable {
 	
@@ -81,7 +81,7 @@ public class TargetHost implements Serializable {
 		this.active = active;
 		this.systemProperties = new Properties();
 		this.customProperties = new Properties();
-		this.status = TargetHostStatus.STOPPED;
+		this.status = TargetHostStatus.INITIALIZING;
 	}
 	
 	/**

@@ -1,6 +1,8 @@
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.jms;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,7 +17,7 @@ import org.junit.Test;
 public class StatusResponseTest {
 
 	@Test
-	public void testNullParams() {
+	public void testNonNullParams() {
 		StatusResponse statusResponse = new StatusResponse("foo.bar.baz", System.getProperties(), new Properties());
 		assertEquals("foo.bar.baz", statusResponse.getHostname());
 		assertFalse(statusResponse.getSystemProperties().isEmpty());

@@ -15,13 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TargetHostServiceImpl implements TargetHostService {
 
+	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Override
 	@Transactional(readOnly=true)
 	public List<TargetHost> findAll() {
-		return entityManager.createNamedQuery("TargetHost.findAll", TargetHost.class).getResultList();
+		final List<TargetHost> targetHosts = entityManager.createNamedQuery("TargetHost.findAll", TargetHost.class)
+				.getResultList();
+		return targetHosts;
 	}
 
 	@Override
@@ -34,6 +37,13 @@ public class TargetHostServiceImpl implements TargetHostService {
 	public TargetHost find(String id) {
 		return entityManager.createNamedQuery("TargetHost.findById", TargetHost.class)
 				.setParameter("id", id)
+				.getSingleResult();
+	}
+	
+	@Override
+	public TargetHost findByName(String hostname) {
+		return entityManager.createNamedQuery("TargetHost.findByName", TargetHost.class)
+				.setParameter("hostname", hostname)
 				.getSingleResult();
 	}
 

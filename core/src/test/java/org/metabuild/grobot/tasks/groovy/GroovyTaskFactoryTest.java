@@ -1,5 +1,9 @@
 package org.metabuild.grobot.tasks.groovy;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
 
@@ -9,13 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.*;
-
 import org.junit.Test;
 import org.metabuild.grobot.tasks.BindingProvider;
 import org.metabuild.grobot.tasks.Task;
-import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
-import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
 
 /**
  * @author jburbridge

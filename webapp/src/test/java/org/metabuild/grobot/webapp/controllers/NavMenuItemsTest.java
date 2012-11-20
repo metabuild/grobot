@@ -1,6 +1,6 @@
 package org.metabuild.grobot.webapp.controllers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 

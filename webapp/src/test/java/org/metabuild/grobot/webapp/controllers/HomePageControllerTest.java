@@ -3,7 +3,8 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;

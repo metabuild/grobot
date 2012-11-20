@@ -4,6 +4,7 @@ import javax.jms.JMSException;
 
 import org.junit.Test;
 import org.metabuild.grobot.client.config.ClientJmsConfig;
+import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +19,7 @@ public class StatusResponseProducerTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseProducerTest.class);
 	
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.StatusResponseProducerImpl#sendStatusResponse()}.
+	 * Test method for {@link org.metabuild.grobot.client.status.StatusResponseProducerImpl#sendStatusResponse()}.
 	 * @throws JMSException 
 	 */
 	@Test

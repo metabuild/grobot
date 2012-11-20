@@ -9,6 +9,7 @@ public enum NavMenuItems {
 	BOTS("bots"),
 	TASKS("tasks"),
 	CONFIG("config"),
+	QUEUE("queue"),
 	HELP("help");
 
 	private String path;

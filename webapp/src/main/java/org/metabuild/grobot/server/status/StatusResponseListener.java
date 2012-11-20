@@ -1,4 +1,4 @@
-package org.metabuild.grobot.server.mq;
+package org.metabuild.grobot.server.status;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -6,14 +6,14 @@ import javax.jms.MessageListener;
 
 import org.joda.time.DateTime;
 import org.metabuild.grobot.domain.TargetHost;
-import org.metabuild.grobot.domain.TargetHostCache;
-import org.metabuild.grobot.mq.StatusResponse;
-import org.metabuild.grobot.mq.StatusResponseMessageConverter;
+import org.metabuild.grobot.jms.StatusResponse;
+import org.metabuild.grobot.jms.StatusResponseMessageConverter;
+import org.metabuild.grobot.server.service.TargetHostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.jms.support.converter.MessageConversionException;
+import org.springframework.stereotype.Component;
+
 
 /**
  * @author jburbridge
@@ -24,32 +24,21 @@ public class StatusResponseListener implements MessageListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseListener.class);
 	
-	@Autowired
-	private TargetHostCache targetHostCache;
-	
+	private final TargetHostService targetHostService;
 	private final StatusResponseMessageConverter messageConverter;
-	
-	public StatusResponseListener() {
-		this.messageConverter = new StatusResponseMessageConverter();
-		LOGGER.info("Initializing {}...", StatusResponseListener.class.getName());
-	}
+
 	
 	/**
 	 * Constructor with DI for unit testing
-	 * @param targetHostCache
+	 * @param targetHostService
+	 * @param targetHostRegistrationManager
 	 */
-	public StatusResponseListener(TargetHostCache targetHostCache) {
-		this();
-		this.targetHostCache = targetHostCache;
+	public StatusResponseListener(TargetHostService targetHostService) {
+		LOGGER.info("Initializing {}...", this.getClass().getName());
+		this.messageConverter = new StatusResponseMessageConverter();
+		this.targetHostService = targetHostService;
 	}
 	
-	/**
-	 * @return the targetCache
-	 */
-	protected TargetHostCache getTargetCache() {
-		return targetHostCache;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
@@ -60,18 +49,25 @@ public class StatusResponseListener implements MessageListener {
 			final StatusResponse statusResponse = (StatusResponse) messageConverter.fromMessage(message);
 			final String hostname = statusResponse.getHostname();
 			LOGGER.info("Received \"{}\" from {}", statusResponse, hostname);
-			
-			if (hostname != null && targetHostCache.get(hostname) == null) {
-				LOGGER.info("Adding {} to targetCache", hostname);
-				targetHostCache.put(hostname, new TargetHost(statusResponse));
-			} else if (hostname != null ) {
-				targetHostCache.get(hostname).setLastUpdatedStatus(new DateTime(statusResponse.getTimeStamp()));
+			if (hostname != null) {
+				TargetHost targetHost = targetHostService.findByName(hostname);
+				if (targetHost != null) {
+					targetHostService.findByName(hostname).setLastUpdatedStatus(new DateTime(statusResponse.getTimeStamp()));
+				} else {
+					LOGGER.warn("Unregistered target host {} is listening on status topic!", hostname);
+				}
 			}
-			
 		} catch (MessageConversionException e) {
 			LOGGER.error("Could not convert Message to StatusResponse", e);
 		} catch (JMSException e) {
 			LOGGER.error("Error receiving StatusResponse message", e);
 		}
+	}
+	
+	/**
+	 * @return the targetHostService
+	 */
+	protected TargetHostService getTargetHostService() {
+		return targetHostService;
 	}
 }

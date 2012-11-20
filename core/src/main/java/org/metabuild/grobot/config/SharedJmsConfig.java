@@ -6,8 +6,9 @@ import javax.jms.Destination;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.metabuild.grobot.mq.StatusResponseMessageConverter;
+import org.metabuild.grobot.jms.StatusResponseMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -29,6 +30,8 @@ public class SharedJmsConfig {
 	Environment environment;
 	
 	/**
+	 * The common connection factory used by all JmsTemplates
+	 * 
 	 * @return the connection factory
 	 */
 	@Bean(name="jmsConnectionFactory")
@@ -39,6 +42,27 @@ public class SharedJmsConfig {
 		return factory;
 	}
 
+	/**
+	 * @return the defaultJmsTemplate
+	 */
+	@Bean(name="registrationRequestJmsTemplate")
+	public JmsTemplate getRegistrationRequestJmsTemplate(
+			@Qualifier(value="jmsConnectionFactory") ConnectionFactory jmsConnectionFactory) {
+		JmsTemplate jmsTemplate = new JmsTemplate();
+		jmsTemplate.setConnectionFactory(jmsConnectionFactory);
+		return jmsTemplate;
+	}
+	
+
+	/**
+	 * @return the status queue
+	 */
+	@Bean(name="registrationRequestQueueDestination")
+	public Destination getRegistrationRequestQueueDestination() {
+		final String queueName = environment.getProperty("grobot.registration.request.queue");
+		return new ActiveMQQueue(queueName);
+	}
+	
 	/**
 	 * @return the response message converter
 	 */

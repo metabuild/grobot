@@ -1,7 +1,9 @@
 package org.metabuild.grobot.webapp.controllers;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,6 @@ import org.junit.Test;
 import org.metabuild.grobot.tasks.groovy.GroovyTask;
 import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
 import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
-
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 

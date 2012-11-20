@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.jms;
 
 /**
  * @author jburbridge

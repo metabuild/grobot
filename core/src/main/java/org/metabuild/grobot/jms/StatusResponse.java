@@ -1,4 +1,4 @@
-package org.metabuild.grobot.mq;
+package org.metabuild.grobot.jms;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,8 +13,8 @@ import org.metabuild.grobot.domain.TargetHostStatus;
  * @since 10/11/2012
  */
 public class StatusResponse implements Serializable {
-
-	private static final long serialVersionUID = 4305522797844648205L;
+	
+	private static final long serialVersionUID = 1217212553440921781L;
 	
 	private final String hostname;
 	private final Properties systemProperties;

@@ -1,10 +1,10 @@
-package org.metabuild.grobot.client.mq;
+package org.metabuild.grobot.client.status;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.TextMessage;
 
+import org.metabuild.grobot.jms.StatusMessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @since 10/12/2012
  */
 @Component
-public class StatusRequestListener  implements MessageListener {
+public class StatusRequestListener implements MessageListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusRequestListener.class);
 
@@ -23,15 +23,15 @@ public class StatusRequestListener  implements MessageListener {
 	private StatusResponseProducer responseProducer;
 	
 	public StatusRequestListener() {
-		LOGGER.info("Initializing {}...", StatusRequestListener.class.getName());
+		LOGGER.info("Initializing {}...", getClass().getName());
 	}
 	
 	@Override
 	public void onMessage(Message message) {
 		try {
-			TextMessage pingRequest = (TextMessage) message;
-			String hostname = pingRequest.getStringProperty("hostname");
-			LOGGER.info("Received ping request \"{}\" from {}", pingRequest.getText(), hostname);
+			String hostname = message.getStringProperty("hostname");
+			String messageType = message.getStringProperty(StatusMessageType.class.getSimpleName());
+			LOGGER.info("Received status request \"{}\" from {}", messageType, hostname);
 			responseProducer.sendStatusResponse();
 		} catch (JMSException e) {
 			LOGGER.error(e.getMessage(), e);

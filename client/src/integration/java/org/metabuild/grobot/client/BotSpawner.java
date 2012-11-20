@@ -1,7 +1,10 @@
 package org.metabuild.grobot.client;
 
+import org.metabuild.grobot.client.config.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Fake bot spawner for testing server locally
@@ -12,6 +15,8 @@ import org.slf4j.LoggerFactory;
 public class BotSpawner {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BotSpawner.class);
+	private static final ApplicationContext context = new AnnotationConfigApplicationContext(ClientConfig.class);
+
 	private static final int NUMBER_OF_BOTS = 20;
 	
 	/**
@@ -28,6 +33,6 @@ public class BotSpawner {
 	
 	private synchronized static void startBotThread(String name) {
 		LOGGER.info("{} spawning new bot {}", BotSpawner.class.getName(), name);
-		new Thread(new GrobotClient(name)).start();
+		new Thread(new GrobotClient(name, context)).start();
 	}
 }

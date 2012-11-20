@@ -5,7 +5,10 @@
 description = 'The client / agent Grobot application (minions)';
  
 apply from: "${rootDir.path}/gradle/groovy.gradle"
- 
+apply plugin: 'application'
+
+mainClassName = 'org.metabuild.grobot.client.GrobotClientRunner'
+
 dependencies {
 	compile project(':core')
 	runtime 'org.slf4j:slf4j-simple:1.7.1'

@@ -1,13 +1,15 @@
 /**
  * 
  */
-package org.metabuild.grobot.client.mq;
+package org.metabuild.grobot.client.status;
 
 import static org.mockito.Mockito.*;
 
 import javax.jms.JMSException;
 
 import org.junit.Test;
+import org.metabuild.grobot.client.status.StatusResponseProducer;
+import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
 import org.metabuild.net.HostnameResolver;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -18,7 +20,7 @@ import org.springframework.jms.core.JmsTemplate;
 public class DefaultStatusResponseProducerTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.client.mq.StatusResponseProducerImpl#sendStatusResponse()}.
+	 * Test method for {@link org.metabuild.grobot.client.status.StatusResponseProducerImpl#sendStatusResponse()}.
 	 * @throws JMSException 
 	 */
 	@Test
