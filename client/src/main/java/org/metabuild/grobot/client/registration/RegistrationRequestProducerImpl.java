@@ -7,7 +7,7 @@ import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.metabuild.grobot.common.jms.RegistrationDetails;
+import org.metabuild.grobot.common.jms.RegistrationData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.MessageCreator;
@@ -28,13 +28,14 @@ public class RegistrationRequestProducerImpl extends JmsGatewaySupport implement
 	 * @see org.metabuild.grobot.client.mq.RegistrationRequestProducer#sendRegistrationRequest()
 	 */
 	@Override
-	public void sendRegistrationRequest() throws JMSException {
+	public void sendRegistrationRequest(final String clientName) throws JMSException {
 		getJmsTemplate().send(new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				ObjectMessage message = session.createObjectMessage(new RegistrationDetails("hostname", "address"));
+				ObjectMessage message = session.createObjectMessage(new RegistrationData(clientName, "address"));
 				message.setStringProperty("client-uuid", UUID.randomUUID().toString());
-				LOGGER.info("Sending registration request to message queue");
+				LOGGER.info("Sending registration request for {} to {}", clientName,
+						getJmsTemplate().getDefaultDestinationName());
 				return message;
 			}
 		});

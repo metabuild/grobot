@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author jburbridge
  * @since 11/18/2012
  */
-public class RegistrationDetails implements Serializable {
+public class RegistrationData implements Serializable {
 
 	private static final long serialVersionUID = -4279141064045328506L;
 	private String id;
@@ -17,7 +17,7 @@ public class RegistrationDetails implements Serializable {
 	 * @param hostname
 	 * @param address
 	 */
-	public RegistrationDetails(String hostname, String address) {
+	public RegistrationData(String hostname, String address) {
 		this.hostname = hostname;
 		this.address = address;
 	}

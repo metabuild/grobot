@@ -12,7 +12,7 @@ import org.springframework.jms.support.converter.MessageConverter;
  * @author jburbridge
  * @since 11/18/2012
  */
-public class RegistrationMessageDetailsConverter implements MessageConverter {
+public class RegistrationDataConverter implements MessageConverter {
 
 	/*
 	 * (non-Javadoc)
@@ -21,7 +21,7 @@ public class RegistrationMessageDetailsConverter implements MessageConverter {
 	@Override
 	public Message toMessage(Object object, Session session)
 			throws JMSException, MessageConversionException {
-		RegistrationDetails registrationMessageDetails = (RegistrationDetails) object;
+		RegistrationData registrationMessageDetails = (RegistrationData) object;
 		ObjectMessage message = session.createObjectMessage(registrationMessageDetails);
 		return message;
 	}
@@ -34,7 +34,7 @@ public class RegistrationMessageDetailsConverter implements MessageConverter {
 	public Object fromMessage(Message message) throws JMSException,
 			MessageConversionException {
 		ObjectMessage objectMessage = (ObjectMessage) message;
-		RegistrationDetails registrationMessageDetails = (RegistrationDetails) objectMessage.getObject();
+		RegistrationData registrationMessageDetails = (RegistrationData) objectMessage.getObject();
 		return registrationMessageDetails;
 	}
 }

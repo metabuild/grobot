@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-
 import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.jms.RegistrationData;
 import org.metabuild.grobot.server.registration.RegistrationService;
 
 public class FakeTargetHostRegistrationManagerImpl implements
@@ -16,19 +14,16 @@ public class FakeTargetHostRegistrationManagerImpl implements
 
 	private static final Map<String,TargetHost> targetHosts = new HashMap<String,TargetHost>();
 	
-	@Override
-	public void createUnregistered(TargetHost targetHost) {
+	protected void createUnregistered(TargetHost targetHost) {
 		targetHosts.put(targetHost.getName(), targetHost);
 	}
 
-	@Override
-	public List<TargetHost> getPendingRegistrations() {
+	protected List<TargetHost> getPendingRegistrations() {
 		return new ArrayList<TargetHost>(targetHosts.values());
 	}
 
 	@Override
-	public void handleRegistrationRequest(Message message) throws JMSException {
-		// TODO Auto-generated method stub
-		
+	public void handleRegistrationRequest(RegistrationData registrationDetails) {
+		createUnregistered(new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true));
 	}
 }

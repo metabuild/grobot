@@ -17,10 +17,15 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 
 /**
- * Shared JMS Configuration
+ * This is a shared Spring JavaConfig style configuration class for JMS beans.
+ * 
+ * The beans declared here are use in both server and client. Beans that are specific to server or client should be 
+ * added to their respective packages 
  * 
  * @author jburbridge
  * @since 10/13/2012
+ * @see org.metabuild.grobot.client.config.ClientJmsConfig
+ * @see org.metabuild.grobot.server.config.ServerJmsConfig
  */
 @Configuration
 @PropertySource("classpath:grobot.properties")
@@ -55,7 +60,7 @@ public class SharedJmsConfig {
 	
 
 	/**
-	 * @return the status queue
+	 * @return the registration request queue
 	 */
 	@Bean(name="registrationRequestQueueDestination")
 	public Destination getRegistrationRequestQueueDestination() {
@@ -64,7 +69,16 @@ public class SharedJmsConfig {
 	}
 	
 	/**
-	 * @return the response message converter
+	 * @return the registration response queue
+	 */
+	@Bean(name="registrationResponseQueueDestination")
+	public Destination getRegistrationResponseQueueDestination() {
+		final String queueName = environment.getProperty("grobot.registration.response.queue");
+		return new ActiveMQQueue(queueName);
+	}
+	
+	/**
+	 * @return the status message converter
 	 */
 	@Bean(name="statusResponseMessageConverter")
 	public MessageConverter getStatusResponseMessageConverter() {

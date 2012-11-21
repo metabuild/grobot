@@ -31,11 +31,13 @@ public class GrobotClientRunner {
 	 * @return the client name
 	 */
 	protected static String getClientName() {
-		String hostname;
+		String hostname = null;
 		try {
-			hostname = System.getProperty("hostname") != null ? System.getProperty("hostname") : InetAddress.getLocalHost().getCanonicalHostName();
+			hostname = System.getProperty("hostname") != null ? System.getProperty("hostname") : 
+				InetAddress.getLocalHost().getCanonicalHostName();
 		} catch (UnknownHostException e) {
-			hostname = "Unknown Host";
+			System.err.println("FATAL: Grobot could not determine the hostname - exiting.");
+			System.exit(1);
 		}
 		return hostname;
 	}
@@ -44,8 +46,8 @@ public class GrobotClientRunner {
 		System.out.println("-----------------------------------------------------------------------\n");
 		System.out.println("       __|   _ \\    _ \\    _ )    _ \\   __ __| ");
 		System.out.println("      (_ |     /   (   |   _ \\   (   |     |   ");
-		System.out.println("     \\___|  _|_\\  \\___/   ___/  \\___/     _| ");
-		System.out.println("                                  version: 0.1  ");
+		System.out.println("     \\___|  _|_\\  \\___/   ___/  \\___/     _|           version: 0.1");
+		System.out.println("                                                                       ");
 		System.out.println("-----------------------------------------------------------------------");
 	}
 }
