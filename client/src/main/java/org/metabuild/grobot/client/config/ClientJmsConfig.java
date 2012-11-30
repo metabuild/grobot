@@ -8,6 +8,7 @@ import javax.jms.Destination;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.metabuild.grobot.client.registration.RegistrationRequestProducer;
 import org.metabuild.grobot.client.registration.RegistrationRequestProducerImpl;
+import org.metabuild.grobot.client.registration.RegistrationResponseListener;
 import org.metabuild.grobot.client.status.StatusRequestListener;
 import org.metabuild.grobot.client.status.StatusResponseProducer;
 import org.metabuild.grobot.client.status.StatusResponseProducerImpl;
@@ -68,6 +69,36 @@ public class ClientJmsConfig {
 	}
 	
 	@Autowired(required=true)
+	@Bean(name="registrationResponseListner")
+	public RegistrationResponseListener getRegistrationResponseListener(
+			@Qualifier(value="statusTopicJmsContainer") DefaultMessageListenerContainer statusTopicJmsContainer) {
+		return new RegistrationResponseListener(statusTopicJmsContainer);
+	}
+	
+	@Bean(name="registrationResponseJmsListenerAdapter")
+	public MessageListenerAdapter getRegistrationResponseListenerAdapter(RegistrationResponseListener registrationResponseListener) {
+		final MessageListenerAdapter adapter = new MessageListenerAdapter(registrationResponseListener);
+		adapter.setDefaultListenerMethod("onMessage");
+		return adapter;
+	}
+	
+	@Autowired(required=true)
+	@Bean(name="registrationResponseTopicJmsContainer")
+	public DefaultMessageListenerContainer getRegistrationResponseTopicContainer(ConnectionFactory jmsConnectionFactory, 
+			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination, 
+			@Qualifier(value="registrationResponseJmsListenerAdapter") MessageListenerAdapter registrationResponseJmsListenerAdapter) {
+		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+		container.setConnectionFactory(jmsConnectionFactory); 
+		container.setDestination(registrationResponseQueueDestination);
+		container.setPubSubDomain(true);
+		container.setSessionTransacted(false);
+		container.setConcurrentConsumers(1);
+		container.setMessageListener(registrationResponseJmsListenerAdapter);
+		container.setAutoStartup(false);
+		return container;
+	}
+	
+	@Autowired(required=true)
 	@Qualifier(value="statusResponseProducer")
 	@Bean(name="statusRequestListner")
 	public StatusRequestListener getStatusRequestListener(StatusResponseProducer statusResponseProducer) {
@@ -85,7 +116,7 @@ public class ClientJmsConfig {
 		
 	@Autowired(required=true)
 	@Bean(name="statusTopicJmsContainer")
-	public AbstractJmsListeningContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory, 
+	public DefaultMessageListenerContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory, 
 			@Qualifier(value="statusTopicDestination") Destination statusTopicDestination, 
 			@Qualifier(value="statusRequestJmsListenerAdapter") MessageListenerAdapter statusRequestJmsListenerAdapter) {
 		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
@@ -95,6 +126,7 @@ public class ClientJmsConfig {
 		container.setSessionTransacted(false);
 		container.setConcurrentConsumers(1);
 		container.setMessageListener(statusRequestJmsListenerAdapter);
+		container.setAutoStartup(false);
 		return container;
 	}
 	 

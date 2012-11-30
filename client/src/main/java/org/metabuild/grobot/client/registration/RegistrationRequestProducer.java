@@ -10,7 +10,7 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public interface RegistrationRequestProducer {
 
-	public void sendRegistrationRequest() throws JMSException;
+	public void sendRegistrationRequest(String clientName) throws JMSException;
 	
 	public void setJmsTemplate(JmsTemplate jsmTemplate);
 }

@@ -1,7 +1,5 @@
 package org.metabuild.grobot.server.registration;
 
-import javax.jms.Destination;
-
 import org.springframework.jms.core.JmsTemplate;
 
 /**
@@ -15,7 +13,7 @@ public interface RegistrationResponseProducer {
 	 * 
 	 * @param replyToDestination 
 	 */
-	public void sendRegistrationResponse(Destination replyToDestination);
+	public void sendRegistrationResponse(String hostname);
 
 	/**
 	 * Allows for the jmsTemplate to be injected for unit testing

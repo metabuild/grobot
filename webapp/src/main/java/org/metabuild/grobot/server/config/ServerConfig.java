@@ -47,15 +47,17 @@ public class ServerConfig {
 	
 	
 	/**
-	 * Sends JMS status requests to the grobot.status.topic destination
+	 * Sends JMS registration responses to the grobot.registration.response.queue destination
 	 * 
 	 * @param jmsConnectionFactory
 	 * @return the RegistrationResponseProducer
 	 */
 	@Autowired(required=true)
 	@Bean(name="registrationResponseProducer")
-	public RegistrationResponseProducer getRegistrationResponseProducer(ConnectionFactory jmsConnectionFactory) {
+	public RegistrationResponseProducer getRegistrationResponseProducer(ConnectionFactory jmsConnectionFactory,
+			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination) {
 		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
+		jmsTemplate.setDefaultDestination(registrationResponseQueueDestination);
 		final RegistrationResponseProducer reponseProducer = new RegistrationResponseProducerImpl();
 		reponseProducer.setJmsTemplate(jmsTemplate);
 		return reponseProducer;

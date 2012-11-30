@@ -1,11 +1,6 @@
 package org.metabuild.grobot.server.registration;
 
-import java.util.List;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.jms.RegistrationData;
 
 /**
  * Manages the registration of target hosts
@@ -15,10 +10,6 @@ import org.metabuild.grobot.common.domain.TargetHost;
  */
 public interface RegistrationService {
 
-	public void createUnregistered(TargetHost targetHost);
-
-	public List<TargetHost> getPendingRegistrations();
-
-	public void handleRegistrationRequest(Message message) throws JMSException;
+	public void handleRegistrationRequest(RegistrationData registrationDetails);
 	
 }
