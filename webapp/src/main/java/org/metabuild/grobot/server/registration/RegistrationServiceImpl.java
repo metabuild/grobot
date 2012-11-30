@@ -32,6 +32,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		TargetHost target = targetHostService.findByName(hostname);
 		if (target == null) {
 			// if the target hasn't been registered, save a new record so that it can be 
+			target = new TargetHost(hostname,hostname,true);
 			// review by an administrator and authorized it if appropriate
 			LOGGER.info("No record found for {} TargetHost, creating new unregistered record", hostname);
 			targetHostService.save(target);

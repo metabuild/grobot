@@ -31,7 +31,7 @@ import org.springframework.core.env.Environment;
 @Import({ 
 	DevelopmentAppConfig.class, 
 	ProductionAppConfig.class,
-	HibernateConfig.class
+	JpaConfig.class
 })
 @ComponentScan(basePackages = { 
 	"org.metabuild.grobot.webapp.domain"
