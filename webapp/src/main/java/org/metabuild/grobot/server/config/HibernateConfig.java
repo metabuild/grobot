@@ -40,7 +40,7 @@ public class HibernateConfig {
 		final LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSource);
 		entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-		entityManagerFactory.setPackagesToScan("org.metabuild.grobot.domain");
+		entityManagerFactory.setPackagesToScan("org.metabuild.grobot.common.domain");
 		entityManagerFactory.setJpaProperties(jpaProperties);
 		return entityManagerFactory;
 	}
