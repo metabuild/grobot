@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.Destination;
+
 import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.common.jms.RegistrationData;
 import org.metabuild.grobot.server.registration.RegistrationService;
@@ -23,7 +25,7 @@ public class FakeTargetHostRegistrationManagerImpl implements
 	}
 
 	@Override
-	public void handleRegistrationRequest(RegistrationData registrationDetails) {
+	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
 		createUnregistered(new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true));
 	}
 }

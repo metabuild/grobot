@@ -20,28 +20,36 @@ public class GrobotClientRunner {
 	 */
 	public static void main(String[] args) {
 		printHeader();
-		final GrobotClient client = new GrobotClient(getClientName(), context);
+		final GrobotClient client = new GrobotClient(context, getClientName(), getAddress());
 		client.run();
 	}
 	
 	/**
-	 * Look for the client name in properties first and set it to the hostname if it hasn't 
-	 * been set
+	 * Look for the hostname in properties first in case it was overridden. otherwise use the default used 
+	 * by the operating system. 
 	 * 
-	 * @return the client name
+	 * @return the hostname
 	 */
 	protected static String getClientName() {
-		String hostname = null;
-		try {
-			hostname = System.getProperty("hostname") != null ? System.getProperty("hostname") : 
-				InetAddress.getLocalHost().getCanonicalHostName();
-		} catch (UnknownHostException e) {
-			System.err.println("FATAL: Grobot could not determine the hostname - exiting.");
-			System.exit(1);
-		}
-		return hostname;
+		return (String) context.getBean("clientName", String.class);
 	}
 	
+	/**
+	 * @return the host address
+	 */
+	private static String getAddress() {
+		String address = null;
+		try {
+			address = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			System.err.println("WARN: Grobot could not determine the host address.");
+		}
+		return address;
+	}
+
+	/*
+	 * Who doesn't like ascii art?
+	 */
 	private static void printHeader() {
 		System.out.println("-----------------------------------------------------------------------\n");
 		System.out.println("       __|   _ \\    _ \\    _ )    _ \\   __ __| ");

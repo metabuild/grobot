@@ -1,5 +1,7 @@
 package org.metabuild.grobot.server.registration;
 
+import javax.jms.Destination;
+
 import org.metabuild.grobot.common.jms.RegistrationData;
 
 /**
@@ -10,6 +12,6 @@ import org.metabuild.grobot.common.jms.RegistrationData;
  */
 public interface RegistrationService {
 
-	public void handleRegistrationRequest(RegistrationData registrationDetails);
+	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination destination);
 	
 }

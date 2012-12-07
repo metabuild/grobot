@@ -1,11 +1,12 @@
 package org.metabuild.grobot.server.registration;
 
-import java.util.UUID;
-
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
+import org.metabuild.grobot.common.jms.RegistrationData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.MessageCreator;
@@ -27,15 +28,16 @@ public class RegistrationResponseProducerImpl  extends JmsGatewaySupport impleme
 	 * @see org.metabuild.grobot.server.mq.RegistrationResponseProducer#sendRegistrationResponse(javax.jms.Destination)
 	 */
 	@Override
-	public void sendRegistrationResponse(final String hostname) {
-		getJmsTemplate().setTimeToLive(timeToLive);
+	public void sendRegistrationResponse(final RegistrationData registrationData, final Destination registrationResponseQeue) {
+//		getJmsTemplate().setTimeToLive(timeToLive);
 		// TODO: java.lang.IllegalStateException: No 'defaultDestination' or 'defaultDestinationName' specified. Check configuration of JmsTemplate.
 		getJmsTemplate().send(new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				Message message = session.createMessage();
-				message.setStringProperty("serverkey",UUID.randomUUID().toString());
-				LOGGER.debug("Sending registration response to {}", hostname);
+				ObjectMessage message = session.createObjectMessage(registrationData);
+				message.setJMSDestination(registrationResponseQeue);
+				message.setStringProperty("recipient-hostname", registrationData.getHostname());
+				LOGGER.info("Sending registration response for {} to {}", registrationData.getHostname(), registrationResponseQeue);
 				return message;
 			}
 		});

@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 
+import org.metabuild.grobot.client.key.KeyManager;
 import org.metabuild.grobot.client.registration.RegistrationRequestProducer;
+import org.metabuild.grobot.common.jms.RegistrationData;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
@@ -17,15 +19,17 @@ public class GrobotClient implements Runnable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GrobotClient.class);
 	private final ApplicationContext context;
-	private final String clientName;
+	private final String hostname;
+	private final String address;
 	
 	/**
 	 * @param name
 	 * @param context 
 	 */
-	public GrobotClient(String name, ApplicationContext context) {
-		this.clientName = name;
+	public GrobotClient(ApplicationContext context, String name, String address) {
+		this.hostname = name;
 		this.context = context;
+		this.address = address;
 	}
 
 	/**
@@ -34,13 +38,18 @@ public class GrobotClient implements Runnable {
 	@Override
 	public void run() {
 		try {
-			LOGGER.info("Starting {}'s RegistrationResponseListener...", clientName);
-			DefaultMessageListenerContainer registrationResponseTopicJmsContainer = (DefaultMessageListenerContainer) context.getBean("registrationResponseTopicJmsContainer");
-			registrationResponseTopicJmsContainer.start();
+			LOGGER.info("Starting {}'s registrationResponseListenerContainer...", hostname);
+			final DefaultMessageListenerContainer registrationResponseListenerContainer = (DefaultMessageListenerContainer) context.getBean("registrationResponseListenerContainer");
+			registrationResponseListenerContainer.start();
+			LOGGER.info("Now listening for registration response on {}...", registrationResponseListenerContainer.getDestination());
 			
-			LOGGER.info("Attempting to register {} with Grobot master...", clientName);
-			RegistrationRequestProducer registrationRequestProducer = (RegistrationRequestProducer) context.getBean("registrationRequestProducer");
-			registrationRequestProducer.sendRegistrationRequest(clientName);
+			LOGGER.info("Loading key for {}...", hostname);
+			final KeyManager keyManager = (KeyManager) context.getBean("keyManager");
+			
+			LOGGER.info("Attempting to register {} with Grobot master...", hostname);
+			final RegistrationRequestProducer registrationRequestProducer = (RegistrationRequestProducer) context.getBean("registrationRequestProducer");
+			registrationRequestProducer.sendRegistrationRequest(new RegistrationData(keyManager.loadKey(), hostname, address));
+			
 		} catch (JMSException e) {
 			LOGGER.error("Grobot could not register with the server - is the Grobot server running?", e);
 		}

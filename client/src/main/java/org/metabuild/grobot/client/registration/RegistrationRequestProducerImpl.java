@@ -1,7 +1,6 @@
 package org.metabuild.grobot.client.registration;
 
-import java.util.UUID;
-
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
@@ -22,20 +21,31 @@ import org.springframework.stereotype.Service;
 public class RegistrationRequestProducerImpl extends JmsGatewaySupport implements RegistrationRequestProducer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationRequestProducerImpl.class);
+	private final Destination replyToDestination;
+	
+	/**
+	 * Create a RegistrationRequestProducer and set the replyToDestination address to the queue
+	 * that the RegistrationResponseProducer should reply to
+	 * 
+	 * @param replyToDestination
+	 */
+	public RegistrationRequestProducerImpl(Destination replyToDestination) {
+		this.replyToDestination = replyToDestination;
+	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.metabuild.grobot.client.mq.RegistrationRequestProducer#sendRegistrationRequest()
 	 */
 	@Override
-	public void sendRegistrationRequest(final String clientName) throws JMSException {
+	public void sendRegistrationRequest(final RegistrationData registrationData) throws JMSException {
 		getJmsTemplate().send(new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				ObjectMessage message = session.createObjectMessage(new RegistrationData(clientName, "address"));
-				message.setStringProperty("client-uuid", UUID.randomUUID().toString());
-				LOGGER.info("Sending registration request for {} to {}", clientName,
-						getJmsTemplate().getDefaultDestinationName());
+				ObjectMessage message = session.createObjectMessage(registrationData);
+				message.setJMSReplyTo(replyToDestination);
+				LOGGER.info("Sending registration request for {} to {}", registrationData.getHostname(),
+						getJmsTemplate().getDefaultDestination().toString());
 				return message;
 			}
 		});

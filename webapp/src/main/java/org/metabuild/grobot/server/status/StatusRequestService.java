@@ -40,7 +40,7 @@ public class StatusRequestService implements Runnable {
 	 */
 	@Override
 	public void run() {
-		LOGGER.info("Service run started at {}.", getLastRunTimestamp());
+		LOGGER.debug("run() started at {}.", getLastRunTimestamp());
 		try {
 			statusRequestProducer.sendStatusRequest();
 			updateLastRunTimestamp();
