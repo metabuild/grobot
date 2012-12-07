@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("default")
 @ComponentScan(basePackages = { "org.metabuild.grobot.server.service" })
 @EnableTransactionManagement
-public class HibernateConfig {
+public class JpaConfig {
 
 	@Bean(name="sessionFactory")
 	public LocalSessionFactoryBean getSessionFactory(DataSource dataSource, Properties hibernateProperties) {
