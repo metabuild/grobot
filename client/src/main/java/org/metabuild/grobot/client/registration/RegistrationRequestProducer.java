@@ -2,6 +2,7 @@ package org.metabuild.grobot.client.registration;
 
 import javax.jms.JMSException;
 
+import org.metabuild.grobot.common.jms.RegistrationData;
 import org.springframework.jms.core.JmsTemplate;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public interface RegistrationRequestProducer {
 
-	public void sendRegistrationRequest(String clientName) throws JMSException;
-	
 	public void setJmsTemplate(JmsTemplate jsmTemplate);
+
+	public void sendRegistrationRequest(RegistrationData registrationData) throws JMSException;
 }

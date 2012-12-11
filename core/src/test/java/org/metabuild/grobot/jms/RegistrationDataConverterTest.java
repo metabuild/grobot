@@ -34,7 +34,7 @@ public class RegistrationDataConverterTest {
 	public void testToMessage() throws MessageConversionException, JMSException {
 		
 		RegistrationDataConverter regData = new RegistrationDataConverter();
-		RegistrationData data = new RegistrationData("foo", "bar");
+		RegistrationData data = new RegistrationData("foo", "bar", "baz");
 		Message message = regData.toMessage(data, getMockSession());
 		// TODO: figure out how to improve this test
 		assertNotNull(message);
@@ -57,7 +57,7 @@ public class RegistrationDataConverterTest {
 
 	private Message getMockMessage() throws JMSException {
 		ObjectMessage objectMessage = mock(ObjectMessage.class);
-		when(objectMessage.getObject()).thenReturn(new RegistrationData("foo","bar"));
+		when(objectMessage.getObject()).thenReturn(new RegistrationData("foo","bar", "baz"));
 		return objectMessage;
 	}
 

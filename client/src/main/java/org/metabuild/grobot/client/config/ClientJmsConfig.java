@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.listener.AbstractJmsListeningContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 
@@ -40,6 +39,7 @@ public class ClientJmsConfig {
 	/**
 	 * @return the registration request destination
 	 */
+	@Bean(name="registrationRequestQueueDestination")
 	public Destination getRegistrationRequestQueueDestination() {
 		final String queueName = environment.getProperty("grobot.registration.request.queue");
 		return new ActiveMQQueue(queueName);
@@ -51,10 +51,12 @@ public class ClientJmsConfig {
 	 */
 	@Bean(name="registrationRequestProducer")
 	public RegistrationRequestProducer getRegistrationRequestProducer(
+			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination,
 			@Qualifier(value="jmsConnectionFactory") ConnectionFactory jmsConnectionFactory) {
 		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
 		jmsTemplate.setDefaultDestination(getRegistrationRequestQueueDestination());
-		final RegistrationRequestProducer registrationRequestProducer = new RegistrationRequestProducerImpl();
+		final RegistrationRequestProducer registrationRequestProducer = 
+				new RegistrationRequestProducerImpl(registrationResponseQueueDestination);
 		registrationRequestProducer.setJmsTemplate(jmsTemplate);
 		return registrationRequestProducer;
 	}
@@ -63,9 +65,10 @@ public class ClientJmsConfig {
 	 * @return the registration response destination
 	 */
 	@Bean(name="registrationResponseQueueDestination")
-	public Destination getRegistrationResponseQueueDestination() {
-		final String queueName = environment.getProperty("grobot.registration.response.queue");
-		return new ActiveMQQueue(queueName);
+	public Destination getRegistrationResponseQueueDestination(@Qualifier(value="clientName") String clientName) {
+		final String queueName = new StringBuilder(environment.getProperty("grobot.registration.response.queue"))
+			.append(".").append("foo").toString();
+	return new ActiveMQQueue(queueName);
 	}
 	
 	@Autowired(required=true)
@@ -83,7 +86,7 @@ public class ClientJmsConfig {
 	}
 	
 	@Autowired(required=true)
-	@Bean(name="registrationResponseTopicJmsContainer")
+	@Bean(name="registrationResponseListenerContainer")
 	public DefaultMessageListenerContainer getRegistrationResponseTopicContainer(ConnectionFactory jmsConnectionFactory, 
 			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination, 
 			@Qualifier(value="registrationResponseJmsListenerAdapter") MessageListenerAdapter registrationResponseJmsListenerAdapter) {

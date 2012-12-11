@@ -35,8 +35,8 @@ public class RegistrationRequestListener  implements MessageListener {
 	public void onMessage(Message message) {
 		try {
 			final RegistrationData registrationDetails = (RegistrationData) messageConverter.fromMessage(message);
-			LOGGER.info("Received registration request from {} with uuid {}", registrationDetails.getHostname(), registrationDetails.getId());
-			registrationService.handleRegistrationRequest(registrationDetails);
+			LOGGER.info("Received registration request from {} with uuid {}", registrationDetails.getHostname(), registrationDetails.getKey());
+			registrationService.handleRegistrationRequest(registrationDetails, message.getJMSReplyTo());
 		} catch (JMSException e) {
 			LOGGER.error("Error receiving registration request", e);
 		}

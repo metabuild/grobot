@@ -40,7 +40,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @Configuration
 @Import({SharedJmsConfig.class, DefaultAppConfig.class})
 @PropertySource("classpath:grobot.properties")
-public class ServerConfig {
+public class ServerJmsConfig {
 	
 	@Autowired
 	Environment environment;

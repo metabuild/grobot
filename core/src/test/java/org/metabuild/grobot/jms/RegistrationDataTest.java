@@ -15,12 +15,13 @@ import org.metabuild.grobot.common.jms.RegistrationData;
 public class RegistrationDataTest {
 
 	/**
-	 * Test method for {@link org.metabuild.grobot.common.jms.RegistrationData#RegistrationMessageDetails(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.metabuild.grobot.common.jms.RegistrationData#RegistrationData(java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testRegistrationData() {
-		RegistrationData registrationMessageDetails  = new RegistrationData("hostname", "address");
-		assertEquals("hostname", registrationMessageDetails.getHostname());
-		assertEquals("address", registrationMessageDetails.getAddress());
+		RegistrationData data  = new RegistrationData("key","hostname", "address");
+		assertEquals("key", data.getKey());
+		assertEquals("hostname", data.getHostname());
+		assertEquals("address", data.getAddress());
 	}
 }

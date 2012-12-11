@@ -1,5 +1,7 @@
 package org.metabuild.grobot.server.registration;
 
+import javax.jms.Destination;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,22 +27,28 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 
 	@Override
-	public void handleRegistrationRequest(RegistrationData registrationDetails) {
+	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination replyToDestination) {
 		final String hostname = registrationDetails.getHostname();
-		final String clientUuid = registrationDetails.getId();
+		final String address = registrationDetails.getAddress();
+		final String clientUuid = registrationDetails.getKey();
 		LOGGER.info("Handling registration request from {} with id {}", hostname, clientUuid);
 		TargetHost target = targetHostService.findByName(hostname);
 		if (target == null) {
 			// if the target hasn't been registered, save a new record so that it can be 
-			target = new TargetHost(hostname,hostname,true);
-			// review by an administrator and authorized it if appropriate
+			// reviewed by an administrator and authorized it if appropriate
 			LOGGER.info("No record found for {} TargetHost, creating new unregistered record", hostname);
-			targetHostService.save(target);
+			if (hostname != null) {
+				targetHostService.save(new TargetHost(hostname,address,true));
+			} else {
+				LOGGER.warn("Can't create a new TargetHost with a null hostname");
+				// TODO: need to figure out how to notify the system's administrator
+			}
 		} else {
-			// check for credentials
+			// TODO: check for credentials
 			// and send the registration response
-			LOGGER.info("Found registered TargetHost for {}, sending registration response", hostname);
-			registrationResponseProducer.sendRegistrationResponse(hostname);
+			registrationDetails.setKey(target.getId());
+			LOGGER.info("Found registered TargetHost for {}, sending registration response to {}", hostname, replyToDestination);
+			registrationResponseProducer.sendRegistrationResponse(registrationDetails, replyToDestination);
 		}
 	}
 }

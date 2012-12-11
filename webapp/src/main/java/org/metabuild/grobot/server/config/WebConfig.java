@@ -14,7 +14,11 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
 
 /**
- * Spring WebMVC configuration
+ * Spring Web JavaConfig style configuration
+ * 
+ * Typically this would be the configuration file for the webapp only, but because the webapp also happens to be
+ * the entry point for the grobot server, all other configuration elements (embedded activemq broker, jms elements, 
+ * spring schedulers and hibernate are imported from here.
  * 
  * @author jburbridge
  * @since 9/30/2012
@@ -24,16 +28,24 @@ import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
 @ImportResource(value="classpath:activeMqBrokerConfig.xml")
 @Import({ 
 	DefaultAppConfig.class, 
-	ServerConfig.class
+	ServerJmsConfig.class
 })
 @ComponentScan(basePackages = { "org.metabuild.grobot.webapp.controllers" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+	/**
+	 * Add the "resources" directory at the root of the webapp to the registry. This is where we add
+	 * our static resources - images, js, css, etc.
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
+	/**
+	 * We need to enable the default servlet handler since the dispatcher servlet is mapped to receive 
+	 * all requests... otherwise we wouldn't be able to serve static content from the /resources folder
+	 */
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
