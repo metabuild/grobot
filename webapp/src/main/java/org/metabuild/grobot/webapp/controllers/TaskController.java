@@ -33,7 +33,7 @@ public class TaskController extends AbstractBaseController {
 	public String list(Model uiModel) {
 		
 		final List<GroovyScript> tasks = taskCache.getAll();
-		uiModel.addAttribute("scripts", tasks);
+		uiModel.addAttribute("tasks", tasks);
 		addSelectedMenuItem(uiModel);
 		
 		return "tasks/list";
@@ -53,7 +53,7 @@ public class TaskController extends AbstractBaseController {
 		}
 		addSelectedMenuItem(uiModel);
 		
-		return "scripts/details";
+		return "tasks/details";
 	}
 	
 	@Override

@@ -46,10 +46,10 @@ public class TaskControllerTest extends AbstractSpringEnabledTest {
 		String result = controller.list(uiModel);
 		
 		assertNotNull(result);
-		assertEquals("scripts/list", result);
+		assertEquals("tasks/list", result);
 		
 		@SuppressWarnings("unchecked")
-		List<GroovyScript> modelTasks = (List<GroovyScript>) uiModel.get("scripts");
+		List<GroovyScript> modelTasks = (List<GroovyScript>) uiModel.get("tasks");
 		
 		assertEquals(1, modelTasks.size());
 	}
