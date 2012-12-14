@@ -187,14 +187,14 @@ public class TargetHost implements Serializable {
 	 * @return the registered date
 	 */
 	public Date getRegistered() {
-		return registered;
+		return (Date) registered.clone();
 	}
 
 	/**
 	 * @param registered the date to set
 	 */
 	public void setRegistered(Date registered) {
-		this.registered = registered;
+		this.registered = (Date) registered.clone();
 	}
 
 	/**

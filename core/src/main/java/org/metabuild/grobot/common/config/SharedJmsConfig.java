@@ -24,8 +24,6 @@ import org.springframework.jms.support.converter.MessageConverter;
  * 
  * @author jburbridge
  * @since 10/13/2012
- * @see org.metabuild.grobot.client.config.ClientJmsConfig
- * @see org.metabuild.grobot.server.config.ServerJmsConfig
  */
 @Configuration
 @PropertySource("classpath:grobot.properties")
