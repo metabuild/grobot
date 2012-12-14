@@ -36,7 +36,8 @@ public class FileBasedKeyManager implements KeyManager {
 			LOGGER.warn("Could not read from the keyFile", ioe);
 		} finally {
 			try {
-				inputStream.close();
+				if (inputStream != null)
+					inputStream.close();
 			} catch (IOException e) {
 				LOGGER.warn("Could not close the input stream", e);
 			}
@@ -70,7 +71,8 @@ public class FileBasedKeyManager implements KeyManager {
 			LOGGER.warn("Could not write to the keyFile", e);
 		} finally {
 			try {
-				outputStream.close();
+				if (outputStream != null)
+					outputStream.close();
 			} catch (IOException ioe) {
 				LOGGER.warn("Could not close the outputStream", ioe);
 			}
