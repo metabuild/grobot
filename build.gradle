@@ -40,11 +40,11 @@ subprojects {
 	apply from: "${rootDir.path}/gradle/java.gradle"
 	
 	/*
-	 *  because eclipse can't handle a project hierarcy, we fake it by
+	 *  eclipse can't handle a true project hierarchy, so we fake it by
 	 *  making the names look a little bit more hierarchical
 	 */
 	eclipse.project.name = "${project.getParent().eclipse.project.name}-${project.name}"
-	/* make the jar file name match the eclipse project for consistency */
+	/* make the base jar file name match the eclipse project for consistency */
 	archivesBaseName = eclipse.project.name
 	
 } 
