@@ -2,8 +2,8 @@ package org.metabuild.grobot.webapp.controllers;
 
 import java.util.List;
 
-import org.metabuild.grobot.tasks.groovy.GroovyTask;
-import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
+import org.metabuild.grobot.scripts.groovy.GroovyScript;
+import org.metabuild.grobot.scripts.groovy.GroovyScriptCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class TaskController extends AbstractBaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
 	@Autowired
-	private GroovyTaskCache taskCache;
+	private GroovyScriptCache taskCache;
 
 	/**
 	 * Display the list of tasks
@@ -32,8 +32,8 @@ public class TaskController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		final List<GroovyTask> tasks = taskCache.getAll();
-		uiModel.addAttribute("tasks", tasks);
+		final List<GroovyScript> tasks = taskCache.getAll();
+		uiModel.addAttribute("scripts", tasks);
 		addSelectedMenuItem(uiModel);
 		
 		return "tasks/list";
@@ -45,7 +45,7 @@ public class TaskController extends AbstractBaseController {
 	@RequestMapping(value="/{hash}", method=RequestMethod.GET)
 	public String details(@PathVariable("hash") String hash, Model uiModel) {
 		
-		final GroovyTask task = taskCache.get(hash);
+		final GroovyScript task = taskCache.get(hash);
 		if (task != null) {
 			uiModel.addAttribute("task", task);
 		} else {
@@ -53,7 +53,7 @@ public class TaskController extends AbstractBaseController {
 		}
 		addSelectedMenuItem(uiModel);
 		
-		return "tasks/details";
+		return "scripts/details";
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.metabuild.grobot.tasks.groovy;
+package org.metabuild.grobot.scripts.groovy;
 
 import static org.junit.Assert.assertEquals;
 import groovy.lang.Binding;
@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.metabuild.grobot.tasks.BindingProvider;
+import org.metabuild.grobot.scripts.BindingProvider;
+import org.metabuild.grobot.scripts.groovy.GroovyBindingProvider;
 
 /**
  * @author jburbrid

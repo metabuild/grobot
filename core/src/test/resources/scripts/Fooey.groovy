@@ -1,4 +1,4 @@
-package tasks
+package scripts
 
 println "This is a new class called ${Fooey()}"
 

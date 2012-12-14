@@ -1,4 +1,4 @@
-package org.metabuild.grobot.tasks;
+package org.metabuild.grobot.scripts;
 
 import groovy.lang.Binding;
 

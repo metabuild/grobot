@@ -1,4 +1,4 @@
-package tasks.subgooey
+package scripts.subgooey
 
 println "This is a new class called ${Gooey()}"
 
