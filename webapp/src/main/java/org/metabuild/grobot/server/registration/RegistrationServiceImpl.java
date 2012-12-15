@@ -27,7 +27,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 
 	@Override
-	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination replyToDestination) {
+	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination replyToDestination) {
 		final String hostname = registrationDetails.getHostname();
 		final String address = registrationDetails.getAddress();
 		final String clientUuid = registrationDetails.getKey();
@@ -38,7 +38,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 			// reviewed by an administrator and authorized it if appropriate
 			LOGGER.info("No record found for {} TargetHost, creating new unregistered record", hostname);
 			if (hostname != null) {
-				targetHostService.save(new TargetHost(hostname,address,true));
+				target = targetHostService.save(new TargetHost(hostname,address,true));
+				registrationDetails.setKey(target.getId());
 			} else {
 				LOGGER.warn("Can't create a new TargetHost with a null hostname");
 				// TODO: need to figure out how to notify the system's administrator
@@ -48,7 +49,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 			// and send the registration response
 			registrationDetails.setKey(target.getId());
 			LOGGER.info("Found registered TargetHost for {}, sending registration response to {}", hostname, replyToDestination);
-			registrationResponseProducer.sendRegistrationResponse(registrationDetails, replyToDestination);
+			// registrationResponseProducer.sendRegistrationResponse(registrationDetails, replyToDestination);
 		}
+		return registrationDetails;
 	}
 }

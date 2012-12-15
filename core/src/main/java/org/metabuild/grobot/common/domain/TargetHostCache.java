@@ -6,6 +6,7 @@ import java.util.List;
  * @author jburbridge
  * @since 10/20/2012
  */
+@Deprecated
 public interface TargetHostCache {
 
 	public TargetHost get(String targetName);

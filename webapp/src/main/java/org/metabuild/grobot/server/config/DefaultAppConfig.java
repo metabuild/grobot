@@ -36,7 +36,7 @@ import org.springframework.core.env.Environment;
 @ComponentScan(basePackages = { 
 	"org.metabuild.grobot.webapp.domain"
 })
-@PropertySource("classpath:grobot.properties")
+@PropertySource("classpath:grobot-server.properties")
 public class DefaultAppConfig {
 
 	@Autowired

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@PropertySource("classpath:grobot.properties")
+@PropertySource("classpath:grobot-client.properties")
 @Import(ClientJmsConfig.class)
 public class ClientConfig {
 

@@ -31,7 +31,6 @@ public class StatusResponseListener implements MessageListener {
 	/**
 	 * Constructor with DI for unit testing
 	 * @param targetHostService
-	 * @param targetHostRegistrationManager
 	 */
 	public StatusResponseListener(TargetHostService targetHostService) {
 		LOGGER.info("Initializing {}...", this.getClass().getName());

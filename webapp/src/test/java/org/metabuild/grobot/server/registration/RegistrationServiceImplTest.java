@@ -23,7 +23,7 @@ public class RegistrationServiceImplTest {
 		RegistrationData registrationDetails = mock(RegistrationData.class);
 		when(registrationDetails.getHostname()).thenReturn("valid.fakehost1");
 		RegistrationService registrationService = new RegistrationServiceImpl(targetHostService, registrationResponseProducer);
-		registrationService.handleRegistrationRequest(registrationDetails, null);
+		registrationService.processRegistrationRequest(registrationDetails, null);
 	}
 
 }

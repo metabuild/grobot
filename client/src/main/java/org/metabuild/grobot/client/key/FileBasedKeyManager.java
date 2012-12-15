@@ -67,6 +67,10 @@ public class FileBasedKeyManager implements KeyManager {
 	protected void createKeyFile(File keyFile) {
 		try {
 			if (!keyFile.exists()) {
+				File directory = getKeyDirectory();
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
 				keyFile.createNewFile();
 			}
 		} catch (IOException e) {
@@ -76,5 +80,9 @@ public class FileBasedKeyManager implements KeyManager {
 	
 	protected static File getKeyFile() {
 		return new File(keyDirectoryName + File.separator + keyFileName);
+	}
+	
+	protected static File getKeyDirectory() {
+		return new File(keyDirectoryName);
 	}
 }

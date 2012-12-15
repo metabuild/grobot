@@ -12,6 +12,6 @@ import org.metabuild.grobot.common.jms.RegistrationData;
  */
 public interface RegistrationService {
 
-	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination destination);
+	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination destination);
 	
 }

@@ -27,6 +27,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.AbstractJmsListeningContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
+import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -39,7 +40,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  */
 @Configuration
 @Import({SharedJmsConfig.class, DefaultAppConfig.class})
-@PropertySource("classpath:grobot.properties")
+@PropertySource("classpath:grobot-server.properties")
 public class ServerJmsConfig {
 	
 	@Autowired
@@ -106,7 +107,7 @@ public class ServerJmsConfig {
 	public AbstractJmsListeningContainer getRegistrationRequestQueueContainer(ConnectionFactory jmsConnectionFactory, 
 			@Qualifier(value="registrationRequestQueueDestination") Destination registrationRequestQueueDestination, 
 			@Qualifier(value="registrationRequestListenerAdapter") MessageListenerAdapter registrationRequestListenerAdapter) {
-		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+		final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(jmsConnectionFactory);
 		container.setDestination(registrationRequestQueueDestination);
 		container.setSessionTransacted(false);
@@ -193,7 +194,7 @@ public class ServerJmsConfig {
 	public AbstractJmsListeningContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory, 
 			@Qualifier(value="statusQueueDestination") Destination statusQueueDestination, 
 			@Qualifier(value="statusResponseListenerAdapter") MessageListenerAdapter statusResponseListenerAdapter) {
-		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
+		final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(jmsConnectionFactory);
 		container.setDestination(statusQueueDestination);
 		container.setSessionTransacted(false);

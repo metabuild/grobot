@@ -68,7 +68,8 @@ public class ClientJmsConfig {
 	public Destination getRegistrationResponseQueueDestination(@Qualifier(value="clientName") String clientName) {
 		final String queueName = new StringBuilder(environment.getProperty("grobot.registration.response.queue"))
 			.append(".").append("foo").toString();
-	return new ActiveMQQueue(queueName);
+		final ActiveMQQueue queue = new ActiveMQQueue(queueName);
+		return queue;
 	}
 	
 	@Autowired(required=true)

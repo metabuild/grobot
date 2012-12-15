@@ -16,9 +16,9 @@ import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
 /**
  * Spring Web JavaConfig style configuration
  * 
- * Typically this would be the configuration file for the webapp only, but because the webapp also happens to be
+ * Typically this would be the configuration class for the webapp only, but because the webapp also happens to be
  * the entry point for the grobot server, all other configuration elements (embedded activemq broker, jms elements, 
- * spring schedulers and hibernate are imported from here.
+ * spring schedulers and jpa/hibernate configurations are imported from here.
  * 
  * @author jburbridge
  * @since 9/30/2012

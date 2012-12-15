@@ -25,7 +25,10 @@ public class FakeTargetHostRegistrationManagerImpl implements
 	}
 
 	@Override
-	public void handleRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
-		createUnregistered(new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true));
+	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
+		final TargetHost targetHost = new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
+		createUnregistered(targetHost);
+		registrationDetails.setKey(targetHost.getId());
+		return registrationDetails;
 	}
 }

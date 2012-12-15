@@ -12,6 +12,7 @@ import org.metabuild.grobot.common.domain.TargetHostCacheImpl;
  * @author jburbridge
  * @since 10/20/2012
  */
+@Deprecated
 public class FakeTargetHostCacheImpl extends TargetHostCacheImpl {
 
 	private static final Map<String, TargetHost> targets = new HashMap<String, TargetHost>();
