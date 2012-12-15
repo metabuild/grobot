@@ -1,11 +1,11 @@
-package org.metabuild.grobot.tasks.groovy;
+package org.metabuild.grobot.scripts.groovy;
 
 import groovy.lang.Binding;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.metabuild.grobot.tasks.BindingProvider;
+import org.metabuild.grobot.scripts.BindingProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -6,10 +6,10 @@ import groovy.util.GroovyScriptEngine;
 import java.io.File;
 import java.io.IOException;
 
-import org.metabuild.grobot.tasks.BindingProvider;
-import org.metabuild.grobot.tasks.groovy.GroovyBindingProvider;
-import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
-import org.metabuild.grobot.tasks.groovy.GroovyTaskFactory;
+import org.metabuild.grobot.scripts.BindingProvider;
+import org.metabuild.grobot.scripts.groovy.GroovyBindingProvider;
+import org.metabuild.grobot.scripts.groovy.GroovyScriptCache;
+import org.metabuild.grobot.scripts.groovy.GroovyScriptFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -43,26 +43,26 @@ public class DefaultAppConfig {
 	Environment environment;
 	
 	/**
-	 * @return the directory where groovy tasks are saved
+	 * @return the directory where groovy scripts are saved
 	 */
-	@Bean(name="tasksDir")
-	public String getTasksDir() {
+	@Bean(name="scriptsDir")
+	public String getScriptsDir() {
 		return new StringBuilder(environment.getProperty("user.dir"))
 			.append(File.separator)
-			.append("tasks")
+			.append("scripts")
 			.toString();
 	}
 	
 	/**
-	 * @param tasksDir the directory where groovy tasks are located
+	 * @param scriptsDir the directory where groovy scripts are located
 	 * @return the GroovyScriptEngine
 	 * @throws IOException
 	 */
 	@Autowired(required=true)
 	@Bean(name="GroovyScriptEngine")
-	public GroovyScriptEngine getGroovyScriptEngine(@Qualifier(value="tasksDir") String tasksDir) 
+	public GroovyScriptEngine getGroovyScriptEngine(@Qualifier(value="scriptsDir") String scriptsDir) 
 			throws IOException {
-		return new GroovyScriptEngine(tasksDir);
+		return new GroovyScriptEngine(scriptsDir);
 	}
 	
 	/**
@@ -75,15 +75,15 @@ public class DefaultAppConfig {
 	
 	/**
 	 * @param bindingProvider
-	 * @param tasksDir
+	 * @param scriptsDir
 	 * @param groovyScriptEngine
-	 * @return the in-memory cache for tasks
+	 * @return the in-memory cache for scripts
 	 */
 	@Autowired(required=true)
 	@Bean(name="groovyTaskCache")
-	public GroovyTaskCache getGroovyTaskCache(BindingProvider bindingProvider, String tasksDir, GroovyScriptEngine groovyScriptEngine) {
-		final GroovyTaskFactory groovyTaskFactory = new GroovyTaskFactory(bindingProvider, new File(tasksDir), groovyScriptEngine);
-		return new GroovyTaskCache(groovyTaskFactory);
+	public GroovyScriptCache getGroovyTaskCache(BindingProvider bindingProvider, String scriptsDir, GroovyScriptEngine groovyScriptEngine) {
+		final GroovyScriptFactory groovyScriptFactory = new GroovyScriptFactory(bindingProvider, new File(scriptsDir), groovyScriptEngine);
+		return new GroovyScriptCache(groovyScriptFactory);
 	}
 	
 	/**

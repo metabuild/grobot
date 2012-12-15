@@ -1,4 +1,4 @@
-package org.metabuild.grobot.tasks.groovy;
+package org.metabuild.grobot.scripts.groovy;
 
 import groovy.lang.Binding;
 import groovy.lang.Script;
@@ -11,74 +11,75 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.metabuild.grobot.tasks.BindingProvider;
-import org.metabuild.grobot.tasks.Task;
-import org.metabuild.grobot.tasks.TaskFactory;
+import org.metabuild.grobot.scripts.BindingProvider;
+import org.metabuild.grobot.scripts.ScriptWrapper;
+import org.metabuild.grobot.scripts.ScriptWrapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The TaskFactory is responsible for loading the groovy scripts from the tasks directory
- * and creating instances of grobot tasks that can be executed against a target node
+ * The TaskFactory is responsible for loading the groovy scripts from the scripts directory
+ * and creating GroovyScript instances that can be executed against a target node
  * 
  * @author jburbridge
  * @since 9/27/2012
  */
-public class GroovyTaskFactory implements TaskFactory {
+public class GroovyScriptFactory implements ScriptWrapperFactory {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTaskFactory.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyScriptFactory.class.getName());
 	private static final String DOT_GROOVY = ".groovy";
 	
 	private final BindingProvider bindingProvider;
-	private final File tasksDir;
+	private final File scriptsDir;
 	private final GroovyScriptEngine engine;
 	
 	/**
 	 * @param bindingProvider
-	 * @param tasksDir
+	 * @param scriptsDir
 	 * @param engine
 	 */
-	public GroovyTaskFactory(BindingProvider bindingProvider, File tasksDir, GroovyScriptEngine engine) {
+	public GroovyScriptFactory(BindingProvider bindingProvider, File scriptsDir, GroovyScriptEngine engine) {
 		this.bindingProvider = bindingProvider;
-		this.tasksDir = tasksDir;
+		this.scriptsDir = scriptsDir;
 		this.engine = engine;
-		if (!tasksDir.isDirectory() || !tasksDir.canRead()) {
-			throw new RuntimeException("Could not find the tasks directory " + tasksDir.getAbsolutePath());
+		if (!scriptsDir.isDirectory() || !scriptsDir.canRead()) {
+			throw new RuntimeException("Could not find the scripts directory " + scriptsDir.getAbsolutePath());
 		}
 	}
 
 	/**
-	 * Recurses through the tasks directory and loads the groovy files
+	 * Recurses through the scripts directory and loads the groovy files
 	 * 
-	 * @return a list of Tasks
+	 * @return a list of scripts
 	 */
 	@Override
-	public List<Task> getTasks() {
-		List<Task> tasks = new ArrayList<Task>();
-		for (File file : getFiles(tasksDir)) {
+	public List<ScriptWrapper> getScripts() {
+		List<ScriptWrapper> scripts = new ArrayList<ScriptWrapper>();
+		for (File file : getFiles(scriptsDir)) {
 			try {
 				Script script = engine.createScript(file.getAbsolutePath(), getBinding());
-				GroovyTask groovyTask = new GroovyTask(script);
+				GroovyScript groovyTask = new GroovyScript(script);
 				groovyTask.setHash(DigestUtils.md5Hex(file.toString()));
-				tasks.add(groovyTask);
+				scripts.add(groovyTask);
 			} catch (ResourceException e) {
 				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
 			} catch (ScriptException e) {
 				LOGGER.warn("Could not load task from {}", file.getAbsolutePath(), e);
 			}
 		}
-		return tasks;
+		return scripts;
 	}
 	
 	/**
-	 * Recursively gets all of the files in tasksDir that end in ".groovy"
-	 * @param tasksDir
+	 * Recursively gets all of the files in scriptsDir that end in ".groovy"
+	 * 
+	 * @param scriptsDir
 	 * @return a List of files
 	 */
-	protected List<File> getFiles(File tasksDir) {
+	protected List<File> getFiles(File scriptsDir) {
 		List<File> files = new ArrayList<File>();
-		if (tasksDir.isDirectory()) {
-			for (File file : tasksDir.listFiles()) {
+		if (scriptsDir.isDirectory()) {
+			for (File file : scriptsDir.listFiles()) {
 				if (file.isDirectory()) {
 					files.addAll(getFiles(file));
 				} else if (file.getName().endsWith(DOT_GROOVY)) {
@@ -90,10 +91,10 @@ public class GroovyTaskFactory implements TaskFactory {
 	}
 
 	/**
-	 * @return the tasksDir
+	 * @return the scriptsDir
 	 */
-	public File getTasksDir() {
-		return tasksDir;
+	public File getScriptsDir() {
+		return scriptsDir;
 	}
 
 	/**

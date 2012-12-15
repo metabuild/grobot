@@ -25,13 +25,22 @@ public class FileBasedKeyManager implements KeyManager {
 	private Properties keyProperties = new Properties();
 	
 	public FileBasedKeyManager() {
+		FileInputStream inputStream = null;
 		try {
-			this.keyProperties.load(new FileInputStream(keyFile));
-		} catch (FileNotFoundException e) {
-			LOGGER.warn("Could not find the keyFile, creating a new one", e);
+			inputStream = new FileInputStream(keyFile);
+			this.keyProperties.load(inputStream);
+		}catch (FileNotFoundException fnfe) {
+			LOGGER.warn("Could not find the keyFile, creating a new one", fnfe);
 			createKeyFile(keyFile);
-		} catch (IOException e) {
-			LOGGER.warn("Could not read from the keyFile", e);
+		} catch (IOException ioe) {
+			LOGGER.warn("Could not read from the keyFile", ioe);
+		} finally {
+			try {
+				if (inputStream != null)
+					inputStream.close();
+			} catch (IOException e) {
+				LOGGER.warn("Could not close the input stream", e);
+			}
 		}
 	}
 	
@@ -54,35 +63,37 @@ public class FileBasedKeyManager implements KeyManager {
 	 */
 	@Override
 	public void storeKey(String key) {
+		FileOutputStream outputStream = null;
 		try {
-			keyProperties.store(new FileOutputStream(keyFile), "The Grobot Client's Key");
+			outputStream = new FileOutputStream(keyFile);
+			keyProperties.store(outputStream, "The Grobot Client's Key");
 		} catch (IOException e) {
 			LOGGER.warn("Could not write to the keyFile", e);
+		} finally {
+			try {
+				if (outputStream != null)
+					outputStream.close();
+			} catch (IOException ioe) {
+				LOGGER.warn("Could not close the outputStream", ioe);
+			}
 		}
 	}
 	
 	/**
 	 * @param keyFile
 	 */
-	protected void createKeyFile(File keyFile) {
+	protected boolean createKeyFile(File keyFile) {
 		try {
 			if (!keyFile.exists()) {
-				File directory = getKeyDirectory();
-				if (!directory.exists()) {
-					directory.mkdirs();
-				}
-				keyFile.createNewFile();
+				return keyFile.createNewFile();
 			}
 		} catch (IOException e) {
 			LOGGER.warn("Could not create the keyFile", e);
 		}
+		return false;
 	}
 	
 	protected static File getKeyFile() {
 		return new File(keyDirectoryName + File.separator + keyFileName);
-	}
-	
-	protected static File getKeyDirectory() {
-		return new File(keyDirectoryName);
 	}
 }

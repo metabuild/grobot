@@ -21,14 +21,11 @@ public class ClientConfig {
 	Environment environment;
 	
 	@Bean(name="clientName")
-	public String getClientName() {
-		String clientName = null;
-		try {
-			clientName = environment.getProperty("grobot.client.name") != null ? 
+	public String getClientName() throws UnknownHostException {
+		String clientName = environment.getProperty("grobot.client.name") != null ? 
 				environment.getProperty("grobot.client.name") : InetAddress.getLocalHost().getCanonicalHostName();
-		} catch (UnknownHostException e) {
-			System.err.println("FATAL: Grobot could not determine the hostname - exiting.");
-			System.exit(1);
+		if (clientName == null) {
+			throw new RuntimeException("Unable to determine the client name from properties or hostname");
 		}
 		return clientName;
 	}

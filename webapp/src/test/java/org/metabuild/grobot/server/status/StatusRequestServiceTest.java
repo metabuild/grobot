@@ -28,7 +28,7 @@ public class StatusRequestServiceTest {
 		}
 	}
 
-	private class FakeStatusRequestProducer implements StatusRequestProducer {
+	private static class FakeStatusRequestProducer implements StatusRequestProducer {
 		@Override
 		public void sendStatusRequest() throws JMSException {
 			try {

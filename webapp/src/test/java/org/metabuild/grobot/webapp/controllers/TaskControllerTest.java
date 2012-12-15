@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.metabuild.grobot.tasks.groovy.GroovyTask;
-import org.metabuild.grobot.tasks.groovy.GroovyTaskCache;
+import org.metabuild.grobot.scripts.groovy.GroovyScript;
+import org.metabuild.grobot.scripts.groovy.GroovyScriptCache;
 import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
@@ -23,11 +23,11 @@ import org.springframework.ui.ExtendedModelMap;
  */
 public class TaskControllerTest extends AbstractSpringEnabledTest {
 
-	private static final List<GroovyTask> tasks = new ArrayList<GroovyTask>();
+	private static final List<GroovyScript> tasks = new ArrayList<GroovyScript>();
 	
 	@Before
 	public void initTaskController() {
-		GroovyTask task = mock(GroovyTask.class);
+		GroovyScript task = mock(GroovyScript.class);
 		when(task.toString()).thenReturn("MyMockTask");
 		tasks.add(task);
 	}
@@ -35,7 +35,7 @@ public class TaskControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
-		GroovyTaskCache taskCache = mock(GroovyTaskCache.class);
+		GroovyScriptCache taskCache = mock(GroovyScriptCache.class);
 		when(taskCache.getAll()).thenReturn(tasks);
 		
 		TaskController controller = new TaskController();
@@ -49,7 +49,7 @@ public class TaskControllerTest extends AbstractSpringEnabledTest {
 		assertEquals("tasks/list", result);
 		
 		@SuppressWarnings("unchecked")
-		List<GroovyTask> modelTasks = (List<GroovyTask>) uiModel.get("tasks");
+		List<GroovyScript> modelTasks = (List<GroovyScript>) uiModel.get("tasks");
 		
 		assertEquals(1, modelTasks.size());
 	}

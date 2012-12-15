@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.metabuild.grobot.domain;
+package org.metabuild.grobot.common.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

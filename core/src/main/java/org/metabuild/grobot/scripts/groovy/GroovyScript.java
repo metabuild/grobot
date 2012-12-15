@@ -1,10 +1,10 @@
-package org.metabuild.grobot.tasks.groovy;
+package org.metabuild.grobot.scripts.groovy;
 
 import groovy.lang.Script;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.metabuild.grobot.tasks.Task;
+import org.metabuild.grobot.scripts.ScriptWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,15 +14,15 @@ import org.slf4j.LoggerFactory;
  * @author jburbrid
  * @since 9/28/2012
  */
-public class GroovyTask implements Task {
+public class GroovyScript implements ScriptWrapper {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTask.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroovyScript.class);
 	
 	private final Script script;
 	private final AtomicInteger timesRuns = new AtomicInteger();
 	private String md5Hash;
 	
-	public GroovyTask(Script script) {
+	public GroovyScript(Script script) {
 		this.script = script;
 	}
 	

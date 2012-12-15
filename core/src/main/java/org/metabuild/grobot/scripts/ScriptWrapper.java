@@ -1,10 +1,10 @@
-package org.metabuild.grobot.tasks;
+package org.metabuild.grobot.scripts;
 
 /**
  * @author jburbridge
  * @since 10/7/2012
  */
-public interface Task {
+public interface ScriptWrapper {
 
 	/**
 	 * @return the task's name
