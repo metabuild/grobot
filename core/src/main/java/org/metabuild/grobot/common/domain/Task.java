@@ -40,7 +40,7 @@ public class Task  implements Serializable {
 	private List<TaskExecution> taskExecutions;
 
 	/**
-	 * Default NOOP constructor for Hibernate
+	 * No-arg constructor for Hibernate
 	 */
 	public Task() {}
 	

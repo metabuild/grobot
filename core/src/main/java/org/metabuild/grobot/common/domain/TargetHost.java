@@ -2,15 +2,19 @@ package org.metabuild.grobot.common.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,11 +30,6 @@ import org.metabuild.grobot.common.jms.StatusResponse;
  */
 @Entity
 @Table(name="TARGET_HOSTS")
-@NamedQueries({
-	@NamedQuery(name="TargetHost.findAll", query="select th from TargetHost th"),
-	@NamedQuery(name="TargetHost.findById", query="select th from TargetHost th where th.id = :id"),
-	@NamedQuery(name="TargetHost.findByName", query="select th from TargetHost th where th.name = :hostname")
-})
 public class TargetHost implements Serializable {
 	
 	private static final long serialVersionUID = 150135564407144746L;
@@ -51,6 +50,12 @@ public class TargetHost implements Serializable {
 	@Column(name = "REGISTERED")
 	private Date registered;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "TARGET_GROUP_MEMBERS",
+		joinColumns = @JoinColumn(name = "TARGET_HOST_ID"),
+		inverseJoinColumns = @JoinColumn(name = "TARGET_GROUP_ID"))
+	private Set<TargetGroup> groups = new HashSet<TargetGroup>();
+	
 	@Transient
 	private boolean active;
 	@Transient
@@ -63,7 +68,7 @@ public class TargetHost implements Serializable {
 	private TargetHostStatus status;
 
 	/**
-	 * Default NOOP constructor for Hibernate
+	 * No-arg constructor for Hibernate
 	 */
 	public TargetHost() {}
 	
@@ -219,14 +224,36 @@ public class TargetHost implements Serializable {
 	}
 
 	/**
+	 * @return the groups
+	 */
+	public Set<TargetGroup> getGroups() {
+		return groups;
+	}
+
+	/**
+	 * @param groups the groups to set
+	 */
+	public void setGroups(Set<TargetGroup> groups) {
+		this.groups = groups;
+	}
+
+	/**
 	 * @param status the status to set
 	 */
 	public void setStatus(TargetHostStatus status) {
 		this.status = status;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return name;
+		StringBuilder builder = new StringBuilder();
+		builder.append("TargetHost [id=").append(id).append(", name=")
+				.append(name).append(", address=").append(address)
+				.append(", registered=").append(registered).append(", active=")
+				.append(active).append(", status=").append(status).append("]");
+		return builder.toString();
 	}
 }

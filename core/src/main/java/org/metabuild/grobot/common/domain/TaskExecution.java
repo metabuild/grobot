@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +32,10 @@ public class TaskExecution implements Serializable {
 	@Column(name = "ID")
 	private String id;
 	
+	@ManyToOne(optional=false)
+	@JoinColumn(name="TASK_ID")
+	private Task task;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "SCHEDULED_START_TIME")
 	private Date scheduleStartTime;
@@ -43,12 +49,19 @@ public class TaskExecution implements Serializable {
 	private Date endTime;
 
 	/**
+	 * No-arg constructor for Hibernate
+	 */
+	public TaskExecution() {}
+	
+	/**
+	 * @param task
 	 * @param scheduleStartTime
 	 * @param actualStartTime
 	 * @param endTime
 	 */
-	public TaskExecution(Date scheduleStartTime, Date actualStartTime, Date endTime) {
+	public TaskExecution(Task task, Date scheduleStartTime, Date actualStartTime, Date endTime) {
 		this.id = UUID.randomUUID().toString();
+		this.task = task;
 		this.scheduleStartTime = scheduleStartTime;
 		this.actualStartTime = actualStartTime;
 		this.endTime = endTime;
@@ -66,6 +79,20 @@ public class TaskExecution implements Serializable {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the task
+	 */
+	public Task getTask() {
+		return task;
+	}
+
+	/**
+	 * @param task the task to set
+	 */
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 	/**

@@ -14,12 +14,12 @@ public interface TargetHostService {
 	
 	public List<TargetHost> findAllWithProperties();
 	
+	public TargetHost findByName(String name);
+
 	public TargetHost find(String id);
 	
 	public TargetHost save(TargetHost targetHost);
 	
 	public void delete(TargetHost targetHost);
-
-	public TargetHost findByName(String hostname);
 
 }

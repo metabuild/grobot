@@ -38,6 +38,10 @@
                 <td>${target.status}</td>
             </tr>
             <tr>
+                <td>Groups</td>
+                <td>${target.groups}</td>
+            </tr>
+            <tr>
                 <td>System Properties</td>
                 <td><c:if test="${not empty target.systemProperties}">
                       <div id="toggleSystemProperties" class="">

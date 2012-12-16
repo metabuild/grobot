@@ -2,13 +2,13 @@ package org.metabuild.grobot.server.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-
 import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.server.repository.TargetHostRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,66 +24,46 @@ public class TargetHostServiceImpl implements TargetHostService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TargetHostServiceImpl.class);
 	
-	@PersistenceContext
-	private EntityManager entityManager;
+	@Autowired
+	private TargetHostRepository targetHostRepository;
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<TargetHost> findAll() {
-		final List<TargetHost> targetHosts = entityManager.createNamedQuery("TargetHost.findAll", TargetHost.class)
-				.getResultList();
-		return targetHosts;
+		return targetHostRepository.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<TargetHost> findAllWithProperties() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public TargetHost find(String id) {
-		TargetHost targetHost = null;
-		try {
-			targetHost = entityManager.createNamedQuery("TargetHost.findById", TargetHost.class)
-				.setParameter("id", id)
-				.getSingleResult();
-		} catch (NoResultException e) {
-			LOGGER.info("No TargetHost found for id {}", id);
-		}
-		return targetHost;
+		return targetHostRepository.findById(id);
 	}
 	
 	@Override
-	public TargetHost findByName(String hostname) {
-		TargetHost targetHost = null;
-		try {
-			targetHost = entityManager.createNamedQuery("TargetHost.findByName", TargetHost.class)
-				.setParameter("hostname", hostname)
-				.getSingleResult();
-		} catch (NoResultException e) {
-			LOGGER.info("No TargetHost found with hostname {}", hostname);
-		}
-		return targetHost;
+	@Transactional(readOnly=true)
+	public TargetHost findByName(String name) {
+		final List<TargetHost> results =  targetHostRepository.findByName(name);
+		return results.size() > 0 ? results.get(0) : null;
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public TargetHost save(TargetHost targetHost) {
-		if (targetHost.getId() == null) {
-			LOGGER.info("Inserting new TargetHost {}", targetHost.getName());
-			entityManager.persist(targetHost);
-		} else {
-			LOGGER.info("Updating existing TargetHost {}", targetHost.getName());
-			entityManager.merge(targetHost);
-		}
-		LOGGER.info("TargetHost saved with id {}", targetHost.getId());
-		return targetHost;
+		LOGGER.info("Saving TargetHost with id {}", targetHost.getId());
+		return targetHostRepository.save(targetHost);
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public void delete(TargetHost targetHost) {
-		TargetHost mergedTargetHost = entityManager.merge(targetHost);
-		entityManager.remove(mergedTargetHost);
-		LOGGER.info("Deleted TargetHost with id {}", mergedTargetHost.getId());
+		LOGGER.info("Deleting TargetHost with id {}", targetHost.getId());
+		targetHostRepository.delete(targetHost);
 	}
 }

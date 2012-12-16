@@ -49,6 +49,5 @@ public class RegistrationRequestProducerImpl extends JmsGatewaySupport implement
 				return message;
 			}
 		});
-		
 	}
 }
