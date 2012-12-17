@@ -13,6 +13,8 @@ public interface TaskRepository extends CrudRepository<Task, String> {
 
 	public List<Task> findAll();
 	
+	public Task findById(String id);
+
 	public List<Task> findByName(String name);
 	
 }

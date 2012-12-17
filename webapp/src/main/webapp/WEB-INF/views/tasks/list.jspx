@@ -16,14 +16,16 @@
             <thead>
                 <tr>
                     <th/>
-                    <th>Task Name</th>
+                    <th>Task</th>
+                    <th>Script</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${tasks}" var="task">
                     <tr>
                         <td><a class="btn btn-small" href="#"><i class="icon-star"></i></a></td>
-                        <td><a href="${showTaskDetailsUrl}/${task.hash}">${task.name}</a></td>
+                        <td><a href="${showTaskDetailsUrl}/${task.id}">${task.name}</a></td>
+                        <td>${task.scriptName}</td>
                     </tr>
                 </c:forEach>
             </tbody>

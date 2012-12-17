@@ -2,8 +2,10 @@ package org.metabuild.grobot.webapp.controllers;
 
 import java.util.List;
 
+import org.metabuild.grobot.common.domain.Task;
 import org.metabuild.grobot.scripts.groovy.GroovyScript;
 import org.metabuild.grobot.scripts.groovy.GroovyScriptCache;
+import org.metabuild.grobot.server.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class TaskController extends AbstractBaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
 	@Autowired
-	private GroovyScriptCache taskCache;
+	private TaskService taskService;
 
 	/**
 	 * Display the list of tasks
@@ -32,7 +34,7 @@ public class TaskController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel) {
 		
-		final List<GroovyScript> tasks = taskCache.getAll();
+		final List<Task> tasks = taskService.findAll();
 		uiModel.addAttribute("tasks", tasks);
 		addSelectedMenuItem(uiModel);
 		
@@ -42,14 +44,14 @@ public class TaskController extends AbstractBaseController {
 	/**
 	 * Display the details of a task
 	 */
-	@RequestMapping(value="/{hash}", method=RequestMethod.GET)
-	public String details(@PathVariable("hash") String hash, Model uiModel) {
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		final GroovyScript task = taskCache.get(hash);
+		final Task task = taskService.find(id);
 		if (task != null) {
 			uiModel.addAttribute("task", task);
 		} else {
-			LOGGER.warn("Couldn't find task with hash {} in task cache.", hash);
+			LOGGER.warn("Couldn't find task with id {}.", id);
 		}
 		addSelectedMenuItem(uiModel);
 		

@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -36,7 +37,10 @@ public class Task  implements Serializable {
 	@Column(name = "SCRIPT_NAME")
 	private String scriptName;
 	
-	@OneToMany(mappedBy="id", cascade=CascadeType.ALL, orphanRemoval=true)
+	@Column(name = "ARGUMENTS")
+	private String arguments;
+	
+	@OneToMany(mappedBy="id", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<TaskExecution> taskExecutions;
 
 	/**
@@ -45,7 +49,6 @@ public class Task  implements Serializable {
 	public Task() {}
 	
 	/**
-	 * @param id
 	 * @param name
 	 * @param scriptName
 	 * @param taskExecutions
@@ -97,6 +100,20 @@ public class Task  implements Serializable {
 	 */
 	public void setScriptName(String scriptName) {
 		this.scriptName = scriptName;
+	}
+
+	/**
+	 * @return the arguments
+	 */
+	public String getArguments() {
+		return arguments;
+	}
+
+	/**
+	 * @param arguments the arguments to set
+	 */
+	public void setArguments(String arguments) {
+		this.arguments = arguments;
 	}
 
 	/**

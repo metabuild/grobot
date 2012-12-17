@@ -74,14 +74,14 @@ dependencies {
 	
 }
 
-// exclude the BaseControllerTest since it doesn't have any test methods of it's own
+// exclude the AbstractSpringEnabledTest since it doesn't have any test methods of it's own
 test {
 	exclude '**/AbstractSpringEnabledTest*'
 	systemProperty 'spring.profiles.active', 'default, test'
 }
 
 integrationTest {
-	systemProperty 'spring.profiles.active', 'default, dev'
+	systemProperty 'spring.profiles.active', 'default, test'
 }
 
 war {
@@ -122,7 +122,7 @@ artifacts {
  */
 jettyRun {
 	doFirst {
-		System.setProperty('spring.profiles.active', 'default, dev')
+		System.setProperty('spring.profiles.active', 'default, test')
 		System.setProperty('user.dir', "${projectDir}")
 	}
 	// if running from a development environment, keep Jetty running in the foreground

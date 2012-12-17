@@ -45,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(readOnly=true)
 	public Task find(String id) {
-		return taskRepository.findOne(id);
+		return taskRepository.findById(id);
 	}
 
 	/* (non-Javadoc)

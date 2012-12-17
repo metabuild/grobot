@@ -62,9 +62,9 @@ public class TaskExecution implements Serializable {
 	public TaskExecution(Task task, Date scheduleStartTime, Date actualStartTime, Date endTime) {
 		this.id = UUID.randomUUID().toString();
 		this.task = task;
-		this.scheduleStartTime = scheduleStartTime;
-		this.actualStartTime = actualStartTime;
-		this.endTime = endTime;
+		this.scheduleStartTime = (Date) scheduleStartTime.clone();
+		this.actualStartTime = (Date) actualStartTime.clone();
+		this.endTime = (Date) endTime.clone();
 	}
 
 	/**
@@ -99,41 +99,41 @@ public class TaskExecution implements Serializable {
 	 * @return the scheduleStartTime
 	 */
 	public Date getScheduleStartTime() {
-		return scheduleStartTime;
+		return (Date) scheduleStartTime.clone();
 	}
 
 	/**
 	 * @param scheduleStartTime the scheduleStartTime to set
 	 */
 	public void setScheduleStartTime(Date scheduleStartTime) {
-		this.scheduleStartTime = scheduleStartTime;
+		this.scheduleStartTime = (Date) scheduleStartTime.clone();
 	}
 
 	/**
 	 * @return the actualStartTime
 	 */
 	public Date getActualStartTime() {
-		return actualStartTime;
+		return (Date) actualStartTime.clone();
 	}
 
 	/**
 	 * @param actualStartTime the actualStartTime to set
 	 */
 	public void setActualStartTime(Date actualStartTime) {
-		this.actualStartTime = actualStartTime;
+		this.actualStartTime = (Date) actualStartTime.clone();
 	}
 
 	/**
 	 * @return the endTime
 	 */
 	public Date getEndTime() {
-		return endTime;
+		return (Date) endTime.clone();
 	}
 
 	/**
 	 * @param endTime the endTime to set
 	 */
 	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+		this.endTime = (Date) endTime.clone();
 	}
 }

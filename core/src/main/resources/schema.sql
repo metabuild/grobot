@@ -34,6 +34,7 @@ create table TASKS (
   ID varchar(36) not null,
   NAME varchar(60) not null, 
   SCRIPT_NAME varchar(60), 
+  ARGUMENTS varchar(120), 
   unique UQ_TASKS_1 (ID), 
   unique UQ_TASKS_2 (NAME), 
   primary key (ID) 
