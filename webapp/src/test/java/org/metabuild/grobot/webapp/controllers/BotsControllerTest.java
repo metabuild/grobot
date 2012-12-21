@@ -13,12 +13,12 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.server.service.TargetHostService;
 import org.metabuild.grobot.server.service.TargetHostServiceImpl;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestProducerImpl;
-import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 

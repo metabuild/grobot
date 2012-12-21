@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
+import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.springframework.ui.ExtendedModelMap;
 
 /**

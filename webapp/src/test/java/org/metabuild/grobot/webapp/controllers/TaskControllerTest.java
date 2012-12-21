@@ -10,11 +10,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.metabuild.grobot.common.domain.Task;
 import org.metabuild.grobot.scripts.groovy.GroovyScript;
 import org.metabuild.grobot.scripts.groovy.GroovyScriptCache;
 import org.metabuild.grobot.server.service.TaskService;
-import org.metabuild.grobot.webapp.AbstractSpringEnabledTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
