@@ -17,6 +17,15 @@ sourceSets {
 	integration
 }
 
+configurations {
+	integrationCompile {
+		extendsFrom testCompile
+	}
+	integrationRuntime {
+		extendsFrom testRuntime
+	}
+}
+
 dependencies {
 	
 	compile 'org.slf4j:slf4j-api:1.7.1'

@@ -47,7 +47,7 @@ dependencies {
 		'org.springframework:spring-webmvc:3.2.0.RELEASE',
 		'org.springframework:spring-jdbc:3.2.0.RELEASE',
 		'org.springframework:spring-orm:3.2.0.RELEASE',
-		'org.springframework.data:spring-data-jpa:1.2.0.M1',
+		'org.springframework.data:spring-data-jpa:1.2.0.RELEASE',
 		'org.springframework:spring-tx:3.2.0.RELEASE',
 		'org.springframework:spring-jms:3.2.0.RELEASE',
 		'org.apache.tiles:tiles-core:2.2.2',
@@ -70,7 +70,8 @@ dependencies {
 		configurations.testCompile,
 		sourceSets.test.output;
 	
-	integrationRuntime configurations.testRuntime
+	integrationRuntime configurations.testRuntime,
+		configurations.testCompile
 	
 }
 
@@ -122,7 +123,7 @@ artifacts {
  */
 jettyRun {
 	doFirst {
-		System.setProperty('spring.profiles.active', 'default, test')
+		System.setProperty('spring.profiles.active', 'default, dev')
 		System.setProperty('user.dir', "${projectDir}")
 	}
 	// if running from a development environment, keep Jetty running in the foreground
