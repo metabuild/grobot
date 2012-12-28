@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package org.metabuild.grobot.client.registration;
 
 import javax.jms.Destination;
@@ -22,7 +37,7 @@ public class RegistrationRequestProducerImpl extends JmsGatewaySupport implement
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationRequestProducerImpl.class);
 	private final Destination replyToDestination;
-	
+
 	/**
 	 * Create a RegistrationRequestProducer and set the replyToDestination address to the queue
 	 * that the RegistrationResponseProducer should reply to
@@ -32,7 +47,7 @@ public class RegistrationRequestProducerImpl extends JmsGatewaySupport implement
 	public RegistrationRequestProducerImpl(Destination replyToDestination) {
 		this.replyToDestination = replyToDestination;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.metabuild.grobot.client.mq.RegistrationRequestProducer#sendRegistrationRequest()
