@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package org.metabuild.grobot.client.config;
 
 import java.net.UnknownHostException;
@@ -35,7 +50,7 @@ public class ClientJmsConfig {
 
 	@Autowired
 	Environment environment;
-	
+
 	/**
 	 * @return the registration request destination
 	 */
@@ -44,7 +59,7 @@ public class ClientJmsConfig {
 		final String queueName = environment.getProperty("grobot.registration.request.queue");
 		return new ActiveMQQueue(queueName);
 	}
-	
+
 	/**
 	 * @param jmsConnectionFactory
 	 * @return the registrationRequestProducer
@@ -55,44 +70,44 @@ public class ClientJmsConfig {
 			@Qualifier(value="jmsConnectionFactory") ConnectionFactory jmsConnectionFactory) {
 		final JmsTemplate jmsTemplate = new JmsTemplate(jmsConnectionFactory);
 		jmsTemplate.setDefaultDestination(getRegistrationRequestQueueDestination());
-		final RegistrationRequestProducer registrationRequestProducer = 
+		final RegistrationRequestProducer registrationRequestProducer =
 				new RegistrationRequestProducerImpl(registrationResponseQueueDestination);
 		registrationRequestProducer.setJmsTemplate(jmsTemplate);
 		return registrationRequestProducer;
 	}
-	
+
 	/**
 	 * @return the registration response destination
 	 */
 	@Bean(name="registrationResponseQueueDestination")
 	public Destination getRegistrationResponseQueueDestination(@Qualifier(value="clientName") String clientName) {
 		final String queueName = new StringBuilder(environment.getProperty("grobot.registration.response.queue"))
-			.append(".").append("foo").toString();
+		.append(".").append("foo").toString();
 		final ActiveMQQueue queue = new ActiveMQQueue(queueName);
 		return queue;
 	}
-	
+
 	@Autowired(required=true)
 	@Bean(name="registrationResponseListner")
 	public RegistrationResponseListener getRegistrationResponseListener(
 			@Qualifier(value="statusTopicJmsContainer") DefaultMessageListenerContainer statusTopicJmsContainer) {
 		return new RegistrationResponseListener(statusTopicJmsContainer);
 	}
-	
+
 	@Bean(name="registrationResponseJmsListenerAdapter")
 	public MessageListenerAdapter getRegistrationResponseListenerAdapter(RegistrationResponseListener registrationResponseListener) {
 		final MessageListenerAdapter adapter = new MessageListenerAdapter(registrationResponseListener);
 		adapter.setDefaultListenerMethod("onMessage");
 		return adapter;
 	}
-	
+
 	@Autowired(required=true)
 	@Bean(name="registrationResponseListenerContainer")
-	public DefaultMessageListenerContainer getRegistrationResponseTopicContainer(ConnectionFactory jmsConnectionFactory, 
-			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination, 
+	public DefaultMessageListenerContainer getRegistrationResponseTopicContainer(ConnectionFactory jmsConnectionFactory,
+			@Qualifier(value="registrationResponseQueueDestination") Destination registrationResponseQueueDestination,
 			@Qualifier(value="registrationResponseJmsListenerAdapter") MessageListenerAdapter registrationResponseJmsListenerAdapter) {
 		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-		container.setConnectionFactory(jmsConnectionFactory); 
+		container.setConnectionFactory(jmsConnectionFactory);
 		container.setDestination(registrationResponseQueueDestination);
 		container.setPubSubDomain(true);
 		container.setSessionTransacted(false);
@@ -101,7 +116,7 @@ public class ClientJmsConfig {
 		container.setAutoStartup(false);
 		return container;
 	}
-	
+
 	@Autowired(required=true)
 	@Qualifier(value="statusResponseProducer")
 	@Bean(name="statusRequestListner")
@@ -110,21 +125,21 @@ public class ClientJmsConfig {
 		statusRequestListener.setStatusResponseProducer(statusResponseProducer);
 		return statusRequestListener;
 	}
-	
+
 	@Bean(name="statusRequestJmsListenerAdapter")
 	public MessageListenerAdapter messageListenerAdapter(StatusRequestListener statusRequestListner) {
 		final MessageListenerAdapter adapter = new MessageListenerAdapter(statusRequestListner);
 		adapter.setDefaultListenerMethod("onMessage");
 		return adapter;
 	}
-		
+
 	@Autowired(required=true)
 	@Bean(name="statusTopicJmsContainer")
-	public DefaultMessageListenerContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory, 
-			@Qualifier(value="statusTopicDestination") Destination statusTopicDestination, 
+	public DefaultMessageListenerContainer getStatusTopicContainer(ConnectionFactory jmsConnectionFactory,
+			@Qualifier(value="statusTopicDestination") Destination statusTopicDestination,
 			@Qualifier(value="statusRequestJmsListenerAdapter") MessageListenerAdapter statusRequestJmsListenerAdapter) {
 		final DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-		container.setConnectionFactory(jmsConnectionFactory); 
+		container.setConnectionFactory(jmsConnectionFactory);
 		container.setDestination(statusTopicDestination);
 		container.setPubSubDomain(true);
 		container.setSessionTransacted(false);
@@ -133,7 +148,7 @@ public class ClientJmsConfig {
 		container.setAutoStartup(false);
 		return container;
 	}
-	 
+
 	@Autowired(required=true)
 	@Bean(name="statusResponseProducer")
 	public StatusResponseProducer getStatusResponseProducer(
