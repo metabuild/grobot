@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package org.metabuild.grobot.client.key;
 
 import java.io.File;
@@ -17,13 +32,13 @@ import org.slf4j.LoggerFactory;
 public class FileBasedKeyManager implements KeyManager {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileBasedKeyManager.class);
-	
+
 	private static final String keyDirectoryName = ".grobot";
 	private static final String keyFileName = "key.properties";
 	private static final File keyFile = getKeyFile();
-	
+
 	private Properties keyProperties = new Properties();
-	
+
 	public FileBasedKeyManager() {
 		FileInputStream inputStream = null;
 		try {
@@ -36,18 +51,19 @@ public class FileBasedKeyManager implements KeyManager {
 			LOGGER.warn("Could not read from the keyFile", ioe);
 		} finally {
 			try {
-				if (inputStream != null)
+				if (inputStream != null) {
 					inputStream.close();
+				}
 			} catch (IOException e) {
 				LOGGER.warn("Could not close the input stream", e);
 			}
 		}
 	}
-	
-	protected FileBasedKeyManager(Properties keyProperties) { 
+
+	protected FileBasedKeyManager(Properties keyProperties) {
 		this.keyProperties = keyProperties;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.metabuild.grobot.client.key.KeyManager#loadKey()
@@ -71,14 +87,15 @@ public class FileBasedKeyManager implements KeyManager {
 			LOGGER.warn("Could not write to the keyFile", e);
 		} finally {
 			try {
-				if (outputStream != null)
+				if (outputStream != null) {
 					outputStream.close();
+				}
 			} catch (IOException ioe) {
 				LOGGER.warn("Could not close the outputStream", ioe);
 			}
 		}
 	}
-	
+
 	/**
 	 * @param keyFile
 	 */
@@ -92,7 +109,7 @@ public class FileBasedKeyManager implements KeyManager {
 		}
 		return false;
 	}
-	
+
 	protected static File getKeyFile() {
 		return new File(keyDirectoryName + File.separator + keyFileName);
 	}
