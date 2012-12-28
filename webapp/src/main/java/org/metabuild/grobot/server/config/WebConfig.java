@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 /**
  * Spring Web JavaConfig style configuration
@@ -54,7 +54,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean(name="tilesViewResolver")
 	public ViewResolver getUrlBasedViewResolver() {
 		final UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-		resolver.setViewClass(org.springframework.web.servlet.view.tiles2.TilesView.class);
+		resolver.setViewClass(org.springframework.web.servlet.view.tiles3.TilesView.class);
 		return resolver;
 	}
 	

@@ -23,7 +23,7 @@ dependencies {
 		
 	groovy 'org.codehaus.groovy:groovy-all:1.8.6'
 	
-	testCompile 'junit:junit:4.10', 
+	testCompile 'junit:junit:4.11', 
 		'org.mockito:mockito-all:1.8.5'
 		
 	integrationCompile sourceSets.main.output,

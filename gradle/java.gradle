@@ -30,7 +30,7 @@ dependencies {
 	
 	compile 'org.slf4j:slf4j-api:1.7.1'
 		
-	testCompile 'junit:junit:4.10',
+	testCompile 'junit:junit:4.11',
 		'org.mockito:mockito-all:1.8.5'
 		
 	integrationCompile sourceSets.main.output,

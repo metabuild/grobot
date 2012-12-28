@@ -50,9 +50,9 @@ dependencies {
 		'org.springframework.data:spring-data-jpa:1.2.0.RELEASE',
 		'org.springframework:spring-tx:3.2.0.RELEASE',
 		'org.springframework:spring-jms:3.2.0.RELEASE',
-		'org.apache.tiles:tiles-core:2.2.2',
-		'org.apache.tiles:tiles-template:2.2.2',
-		'org.apache.tiles:tiles-jsp:2.2.2',
+		'org.apache.tiles:tiles-core:3.0.0',
+		'org.apache.tiles:tiles-template:3.0.0',
+		'org.apache.tiles:tiles-jsp:3.0.0',
 		'org.apache.activemq:activemq-core:5.6.0',
 		'javax.jms:jms:1.1';
 		
