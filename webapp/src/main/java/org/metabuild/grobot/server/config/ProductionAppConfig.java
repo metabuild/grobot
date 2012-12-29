@@ -19,8 +19,6 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.metabuild.grobot.common.domain.TargetHostCache;
-import org.metabuild.grobot.common.domain.TargetHostCacheImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -38,11 +36,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 public class ProductionAppConfig {
 
 	
-	@Bean(name="targetCache")
-	public TargetHostCache getTargetCache() {
-		return new TargetHostCacheImpl();
-	}
-
 	@Bean(name="hibernateProperties")
 	public Properties getHibernateProperties() {
 		final Properties hibernateProperties = new Properties();
