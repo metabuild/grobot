@@ -17,7 +17,19 @@
         </thead>
         <tbody>
             <tr>
+                <td>Id</td><td>${task.id}</td>
+            </tr>
+            <tr>
                 <td>Name</td><td>${task.name}</td>
+            </tr>
+            <tr>
+                <td>Script</td><td>${task.scriptName}</td>
+            </tr>
+            <tr>
+                <td>Arguments</td><td>${task.arguments}</td>
+            </tr>
+            <tr>
+                <td>Execution log</td><td>${task.taskExecutions}</td>
             </tr>
         </tbody>
     </table>
