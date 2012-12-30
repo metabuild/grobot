@@ -2,11 +2,11 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
     <definition extends="default" name="bots/list">
-        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; List Bots" />
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; List Bots" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/bots/list.jspx" />
     </definition>
     <definition extends="default" name="bots/details">
-        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Bot Details" />
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Bot Details" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/bots/details.jspx" />
     </definition>
 </tiles-definitions>
