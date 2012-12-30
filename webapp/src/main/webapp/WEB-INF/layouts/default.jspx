@@ -8,8 +8,9 @@
     
     <jsp:directive.page contentType="text/html;charset=UTF-8" />  
     <jsp:directive.page pageEncoding="UTF-8" /> 
-        
+    
     <tiles:insertAttribute name="header" ignore="true" />
+    
     <body>
         <div class="container">
             <div id="navWrapper">
