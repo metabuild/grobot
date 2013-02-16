@@ -1,0 +1,21 @@
+/**
+ * Cobertura Plug-In
+ * https://github.com/Mapvine/gradle-cobertura-plugin
+ */
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
+	}
+}
+
+apply plugin: org.gradle.api.plugins.cobertura.CoberturaPlugin
+
+cobertura {
+	format = (project.hasProperty('environment') && environment != 'development') ? 'xml' : 'html'
+}
+
+logger.info( "Loaded cobertura support for project '${project.name}' using ${cobertura.format}")

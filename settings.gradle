@@ -1,0 +1,4 @@
+// force the root project name to grobot 
+rootProject.name = 'grobot'
+include ':client', ':core', ':webapp'
+

@@ -1,0 +1,70 @@
+/*
+ * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+/**
+ * The Grobot Parent Project
+ * --------------------------
+ * The Grobot parent project is a container for common build scripts and custom 
+ * gradle tasks for it's subprojects. It doesn't produce any distrubtable artifacts 
+ * itself, but can be imported into eclipse to make working in eclipse a bit easier.
+ */
+
+description = 'The root of the Grobot project';
+ 
+apply plugin: 'groovy'
+
+/*
+ * Default for all projects including this one (rootProject)
+ */
+allprojects {
+	apply plugin: 'eclipse'
+	
+	/*
+	 * the "environment" property determines how artifacts are retrieved and
+	 * published (snapshots vs releases), whether integration tests should run,
+	 * and whether jettyRun should run in the foreground or not
+	 */
+	ext.environment = project.hasProperty('environment') ? environment: 'development';
+	logger.info("Environment is set to \"${environment}\"");
+	
+	/* unless we're building for a release, we generate snapshots */
+	version = hasProperty('environment') && environment == 'release' ?
+		currentVersion : "${currentVersion}-SNAPSHOT";
+}
+
+/*
+ * Default for all projects except this one
+ */
+subprojects {
+	/* 
+	 * import the common settings for all of our java subprojects - note that
+	 * some of these might also apply the groovy plug-in (ie, client and core)
+	 */
+	apply from: "${rootDir.path}/gradle/java.gradle"
+	
+	/*
+	 *  eclipse can't handle a true project hierarchy, so we fake it by
+	 *  making the names look a little bit more hierarchical
+	 */
+	eclipse.project.name = "${project.getParent().eclipse.project.name}-${project.name}"
+	/* make the base jar file name match the eclipse project for consistency */
+	archivesBaseName = eclipse.project.name
+	
+} 
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.3'
+}
+

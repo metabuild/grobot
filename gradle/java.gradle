@@ -1,0 +1,138 @@
+/*
+ * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+/**
+ * Defaults for all java projects - defines common jar attributes and how to handle repositories 
+ * depending on the context of the build. For development builds we use the local .m2 repo, for 
+ * continuous integration builds we use the snapshot repo, and for releases we use the release repo.
+ */
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6;
+targetCompatibility = 1.6;
+
+/*
+ * Adding the intergration-test folder to each java project
+ */
+sourceSets {
+	integration
+}
+
+configurations {
+	integrationCompile {
+		extendsFrom testCompile
+	}
+	integrationRuntime {
+		extendsFrom testRuntime
+	}
+}
+
+dependencies {
+	
+	compile 'org.slf4j:slf4j-api:1.7.1'
+		
+	testCompile 'junit:junit:4.11',
+		'org.mockito:mockito-all:1.8.5'
+		
+	integrationCompile sourceSets.main.output,
+		configurations.testCompile,
+		sourceSets.test.output;
+	
+	integrationRuntime configurations.testRuntime;
+}
+
+/*
+ * Define our repositories for artifact resolution - the default is to use a local
+ * filesystem based maven repo unless a environment variable is specified 
+ *
+ * NOTE: Gradle will look for a dependency in each repo in the order they are specified, stopping at the first 
+ * repository that contains the requested module. Ergo, maven central should always be the first and our metabuild 
+ * snapshot/release repo should always be defined last to guarantee we're in sync (as much as possible) with whatever
+ * is in published to maven central.
+ * 
+ * Note that the "allCombinedRepos" url proxies the springsource repo. This allows us to work with snapshots/releases
+ * of the spring framework that have not yet been sync'd to maven central. Ie, as of writing this maven central has 
+ * 3.1.3.RELEASE while springsource has 3.2.RELEASE.
+ */
+repositories {
+	maven {
+		name 'mavenCentral'
+		url 'http://repo1.maven.org/maven2'
+		// workaround due to licensing issues with javax packages
+		artifactUrls 'http://repository.jboss.org/nexus/content/groups/public'
+	}	
+	if (project.hasProperty('environment') && environment == 'build') {
+		maven {
+			name 'snapshotsRepo';
+			url snapshotRepoUrl;
+		}
+	} else if (project.hasProperty('environment') && environment == 'release') {
+		maven {
+			name 'releaseRepo';
+			url releaseRepoUrl;
+		}
+	} else {
+		mavenLocal();
+	}
+	maven {
+		name 'allCombinedRepos';
+		url repositoryUrl;
+	}
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': project.name,
+				   'Implementation-Vendor': 'Metabuild Software',
+				   'Implementation-Version': version;
+	}
+}
+
+/*
+ * Defines the test task for the intergration source set
+ */
+task integrationTest(type: Test) {
+   testClassesDir = sourceSets.integration.output.classesDir;
+   classpath = sourceSets.integration.runtimeClasspath;
+}
+
+/*
+ * configure a maven deployer to upload artifacts to the correct repository (snapshot or release)
+ * dependening on what environment we are running under.
+ *
+ * also, see the ~/.gradle/gradle.properties for more details on the artifactory credentials
+ */
+uploadArchives {
+	if (project.hasProperty('artifactory_username') && project.hasProperty('artifactory_password')) {
+		repositories.mavenDeployer {
+			// depending on the environment property we may either want to deploy to the snapshot repo
+			if (project.hasProperty('environment') && environment == 'release') {
+				name = 'releaseDeployer';
+				repository(url: "${releaseRepoUrl}") {
+					authentication(userName: "${artifactory_username}", password: "${artifactory_password}");
+				}
+			// or deploy to the release repo
+			} else {
+				name = 'snapshotDeployer';
+				repository(url: "${snapshotRepoUrl}") {
+					authentication(userName: "${artifactory_username}", password: "${artifactory_password}");
+				}
+			}
+		}
+	}
+}
+uploadArchives.dependsOn(build);
