@@ -11,11 +11,23 @@
     <spring:url value="/bots" var="showTargetDetailsUrl" />
     
     <h3>Bots</h3>
+    <form class="form-horizontal" align="right">
+      <div class="input-append">
+        <div class="btn-group">
+	      <select class="span4">
+	           <option>.*</option>
+	           <option>localhost</option>
+	      </select>
+          <button class="btn" type="button">Edit</button>
+	      <button class="btn" type="button">New</button>
+          <button class="btn" type="button">Delete</button>
+	    </div>
+	  </div>
+    </form>
     <c:if test="${not empty targets}">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th/>
                     <th>Target Name</th>
                     <th>Address</th>
                     <th>Last Update</th>
@@ -26,7 +38,6 @@
             <tbody>
                 <c:forEach items="${targets}" var="target">
                     <tr>
-                        <td><a class="btn btn-small" href="#"><i class="icon-star"></i></a></td>
                         <td><a href="${showTargetDetailsUrl}/${target.id}">${target.name}</a></td>
                         <td>${target.address}</td>
                         <td>${target.lastUpdatedStatus}</td>
@@ -36,6 +47,17 @@
                 </c:forEach>
             </tbody>
         </table>
+        <div class="pagination">
+          <ul>
+            <li><a href="#">Prev</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">Next</a></li>
+          </ul>
+        </div>
     </c:if>
     
 </div>

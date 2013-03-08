@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Creates directori es if they don't already exist
+ * Creates directories if they don't already exist
  *
  * @author jburbridge
  * @since 9/27/2012
@@ -33,4 +33,3 @@ class CreateDirectories extends DefaultTask {
 		}
 	}
 }
-
