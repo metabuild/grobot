@@ -8,6 +8,7 @@
     <jsp:output omit-xml-declaration="yes" />
     
     <spring:url value="/" var="homeUrl" />
+    <spring:url value="/logout" var="logoutUrl" />
     
     <!--  activeNavItem: ${selectedMenuItem} -->
         <div class="navbar navbar-inverse">
@@ -21,7 +22,7 @@
 	                  <li class="divider-verital"></li>
                   </c:forEach>
                 </ul>
-                <form class="navbar-form pull-right">
+                <form action="${logoutUrl}" class="navbar-form pull-right" method="get">
                       <button type="Submit" class="btn btn-inverse">Logout</button>
                 </form>
               </div>

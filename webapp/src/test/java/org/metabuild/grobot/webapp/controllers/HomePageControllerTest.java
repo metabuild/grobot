@@ -36,7 +36,7 @@ public class HomePageControllerTest extends AbstractSpringEnabledTest {
 		String result = controller.getIndex(uiModel);
 		
 		assertNotNull(result);
-		assertEquals("index", result);
+		assertEquals("bots/list", result);
 	}
 
 }
