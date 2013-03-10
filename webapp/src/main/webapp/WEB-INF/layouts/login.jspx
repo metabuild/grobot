@@ -11,6 +11,7 @@
     
     <tiles:insertAttribute name="header" ignore="true" />
     <spring:url value="/login" var="loginUrl" />
+    <spring:url value="/logout" var="logoutUrl" />
     
     <body>
         <div class="container" style="vertical-align: middle">

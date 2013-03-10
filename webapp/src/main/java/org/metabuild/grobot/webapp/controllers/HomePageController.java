@@ -31,12 +31,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomePageController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
-	private static final String HOMEPAGE_INDEX_VIEW = "index";
+	private static final String HOMEPAGE_INDEX_VIEW = "bots/list";
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getIndex(Model model) {
-		// TODO: implement authentication
-		LOGGER.debug("User not authenticated - presenting login form");
+		// TODO: need better homepage?
 		return HOMEPAGE_INDEX_VIEW;
 	}
 }
