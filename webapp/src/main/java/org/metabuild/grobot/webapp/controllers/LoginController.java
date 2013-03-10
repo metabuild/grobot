@@ -24,18 +24,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author jburbridge
- * @since 10/11/2012
+ * @since 3/10/2013
  */
 @Controller
-@RequestMapping("/")
-public class HomePageController {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
-	private static final String HOMEPAGE_INDEX_VIEW = "bots/list";
+@RequestMapping("/login")
+public class LoginController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+	private static final String LOGIN_VIEW = "login/form";
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public String getIndex(Model model) {
-		// TODO: need better homepage?
-		return HOMEPAGE_INDEX_VIEW;
+	public String getForm(Model model) {
+		// TODO: implement authentication
+		LOGGER.debug("User not authenticated - presenting login form");
+		return LOGIN_VIEW;
 	}
 }

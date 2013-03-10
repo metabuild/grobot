@@ -58,12 +58,13 @@ dependencies {
 		'org.slf4j:slf4j-api:1.7.1',
 		'javax.mail:mail:1.4.5',
 		'javax.activation:activation:1.1.1',
-		'org.springframework:spring-webmvc:3.2.0.RELEASE',
-		'org.springframework:spring-jdbc:3.2.0.RELEASE',
-		'org.springframework:spring-orm:3.2.0.RELEASE',
+		'org.springframework:spring-webmvc:3.2.1.RELEASE',
+		'org.springframework:spring-jdbc:3.2.1.RELEASE',
+		'org.springframework:spring-orm:3.2.1.RELEASE',
 		'org.springframework.data:spring-data-jpa:1.2.0.RELEASE',
-		'org.springframework:spring-tx:3.2.0.RELEASE',
-		'org.springframework:spring-jms:3.2.0.RELEASE',
+		'org.springframework:spring-tx:3.2.1.RELEASE',
+		'org.springframework:spring-jms:3.2.1.RELEASE',
+		'org.springframework.security:spring-security-javaconfig:1.0.0.CI-SNAPSHOT',
 		'org.apache.tiles:tiles-core:3.0.1',
 		'org.apache.tiles:tiles-template:3.0.1',
 		'org.apache.tiles:tiles-jsp:3.0.1',
@@ -78,7 +79,7 @@ dependencies {
 	
 	testCompile 'org.mockito:mockito-all:1.8.5',
 		'junit:junit:4.10',
-		'org.springframework:spring-test:3.2.0.RELEASE',
+		'org.springframework:spring-test:3.2.1.RELEASE',
 		project(':core').sourceSets.test.output // import test utils
 	
 	integrationCompile sourceSets.main.output,

@@ -33,17 +33,20 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
  * 
  * Typically this would be the configuration class for the webapp only, but because the webapp also happens to be
  * the entry point for the grobot server, all other configuration elements (embedded activemq broker, jms elements, 
- * spring schedulers and jpa/hibernate configurations are imported from here.
+ * spring security, schedulers and jpa/hibernate configurations are imported from here.
  * 
  * @author jburbridge
  * @since 9/30/2012
  */
 @Configuration
 @EnableWebMvc
-@ImportResource(value="classpath:activeMqBrokerConfig.xml")
+@ImportResource(value = { 
+	"classpath:activeMqBrokerConfig.xml"
+})
 @Import({ 
 	DefaultAppConfig.class, 
-	ServerJmsConfig.class
+	ServerJmsConfig.class,
+	SecurityConfig.class
 })
 @ComponentScan(basePackages = { "org.metabuild.grobot.webapp.controllers" })
 public class WebConfig extends WebMvcConfigurerAdapter {
