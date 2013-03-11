@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.server.repository.TargetHostRepository;
 import org.metabuild.grobot.server.service.TargetHostService;
 import org.metabuild.grobot.server.service.TargetHostServiceImpl;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
@@ -53,18 +54,18 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
-		TargetHostService targetHostService = mock(TargetHostServiceImpl.class);
-		when(targetHostService.findAll()).thenReturn(targets);
+		TargetHostRepository targetHostRepository = mock(TargetHostRepository.class);
+		when(targetHostRepository.findAll()).thenReturn(targets);
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostService", targetHostService);
+		ReflectionTestUtils.setField(controller, "targetHostRepository", targetHostRepository);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.list(uiModel);
+		String result = controller.list(uiModel, null);
 		
 		assertNotNull(result);
 		assertEquals("bots/list", result);

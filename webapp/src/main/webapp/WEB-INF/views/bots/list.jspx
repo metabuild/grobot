@@ -10,7 +10,17 @@
     
     <spring:url value="/bots" var="showTargetDetailsUrl" />
     
+    <spring:url value="" var="next">
+        <spring:param name="page.page" value="${page.number + 2}" ></spring:param>
+        <spring:param name="page.size" value="${page.size}" ></spring:param>
+    </spring:url>
+    
     <h3>Bots</h3>
+    Pagination details:<br/>
+    size: ${page.size}<br />
+    number: ${page.number}<br />
+    <a href="${next}">next</a><br />
+    
     <form class="form-horizontal" align="right">
       <div class="input-append">
         <div class="btn-group">
@@ -24,7 +34,7 @@
 	    </div>
 	  </div>
     </form>
-    <c:if test="${not empty targets}">
+    <c:if test="${not empty page.content}">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -36,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${targets}" var="target">
+                <c:forEach items="${page.content}" var="target">
                     <tr>
                         <td><a href="${showTargetDetailsUrl}/${target.id}">${target.name}</a></td>
                         <td>${target.address}</td>
