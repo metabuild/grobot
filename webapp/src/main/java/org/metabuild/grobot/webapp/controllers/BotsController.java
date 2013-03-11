@@ -15,16 +15,16 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
-import java.util.List;
-
 import org.metabuild.grobot.common.domain.TargetHost;
 import org.metabuild.grobot.common.domain.TargetHostStatus;
-import org.metabuild.grobot.server.service.TargetHostService;
+import org.metabuild.grobot.server.repository.TargetHostRepository;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +44,7 @@ public class BotsController extends AbstractBaseController {
 	private static final String BOTS_DETAILS_VIEW = "bots/details";
 
 	@Autowired
-	private TargetHostService targetHostService;
+	private TargetHostRepository targetHostRepository;
 
 	@Autowired
 	private StatusRequestProducer producer;
@@ -53,12 +53,12 @@ public class BotsController extends AbstractBaseController {
 	 * Display the list of targets
 	 */
 	@RequestMapping(method=RequestMethod.GET)
-	public String list(Model uiModel) {
+	public String list(Model uiModel, Pageable pageable) {
 		
-		final List<TargetHost> targets = targetHostService.findAll();
+		final Page<TargetHost> page = targetHostRepository.findAll(pageable);
 		final long lastStatusRequest = StatusRequestService.getLastRunTimestamp();
 		
-		for (TargetHost target : targets) {
+		for (TargetHost target : page.getContent()) {
 			if (target.getLastUpdatedStatus() == null || 
 					lastStatusRequest > target.getLastUpdatedStatus().getMillis() + 30000) {
 				LOGGER.debug("No activity for {} in the last 30 seconds", target);
@@ -66,7 +66,7 @@ public class BotsController extends AbstractBaseController {
 			}
 		}
 		
-		uiModel.addAttribute("targets", targets);
+		uiModel.addAttribute("page", page);
 		addSelectedMenuItem(uiModel);
 		
 		return BOTS_LIST_VIEW;
@@ -78,7 +78,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		final TargetHost target = targetHostService.find(id);
+		final TargetHost target = targetHostRepository.findById(id);
 		uiModel.addAttribute("target", target);
 		addSelectedMenuItem(uiModel);
 		

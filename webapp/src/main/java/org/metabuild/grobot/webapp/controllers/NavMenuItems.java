@@ -21,6 +21,7 @@ package org.metabuild.grobot.webapp.controllers;
  */
 public enum NavMenuItems {
 
+	SCHEDULE("schedule"),
 	BOTS("bots"),
 	TASKS("tasks"),
 	CONFIG("config"),
