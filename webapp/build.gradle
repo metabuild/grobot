@@ -16,7 +16,7 @@
 import org.metabuild.gradle.tasks.*;
 
 /**
- * Builds the Grobot server executable war file plus other artifacts
+ * Builds the Grobot server's war file
  *
  * @author jburbridge
  * @since 9/29/2012

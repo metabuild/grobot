@@ -4,6 +4,7 @@
     <definition extends="default" name="bots/list">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; List Bots" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/bots/list.jspx" />
+        <put-attribute name="pagination" value="/WEB-INF/views/pagination.jspx" />
     </definition>
     <definition extends="default" name="bots/details">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Bot Details" cascade="true" />

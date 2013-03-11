@@ -5,6 +5,8 @@
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Tasks" cascade="true" />
         <put-attribute name="activeHeader" value="tasks" />
         <put-attribute name="body" value="/WEB-INF/views/tasks/list.jspx" />
+        <put-attribute name="pagination" value="/WEB-INF/views/pagination.jspx" />
+        
     </definition>
     <definition extends="default" name="tasks/details">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Task Details" cascade="true" />

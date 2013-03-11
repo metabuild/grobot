@@ -9,6 +9,7 @@
     <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
     <put-attribute name="navbar" value="/WEB-INF/views/navbar.jspx" />
     <put-attribute name="body" value="/WEB-INF/views/body.jspx" />
+    <put-attribute name="pagination" value="/WEB-INF/views/pagination.jspx" />
     <put-attribute name="jsIncludes" value="/WEB-INF/views/jsIncludes.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
   </definition>

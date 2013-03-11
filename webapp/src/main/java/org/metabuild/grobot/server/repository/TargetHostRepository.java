@@ -18,6 +18,8 @@ package org.metabuild.grobot.server.repository;
 import java.util.List;
 
 import org.metabuild.grobot.common.domain.TargetHost;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -30,5 +32,7 @@ public interface TargetHostRepository  extends CrudRepository<TargetHost, String
 	
 	public List<TargetHost> findAll();
 	
+	public Page<TargetHost> findAll(Pageable pageable);
+		
 	public TargetHost findById(String id);
 }
