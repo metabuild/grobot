@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ import org.metabuild.grobot.server.service.TargetHostService;
 import org.metabuild.grobot.server.service.TargetHostServiceImpl;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestProducerImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
@@ -54,8 +57,11 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
+		Page page = mock(Page.class);
+		when(page.getContent()).thenReturn(targets);
+		
 		TargetHostRepository targetHostRepository = mock(TargetHostRepository.class);
-		when(targetHostRepository.findAll()).thenReturn(targets);
+		when(targetHostRepository.findAll(any(Pageable.class))).thenReturn(page);
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
@@ -71,22 +77,22 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 		assertEquals("bots/list", result);
 		
 		@SuppressWarnings("unchecked")
-		List<TargetHost> modelTargetHosts = (List<TargetHost>) uiModel.get("targets");
+		Page<TargetHost> modelPage = (Page<TargetHost>) uiModel.get("page");
 		
-		assertEquals(1, modelTargetHosts.size());
+		assertEquals(1, modelPage.getContent().size());
 	}
 	
 	@Test
 	public void testDetail() {
 		
-		TargetHostService targetHostService = mock(TargetHostServiceImpl.class);
-		when(targetHostService.find(anyString())).thenReturn(targets.get(0));
+		TargetHostRepository targetHostRepository = mock(TargetHostRepository.class);
+		when(targetHostRepository.findById(anyString())).thenReturn(targets.get(0));
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "targetHostService", targetHostService);
+		ReflectionTestUtils.setField(controller, "targetHostRepository", targetHostRepository);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
