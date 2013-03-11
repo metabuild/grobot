@@ -20,6 +20,7 @@
                 <tiles:insertAttribute name="menu" ignore="true" />
                 <div id="main" >
                     <tiles:insertAttribute name="body"/> 
+                    <tiles:insertAttribute name="pagination" ignore="true" />
                     <tiles:insertAttribute name="footer" ignore="true"/>
                 </div>
             </div>
