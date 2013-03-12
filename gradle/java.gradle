@@ -75,10 +75,6 @@ repositories {
 		// workaround due to licensing issues with javax packages
 		artifactUrls 'http://repository.jboss.org/nexus/content/groups/public'
 	}
-	maven {
-		name 'Spring Snapshots'
-		url 'http://repo.springsource.org/snapshot'
-	}
 	if (project.hasProperty('environment') && environment == 'build') {
 		maven {
 			name 'snapshotsRepo';
@@ -91,6 +87,10 @@ repositories {
 		}
 	} else {
 		mavenLocal();
+	}
+	maven {
+		name 'Spring Snapshots'
+		url 'http://repo.springsource.org/snapshot'
 	}
 	maven {
 		name 'allCombinedRepos';
