@@ -23,6 +23,7 @@ public enum NavMenuItems {
 
 	SCHEDULE("schedule"),
 	BOTS("bots"),
+	GROUPS("groups"),
 	TASKS("tasks"),
 	CONFIG("config"),
 	QUEUE("queue"),

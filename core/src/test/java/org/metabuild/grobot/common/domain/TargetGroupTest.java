@@ -27,12 +27,12 @@ import org.metabuild.grobot.common.domain.TargetGroup;
 public class TargetGroupTest {
 
 	@Test
-	public void test() {
+	public void testDefaults() {
 		TargetGroup group = new TargetGroup("group1");
 		assertNotNull(group);
 		assertEquals("group1", group.getName());
-		assertTrue(group.isActive());
 		assertEquals(0, group.getTargetHosts().size());
+		assertNull(group.getParent());
+		assertTrue(group.isActive());
 	}
-
 }
