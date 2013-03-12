@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <spring:url value="/groups" var="showGroupDetailsUrl" />
+    
+    <h3>Groups</h3>
+        
+    <form class="form-horizontal" align="right">
+      <div class="input-append">
+        <div class="btn-group">
+          <select class="span4">
+               <option>.*</option>
+               <option>localhost</option>
+          </select>
+          <button class="btn" type="button">Edit</button>
+          <button class="btn" type="button">New</button>
+          <button class="btn" type="button">Delete</button>
+        </div>
+      </div>
+    </form>
+    <c:if test="${not empty page.content}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                    <th>Parent</th>
+                    <th>Target Hosts</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${page.content}" var="group">
+                    <tr>
+                        <td><a href="${showGroupDetailsUrl}/${group.id}">${group.name}</a></td>
+                        <td>${group.parent}</td>
+                        <td>${group.targetHosts}</td>
+                        <td>${group.active}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+    
+</div>

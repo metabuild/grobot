@@ -63,6 +63,8 @@ public class GroupsController extends AbstractBaseController {
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", targetGroupRepository.findById(id));
+		addSelectedMenuItem(uiModel);
+		
 		return GROUPS_DETAIL_VIEW;
 	}
 	
