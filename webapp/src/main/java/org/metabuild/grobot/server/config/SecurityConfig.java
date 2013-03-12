@@ -26,7 +26,7 @@ import org.springframework.security.config.annotation.method.EnableGlobalMethodS
 import org.springframework.security.config.annotation.provisioning.InMemoryUserDetailsManagerSecurityBuilder;
 import org.springframework.security.config.annotation.web.DefaultSecurityFilterConfigurator;
 import org.springframework.security.config.annotation.web.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.ExpressionUrlAuthorizationBuilder;
+import org.springframework.security.config.annotation.web.ExpressionUrlAuthorizationRegistry;
 import org.springframework.security.config.annotation.web.FilterChainProxySecurityBuilder;
 import org.springframework.security.config.annotation.web.FormLoginSecurityFilterConfigurator;
 import org.springframework.security.config.annotation.web.SecurityFilterChainSecurityBuilder;
@@ -56,7 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public FilterChainProxySecurityBuilder builder() throws Exception {
-        ExpressionUrlAuthorizationBuilder fiSourceBldr = interceptUrls()
+    	ExpressionUrlAuthorizationRegistry authorizationRegistry = interceptUrls()
             .antMatchers("/users**","/sessions/**").hasRole("ADMIN")
             .antMatchers("/ping","/resources/**","/signup").permitAll()
             .antMatchers("/**").hasRole("USER");
@@ -65,7 +65,7 @@ public class SecurityConfig {
             .ignoring(antMatchers("/resources/**"))
             .securityFilterChains(
                 new SecurityFilterChainSecurityBuilder(authenticationMgr())
-                    .apply(new DefaultSecurityFilterConfigurator(fiSourceBldr).permitAll())
+                    .apply(new DefaultSecurityFilterConfigurator(authorizationRegistry).permitAll())
                     .apply(new FormLoginSecurityFilterConfigurator().permitAll()));
     }
 }
