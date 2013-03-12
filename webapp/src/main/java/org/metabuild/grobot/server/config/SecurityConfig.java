@@ -41,9 +41,8 @@ public class SecurityConfig extends SimpleWebSecurityConfig {
 	}
 	
 	protected void registerAuthentication(AuthenticationRegistry registry) {
-		registry
-			.inMemoryAuthentication()
-				.withUser("user").password("password").roles("USER").and()
-				.withUser("admin").password("password").roles("USER", "ADMIN").and();
+		registry.inMemoryAuthentication()
+			.withUser("user").password("password").roles("USER").and()
+			.withUser("admin").password("password").roles("USER", "ADMIN").and();
 	}
 }
