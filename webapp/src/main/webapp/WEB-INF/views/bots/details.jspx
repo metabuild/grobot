@@ -9,7 +9,16 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <h3>Bot Details</h3>  
+    <spring:url value="/bots" var="listUrl" />
+    <spring:url value="/bots/form" var="createFormUrl" />
+    <spring:url value="/bots/form/${target.id}" var="updateFormUrl" />
+    <spring:url value="/bots/${target.id}" var="botsUrl" />
+    
+    <a href="${listUrl}">list</a> | 
+    <a href="${createFormUrl}">new</a> | 
+    <a href="${updateFormUrl}">update</a> |
+    <a href="${createFormUrl}">delete</a> 
+    
     <table class="table">
         <thead>
             <tr>

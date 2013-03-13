@@ -9,8 +9,6 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <h3>Update Group</h3>
-    
     <table class="table">
         <thead>
             <tr>
@@ -24,7 +22,7 @@
                     <div class="control-group">
                       <label class="control-label" for="name">Name</label>
                       <div class="controls">
-                        <input type="text" id="name" placeholder="Group Name" value="${group.name}">
+                        <input type="text" id="name" placeholder="Group Name" value="${group.name}" />
                       </div>
                     </div>
                     <div class="control-group">

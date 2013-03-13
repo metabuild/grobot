@@ -10,8 +10,6 @@
     
     <spring:url value="/groups" var="showGroupDetailsUrl" />
     
-    <h3>Groups</h3>
-        
     <form class="form-horizontal" align="right">
       <div class="input-append">
         <div class="btn-group">

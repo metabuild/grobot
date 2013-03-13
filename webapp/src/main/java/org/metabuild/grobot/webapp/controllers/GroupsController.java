@@ -53,7 +53,6 @@ public class GroupsController extends AbstractBaseController {
 		
 		final Page<TargetGroup> page = targetGroupRepository.findAll(pageable);
 		uiModel.addAttribute("page", page);
-		addSelectedMenuItem(uiModel);
 		
 		return GROUPS_LIST_VIEW;
 	}
@@ -65,7 +64,6 @@ public class GroupsController extends AbstractBaseController {
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", targetGroupRepository.findById(id));
-		addSelectedMenuItem(uiModel);
 		
 		return GROUPS_DETAIL_VIEW;
 	}
@@ -75,7 +73,6 @@ public class GroupsController extends AbstractBaseController {
 	 */
 	@RequestMapping(value="/form", method=RequestMethod.GET)
 	public String createForm(Model uiModel) {
-		
 		return GROUPS_CREATE_VIEW;
 	}
 
@@ -84,9 +81,8 @@ public class GroupsController extends AbstractBaseController {
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public String create(Model uiModel) {
-		
-		addSelectedMenuItem(uiModel);
-		
+		TargetGroup group = targetGroupRepository.save(new TargetGroup("fooey"));
+		uiModel.addAttribute("group", group);
 		return GROUPS_DETAIL_VIEW;
 	}
 
@@ -97,8 +93,6 @@ public class GroupsController extends AbstractBaseController {
 	public String updateForm(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", targetGroupRepository.findById(id));
-		addSelectedMenuItem(uiModel);
-		
 		return GROUPS_UPDATE_VIEW;
 	}
 	
@@ -110,9 +104,22 @@ public class GroupsController extends AbstractBaseController {
 		
 		TargetGroup group = targetGroupRepository.findById(id);
 		uiModel.addAttribute("group", group);
-		addSelectedMenuItem(uiModel);
 		
 		return GROUPS_DETAIL_VIEW;
+	}
+
+	
+	/**
+	 * deletes and presents the list view
+	 */
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public String delete(@PathVariable("id") String id, Model uiModel) {
+		
+		TargetGroup group = targetGroupRepository.findById(id);
+		uiModel.addAttribute("group", group);
+		targetGroupRepository.delete(id);
+		
+		return GROUPS_LIST_VIEW;
 	}
 
 	

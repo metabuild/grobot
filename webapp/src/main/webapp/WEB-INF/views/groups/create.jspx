@@ -9,26 +9,28 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <h3>Group Details</h3>
-    
     <table class="table">
         <thead>
             <tr>
-                <th colspan="2"><h4>${group.name}</h4></th>
+                <th colspan="2"><h4>New Group</h4></th>
             </tr>
         </thead>
-        <tbody>
+                <tbody>
             <tr>
-                <td>Name</td>
-                <td>${group.name}</td>
-            </tr>
-            <tr>
-                <td>Targets</td>
-                <td>${group.targetHosts}</td>
-            </tr>
-            <tr>
-                <td>Active</td>
-                <td>${group.active}</td>
+                <td>
+                  <form class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label" for="name">Name</label>
+                      <div class="controls">
+                        <input type="text" id="name" placeholder="Group Name" value="${group.name}" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <button type="submit" class="btn">Update</button>
+                      <button type="reset" class="btn">Reset</button>
+                    </div>
+                  </form>
+                </td>
             </tr>
         </tbody>
     </table>

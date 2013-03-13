@@ -10,8 +10,6 @@
     
     <spring:url value="/bots" var="showTargetDetailsUrl" />
     
-    <h3>Bots</h3>
-        
     <form class="form-horizontal" align="right">
       <div class="input-append">
         <div class="btn-group">
