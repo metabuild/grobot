@@ -9,6 +9,8 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
+    <spring:url value="/groups/${group.id}" var="updateUrl" />
+    
     <table class="table">
         <thead>
             <tr>
@@ -18,7 +20,8 @@
         <tbody>
             <tr>
                 <td>
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" action="${updateUrl}" method="post">
+                  <input type="hidden" name="action" value="update" />
                     <div class="control-group">
                       <label class="control-label" for="name">Name</label>
                       <div class="controls">

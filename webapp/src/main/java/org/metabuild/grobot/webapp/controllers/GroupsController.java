@@ -99,7 +99,7 @@ public class GroupsController extends AbstractBaseController {
 	/**
 	 * updates and presents the detail view
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="action=update")
 	public String update(@PathVariable("id") String id, Model uiModel) {
 		
 		TargetGroup group = targetGroupRepository.findById(id);
@@ -112,7 +112,7 @@ public class GroupsController extends AbstractBaseController {
 	/**
 	 * deletes and presents the list view
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="action=delete")
 	public String delete(@PathVariable("id") String id, Model uiModel) {
 		
 		TargetGroup group = targetGroupRepository.findById(id);
