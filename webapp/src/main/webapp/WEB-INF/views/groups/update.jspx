@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <h3>Update Group</h3>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2"><h4>Update ${group.name}</h4></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                  <form class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label" for="name">Name</label>
+                      <div class="controls">
+                        <input type="text" id="name" placeholder="Group Name" value="${group.name}">
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <button type="submit" class="btn">Update</button>
+                      <button type="reset" class="btn">Reset</button>
+                    </div>
+                  </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>

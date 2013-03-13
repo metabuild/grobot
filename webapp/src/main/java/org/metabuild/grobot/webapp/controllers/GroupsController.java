@@ -32,13 +32,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author jburbridge
  * @since 03/11/2013
  */
-@RequestMapping("/groups")
 @Controller
+@RequestMapping("/groups")
 public class GroupsController extends AbstractBaseController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GroupsController.class);
 	private static final String GROUPS_LIST_VIEW = "groups/list";
 	private static final String GROUPS_DETAIL_VIEW = "groups/details";
+	private static final String GROUPS_CREATE_VIEW = "groups/create";
+	private static final String GROUPS_UPDATE_VIEW = "groups/update";
 
 	@Autowired
 	private TargetGroupRepository targetGroupRepository;
@@ -57,7 +59,7 @@ public class GroupsController extends AbstractBaseController {
 	}
 	
 	/**
-	 * Display the details of a target
+	 * the details of a target
 	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String details(@PathVariable("id") String id, Model uiModel) {
@@ -68,9 +70,54 @@ public class GroupsController extends AbstractBaseController {
 		return GROUPS_DETAIL_VIEW;
 	}
 	
+	/**
+	 * the create form
+	 */
+	@RequestMapping(value="/form", method=RequestMethod.GET)
+	public String createForm(Model uiModel) {
+		
+		return GROUPS_CREATE_VIEW;
+	}
+
+	/**
+	 * creates a new record and presents the detail view
+	 */
+	@RequestMapping(method=RequestMethod.POST)
+	public String create(Model uiModel) {
+		
+		addSelectedMenuItem(uiModel);
+		
+		return GROUPS_DETAIL_VIEW;
+	}
+
+	/**
+	 * the update form
+	 */
+	@RequestMapping(value="/form/{id}", method=RequestMethod.GET)
+	public String updateForm(@PathVariable("id") String id, Model uiModel) {
+		
+		uiModel.addAttribute("group", targetGroupRepository.findById(id));
+		addSelectedMenuItem(uiModel);
+		
+		return GROUPS_UPDATE_VIEW;
+	}
+	
+	/**
+	 * updates and presents the detail view
+	 */
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public String update(@PathVariable("id") String id, Model uiModel) {
+		
+		TargetGroup group = targetGroupRepository.findById(id);
+		uiModel.addAttribute("group", group);
+		addSelectedMenuItem(uiModel);
+		
+		return GROUPS_DETAIL_VIEW;
+	}
+
+	
 	@Override
 	public NavMenuItems getSelectedNavMenuItem() {
 		return NavMenuItems.GROUPS;
 	}
-
 }

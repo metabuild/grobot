@@ -102,4 +102,28 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 
 	}
 
+	@Test
+	public void testUpdate() {
+		
+		String randomUUId = UUID.randomUUID().toString();
+		TargetGroupRepository targetGroupRepository = mock(TargetGroupRepository.class);
+		when(targetGroupRepository.findById(randomUUId)).thenReturn(groups.get(0));
+		
+		GroupsController controller = new GroupsController();
+		
+		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
+		
+		ExtendedModelMap uiModel = new ExtendedModelMap();
+		String result = controller.details(randomUUId, uiModel);
+		
+		assertNotNull(result);
+		assertEquals("groups/details", result);
+		
+		TargetGroup targetGroup = (TargetGroup) uiModel.get("group");
+		assertEquals("groupname1", targetGroup.getName());
+		assertEquals(0, targetGroup.getTargetHosts().size());
+		assertTrue(targetGroup.isActive());
+
+	}
+
 }
