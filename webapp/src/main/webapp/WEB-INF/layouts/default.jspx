@@ -13,6 +13,9 @@
     
     <body>
         <div class="container">
+            <div id="topBarWrapper">
+                <tiles:insertAttribute name="topbar" ignore="true" />
+            </div>
             <div id="navWrapper">
                 <tiles:insertAttribute name="navbar" ignore="true" />
             </div>
