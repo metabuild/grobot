@@ -10,19 +10,6 @@
     
     <spring:url value="/bots" var="showTargetDetailsUrl" />
     
-    <form class="form-horizontal" align="right">
-      <div class="input-append">
-        <div class="btn-group">
-          <select class="span4">
-               <option>.*</option>
-               <option>localhost</option>
-          </select>
-          <button class="btn" type="button">Edit</button>
-          <button class="btn" type="button">New</button>
-          <button class="btn" type="button">Delete</button>
-        </div>
-      </div>
-    </form>
     <c:if test="${not empty page.content}">
         <table class="table table-striped">
             <thead>
@@ -47,5 +34,18 @@
             </tbody>
         </table>
     </c:if>
+        <form class="form-horizontal" align="right">
+      <div class="input-append">
+        <div class="btn-group">
+          <select class="span4">
+               <option>.*</option>
+               <option>localhost</option>
+          </select>
+          <button class="btn" type="button">Edit</button>
+          <button class="btn" type="button">New</button>
+          <button class="btn" type="button">Delete</button>
+        </div>
+      </div>
+    </form>
     
 </div>
