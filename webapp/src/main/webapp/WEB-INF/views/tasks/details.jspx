@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <h3>Task Details</h3>  
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th colspan="2">${task.name}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Id</td><td>${task.id}</td>
+            </tr>
+            <tr>
+                <td>Name</td><td>${task.name}</td>
+            </tr>
+            <tr>
+                <td>Script</td><td>${task.scriptName}</td>
+            </tr>
+            <tr>
+                <td>Arguments</td><td>${task.arguments}</td>
+            </tr>
+            <tr>
+                <td>Execution log</td><td>${task.taskExecutions}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
