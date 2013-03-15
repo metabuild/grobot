@@ -17,24 +17,25 @@ package org.metabuild.grobot.server.service;
 
 import java.util.List;
 
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.BotGroup;
 
 /**
+ * 
  * @author jburbridge
- * @since 11/16/2012
+ * @since 12/16/012
  */
-public interface TargetHostService {
+public interface BotGroupService {
 
-	public List<TargetHost> findAll();
+	public List<BotGroup> findAll();
 	
-	public List<TargetHost> findAllWithProperties();
+	public BotGroup find(String id);
 	
-	public TargetHost findByName(String name);
-
-	public TargetHost find(String id);
+	public BotGroup findById(String id);
 	
-	public TargetHost save(TargetHost targetHost);
+	public BotGroup findByName(String name);
 	
-	public void delete(TargetHost targetHost);
-
+	public BotGroup save(BotGroup targetGroup);
+	
+	public void delete(BotGroup targetGroup);
+	
 }

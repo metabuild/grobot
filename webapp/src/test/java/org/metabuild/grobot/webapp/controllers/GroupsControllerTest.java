@@ -30,9 +30,9 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
-import org.metabuild.grobot.common.domain.TargetGroup;
-import org.metabuild.grobot.common.domain.TargetHost;
-import org.metabuild.grobot.server.repository.TargetGroupRepository;
+import org.metabuild.grobot.common.domain.BotGroup;
+import org.metabuild.grobot.common.domain.Bot;
+import org.metabuild.grobot.server.repository.BotGroupRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -45,21 +45,21 @@ import org.springframework.ui.ExtendedModelMap;
  */
 public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	
-	private final List<TargetGroup> groups = new ArrayList<TargetGroup>();
+	private final List<BotGroup> groups = new ArrayList<BotGroup>();
 	
 	@Before
 	public void initStatus() {
-		groups.add(new TargetGroup("groupname1", new HashSet<TargetHost>()));
+		groups.add(new BotGroup("groupname1", new HashSet<Bot>()));
 	}
 	
 	@Test
 	public void testList() {
 		
 		@SuppressWarnings("unchecked")
-		Page<TargetGroup> page = mock(Page.class);
+		Page<BotGroup> page = mock(Page.class);
 		when(page.getContent()).thenReturn(groups);
 		
-		TargetGroupRepository targetGroupRepository = mock(TargetGroupRepository.class);
+		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
 		when(targetGroupRepository.findAll(any(Pageable.class))).thenReturn(page);
 		
 		GroupsController controller = new GroupsController();
@@ -73,7 +73,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		assertEquals("groups/list", result);
 		
 		@SuppressWarnings("unchecked")
-		Page<TargetGroup> modelPage = (Page<TargetGroup>) uiModel.get("page");
+		Page<BotGroup> modelPage = (Page<BotGroup>) uiModel.get("page");
 		
 		assertEquals(1, modelPage.getContent().size());
 	}
@@ -82,7 +82,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	public void testDetail() {
 		
 		String randomUUId = UUID.randomUUID().toString();
-		TargetGroupRepository targetGroupRepository = mock(TargetGroupRepository.class);
+		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
 		when(targetGroupRepository.findById(randomUUId)).thenReturn(groups.get(0));
 		
 		GroupsController controller = new GroupsController();
@@ -95,9 +95,9 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		assertNotNull(result);
 		assertEquals("groups/details", result);
 		
-		TargetGroup targetGroup = (TargetGroup) uiModel.get("group");
+		BotGroup targetGroup = (BotGroup) uiModel.get("group");
 		assertEquals("groupname1", targetGroup.getName());
-		assertEquals(0, targetGroup.getTargetHosts().size());
+		assertEquals(0, targetGroup.getBots().size());
 		assertTrue(targetGroup.isActive());
 
 	}
@@ -106,7 +106,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	public void testUpdate() {
 		
 		String randomUUId = UUID.randomUUID().toString();
-		TargetGroupRepository targetGroupRepository = mock(TargetGroupRepository.class);
+		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
 		when(targetGroupRepository.findById(randomUUId)).thenReturn(groups.get(0));
 		
 		GroupsController controller = new GroupsController();
@@ -119,9 +119,9 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		assertNotNull(result);
 		assertEquals("groups/details", result);
 		
-		TargetGroup targetGroup = (TargetGroup) uiModel.get("group");
+		BotGroup targetGroup = (BotGroup) uiModel.get("group");
 		assertEquals("groupname1", targetGroup.getName());
-		assertEquals(0, targetGroup.getTargetHosts().size());
+		assertEquals(0, targetGroup.getBots().size());
 		assertTrue(targetGroup.isActive());
 
 	}

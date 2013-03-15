@@ -24,7 +24,7 @@ import javax.jms.ObjectMessage;
 
 import org.junit.Test;
 import org.metabuild.grobot.common.jms.StatusResponse;
-import org.metabuild.grobot.server.mq.FakeTargetHostServiceImpl;
+import org.metabuild.grobot.server.mq.FakeBotServiceImpl;
 
 /**
  * @author jburbridge
@@ -43,21 +43,21 @@ public class StatusResponseListenerTest {
 		 * different status response messages which can be verified by inspecting the TargetHostService
 		 * 
 		 */
-		StatusResponseListener listener = new StatusResponseListener(new FakeTargetHostServiceImpl());
+		StatusResponseListener listener = new StatusResponseListener(new FakeBotServiceImpl());
 		
 		listener.onMessage(getMockObjectMessage("valid1"));
-		assertEquals(1,listener.getTargetHostService().findAll().size());
+		assertEquals(1,listener.getBotService().findAll().size());
 		
 		listener.onMessage(getMockObjectMessage("valid2"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 		
 		// duplicate message
 		listener.onMessage(getMockObjectMessage("valid2"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 		
 		// invalid host that hasn't been registered yet
 		listener.onMessage(getMockObjectMessage("invalid1"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 
 	}
 

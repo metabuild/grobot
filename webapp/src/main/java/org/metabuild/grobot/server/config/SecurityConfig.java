@@ -40,7 +40,7 @@ public class SecurityConfig extends SimpleWebSecurityConfig {
 		builder.formLogin().permitAll();
 	}
 	
-	protected void registerAuthentication(AuthenticationRegistry registry) {
+	protected void registerAuthentication(AuthenticationRegistry registry) throws Exception {
 		registry.inMemoryAuthentication()
 			.withUser("user").password("password").roles("USER").and()
 			.withUser("admin").password("password").roles("USER", "ADMIN").and();

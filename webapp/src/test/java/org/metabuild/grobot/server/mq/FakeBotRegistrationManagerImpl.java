@@ -22,28 +22,28 @@ import java.util.Map;
 
 import javax.jms.Destination;
 
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.jms.RegistrationData;
 import org.metabuild.grobot.server.registration.RegistrationService;
 
-public class FakeTargetHostRegistrationManagerImpl implements
+public class FakeBotRegistrationManagerImpl implements
 		RegistrationService {
 
-	private static final Map<String,TargetHost> targetHosts = new HashMap<String,TargetHost>();
+	private static final Map<String,Bot> bots = new HashMap<String,Bot>();
 	
-	protected void createUnregistered(TargetHost targetHost) {
-		targetHosts.put(targetHost.getName(), targetHost);
+	protected void createUnregistered(Bot targetHost) {
+		bots.put(targetHost.getName(), targetHost);
 	}
 
-	protected List<TargetHost> getPendingRegistrations() {
-		return new ArrayList<TargetHost>(targetHosts.values());
+	protected List<Bot> getPendingRegistrations() {
+		return new ArrayList<Bot>(bots.values());
 	}
 
 	@Override
 	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
-		final TargetHost targetHost = new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
-		createUnregistered(targetHost);
-		registrationDetails.setKey(targetHost.getId());
+		final Bot bot = new Bot(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
+		createUnregistered(bot);
+		registrationDetails.setKey(bot.getId());
 		return registrationDetails;
 	}
 }

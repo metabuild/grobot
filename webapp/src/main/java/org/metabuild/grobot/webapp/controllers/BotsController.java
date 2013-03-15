@@ -15,9 +15,9 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
-import org.metabuild.grobot.common.domain.TargetHost;
-import org.metabuild.grobot.common.domain.TargetHostStatus;
-import org.metabuild.grobot.server.repository.TargetHostRepository;
+import org.metabuild.grobot.common.domain.Bot;
+import org.metabuild.grobot.common.domain.BotStatus;
+import org.metabuild.grobot.server.repository.BotRepository;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestService;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class BotsController extends AbstractBaseController {
 	private static final String BOTS_DETAILS_VIEW = "bots/details";
 
 	@Autowired
-	private TargetHostRepository targetHostRepository;
+	private BotRepository botRepository;
 
 	@Autowired
 	private StatusRequestProducer producer;
@@ -55,14 +55,14 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel, Pageable pageable) {
 		
-		final Page<TargetHost> page = targetHostRepository.findAll(pageable);
+		final Page<Bot> page = botRepository.findAll(pageable);
 		final long lastStatusRequest = StatusRequestService.getLastRunTimestamp();
 		
-		for (TargetHost target : page.getContent()) {
+		for (Bot target : page.getContent()) {
 			if (target.getLastUpdatedStatus() == null || 
 					lastStatusRequest > target.getLastUpdatedStatus().getMillis() + 30000) {
 				LOGGER.debug("No activity for {} in the last 30 seconds", target);
-				target.setStatus(TargetHostStatus.STOPPED);
+				target.setStatus(BotStatus.STOPPED);
 			}
 		}
 		
@@ -78,7 +78,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		uiModel.addAttribute("target", targetHostRepository.findById(id));
+		uiModel.addAttribute("bot", botRepository.findById(id));
 		addSelectedMenuItem(uiModel);
 		
 		return BOTS_DETAILS_VIEW;

@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Properties;
 
-import org.metabuild.grobot.common.domain.TargetHostStatus;
+import org.metabuild.grobot.common.domain.BotStatus;
 
 /**
  * A response to a status update request from the Grobot server, containing system details about the target host
@@ -35,7 +35,7 @@ public class StatusResponse implements Serializable {
 	private final Properties systemProperties;
 	private final Properties otherProperties;
 	private final long timeStamp;
-	private final TargetHostStatus status;
+	private final BotStatus status;
 
 	/**
 	 * Default constructor, sets the hostname to "localhost" and creates empty maps
@@ -54,7 +54,7 @@ public class StatusResponse implements Serializable {
 		this.systemProperties = systemProperties;
 		this.otherProperties = otherProperties;
 		this.timeStamp = new Date().getTime();
-		this.status = TargetHostStatus.IDLE;
+		this.status = BotStatus.IDLE;
 	}
 	/**
 	 * @return the hostname of the system sending the status response
@@ -85,7 +85,7 @@ public class StatusResponse implements Serializable {
 	/**
 	 * @return the status
 	 */
-	public TargetHostStatus getStatus() {
+	public BotStatus getStatus() {
 		return status;
 	}
 

@@ -35,10 +35,10 @@
             <tr>
                 <td>Bots</td>
                 <td>
-                  <c:if test="${not empty group.targetHosts}">
+                  <c:if test="${not empty group.bots}">
                     <ul>
-                      <c:forEach items="${group.targetHosts}" var="target">
-                        <li><a href="${botsUrl}/${target.id}">${target.name}</a></li>
+                      <c:forEach items="${group.bots}" var="bot">
+                        <li><a href="${botsUrl}/${bot.id}">${bot.name}</a></li>
                       </c:forEach>
                     </ul>
                   </c:if>

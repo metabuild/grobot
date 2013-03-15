@@ -15,8 +15,8 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
-import org.metabuild.grobot.common.domain.TargetGroup;
-import org.metabuild.grobot.server.repository.TargetGroupRepository;
+import org.metabuild.grobot.common.domain.BotGroup;
+import org.metabuild.grobot.server.repository.BotGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class GroupsController extends AbstractBaseController {
 	private static final String GROUPS_FORM_VIEW = "groups/update";
 
 	@Autowired
-	private TargetGroupRepository targetGroupRepository;
+	private BotGroupRepository targetGroupRepository;
 	
 	/**
 	 * Display the list of groups
@@ -53,7 +53,7 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel, Pageable pageable) {
 		
-		final Page<TargetGroup> page = targetGroupRepository.findAll(pageable);
+		final Page<BotGroup> page = targetGroupRepository.findAll(pageable);
 		uiModel.addAttribute("page", page);
 		
 		return GROUPS_LIST_VIEW;
@@ -75,7 +75,7 @@ public class GroupsController extends AbstractBaseController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, params="form")
 	public String createForm(Model uiModel) {
-		TargetGroup group = new TargetGroup();
+		BotGroup group = new BotGroup();
 		uiModel.addAttribute("group", group);
 		return GROUPS_FORM_VIEW;
 	}
@@ -84,7 +84,7 @@ public class GroupsController extends AbstractBaseController {
 	 * creates a new record and presents the detail view
 	 */
 	@RequestMapping(method=RequestMethod.POST, params="form")
-	public String create(@ModelAttribute("group") TargetGroup group, BindingResult result, Model uiModel) {
+	public String create(@ModelAttribute("group") BotGroup group, BindingResult result, Model uiModel) {
 		group = targetGroupRepository.save(group);
 		uiModel.addAttribute("group", group);
 		return GROUPS_DETAIL_VIEW;
@@ -104,7 +104,7 @@ public class GroupsController extends AbstractBaseController {
 	 * updates and presents the detail view
 	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="form")
-	public String update(TargetGroup group, BindingResult result, Model uiModel) {
+	public String update(BotGroup group, BindingResult result, Model uiModel) {
 		
 		if (result.hasErrors()) {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
@@ -122,7 +122,7 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="delete")
 	public String delete(@PathVariable("id") String id, Model uiModel) {
 		
-		TargetGroup group = targetGroupRepository.findById(id);
+		BotGroup group = targetGroupRepository.findById(id);
 		uiModel.addAttribute("group", group);
 		targetGroupRepository.delete(id);
 		
