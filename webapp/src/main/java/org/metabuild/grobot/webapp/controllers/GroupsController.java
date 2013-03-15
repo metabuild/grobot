@@ -24,9 +24,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * @author jburbridge
@@ -39,8 +42,7 @@ public class GroupsController extends AbstractBaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GroupsController.class);
 	private static final String GROUPS_LIST_VIEW = "groups/list";
 	private static final String GROUPS_DETAIL_VIEW = "groups/details";
-	private static final String GROUPS_CREATE_VIEW = "groups/create";
-	private static final String GROUPS_UPDATE_VIEW = "groups/update";
+	private static final String GROUPS_FORM_VIEW = "groups/update";
 
 	@Autowired
 	private TargetGroupRepository targetGroupRepository;
@@ -61,7 +63,7 @@ public class GroupsController extends AbstractBaseController {
 	 * the details of a target
 	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String details(@PathVariable("id") String id, Model uiModel) {
+	public String show(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", targetGroupRepository.findById(id));
 		
@@ -69,19 +71,21 @@ public class GroupsController extends AbstractBaseController {
 	}
 	
 	/**
-	 * the create form
+	 * setup the create form
 	 */
-	@RequestMapping(value="/form", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, params="form")
 	public String createForm(Model uiModel) {
-		return GROUPS_CREATE_VIEW;
+		TargetGroup group = new TargetGroup();
+		uiModel.addAttribute("group", group);
+		return GROUPS_FORM_VIEW;
 	}
 
 	/**
 	 * creates a new record and presents the detail view
 	 */
-	@RequestMapping(method=RequestMethod.POST)
-	public String create(Model uiModel) {
-		TargetGroup group = targetGroupRepository.save(new TargetGroup("fooey"));
+	@RequestMapping(method=RequestMethod.POST, params="form")
+	public String create(@ModelAttribute("group") TargetGroup group, BindingResult result, Model uiModel) {
+		group = targetGroupRepository.save(group);
 		uiModel.addAttribute("group", group);
 		return GROUPS_DETAIL_VIEW;
 	}
@@ -89,20 +93,23 @@ public class GroupsController extends AbstractBaseController {
 	/**
 	 * the update form
 	 */
-	@RequestMapping(value="/form/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/{id}", method=RequestMethod.GET, params="form")
 	public String updateForm(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", targetGroupRepository.findById(id));
-		return GROUPS_UPDATE_VIEW;
+		return GROUPS_FORM_VIEW;
 	}
 	
 	/**
 	 * updates and presents the detail view
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="action=update")
-	public String update(@PathVariable("id") String id, Model uiModel) {
+	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="form")
+	public String update(TargetGroup group, BindingResult result, Model uiModel) {
 		
-		TargetGroup group = targetGroupRepository.findById(id);
+		if (result.hasErrors()) {
+			uiModel.addAttribute("errorMessage", result.getAllErrors());
+		}
+		group = targetGroupRepository.save(group);
 		uiModel.addAttribute("group", group);
 		
 		return GROUPS_DETAIL_VIEW;
@@ -112,7 +119,7 @@ public class GroupsController extends AbstractBaseController {
 	/**
 	 * deletes and presents the list view
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="action=delete")
+	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="delete")
 	public String delete(@PathVariable("id") String id, Model uiModel) {
 		
 		TargetGroup group = targetGroupRepository.findById(id);

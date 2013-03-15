@@ -90,7 +90,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.details(randomUUId, uiModel);
+		String result = controller.show(randomUUId, uiModel);
 		
 		assertNotNull(result);
 		assertEquals("groups/details", result);
@@ -114,7 +114,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.details(randomUUId, uiModel);
+		String result = controller.show(randomUUId, uiModel);
 		
 		assertNotNull(result);
 		assertEquals("groups/details", result);

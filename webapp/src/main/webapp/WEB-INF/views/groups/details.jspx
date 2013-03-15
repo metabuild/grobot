@@ -10,14 +10,15 @@
     <jsp:output omit-xml-declaration="yes"/>
     
     <spring:url value="/groups" var="listUrl" />
-    <spring:url value="/groups/form" var="createFormUrl" />
-    <spring:url value="/groups/form/${group.id}" var="updateFormUrl" />
-    <spring:url value="/groups/${group.id}" var="groupsUrl" />
+    <spring:url value="/groups?form" var="createFormUrl" />
+    <spring:url value="/groups/${group.id}?form" var="updateFormUrl" />
+    <spring:url value="/groups/${group.id}" var="showUrl" />
+    <spring:url value="/groups/${group.id}?delete" var="deleteUrl" />
     
     <a href="${listUrl}">list</a> | 
     <a href="${createFormUrl}">new</a> | 
-    <a href="${updateFormUrl}">update</a> |
-    <a href="${createFormUrl}">delete</a> 
+    <a href="${updateFormUrl}">edit</a> |
+    <a href="${deleteUrl}">delete</a> 
     
     <table class="table">
         <thead>
@@ -31,7 +32,7 @@
                 <td>${group.name}</td>
             </tr>
             <tr>
-                <td>Targets</td>
+                <td>Bots</td>
                 <td>${group.targetHosts}</td>
             </tr>
             <tr>
