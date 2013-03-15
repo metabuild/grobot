@@ -12,6 +12,6 @@
     
     <div id="topbarWrapper">
         <div id="pageName" class="span8"><h4><tiles:insertAttribute name="pageName" /></h4></div>
-        <div id="logout" class="span1 pull-right"><h5><a href="${logoutUrl}">Logout</a></h5></div>
+        <div id="timeStamp" class="span1 pull-right"><h5></h5></div>
     </div>
 </div>
