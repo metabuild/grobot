@@ -2,7 +2,7 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
     <definition extends="default" name="groups">
-        <put-attribute name="pageName" value="Groups" cascade="true" />
+        <put-attribute name="pageName" value="GROUPS" cascade="true" />
     </definition>
     <definition extends="groups" name="groups/list">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; List Groups" cascade="true" />
