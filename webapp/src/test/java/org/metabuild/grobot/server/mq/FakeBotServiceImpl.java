@@ -20,20 +20,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.metabuild.grobot.common.domain.TargetHost;
-import org.metabuild.grobot.server.service.TargetHostService;
+import org.metabuild.grobot.common.domain.Bot;
+import org.metabuild.grobot.server.service.BotService;
 
 /**
  * @author jburbridge
  * @since 11/17/2012
  */
-public class FakeTargetHostServiceImpl implements TargetHostService {
+public class FakeBotServiceImpl implements BotService {
 	
-	private final Map<String,TargetHost> targetHosts = new HashMap<String, TargetHost>();
+	private final Map<String,Bot> bots = new HashMap<String, Bot>();
 
 	@Override
-	public List<TargetHost> findAll() {
-		return new ArrayList<TargetHost>(targetHosts.values());
+	public List<Bot> findAll() {
+		return new ArrayList<Bot>(bots.values());
 	}
 
 	/*
@@ -41,37 +41,37 @@ public class FakeTargetHostServiceImpl implements TargetHostService {
 	 * the cache, otherwise return null
 	 */
 	@Override
-	public TargetHost findByName(String hostname) {
-		TargetHost target = null;
-		if (targetHosts.containsKey(hostname)) {
-			target = targetHosts.get(hostname);
+	public Bot findByName(String hostname) {
+		Bot target = null;
+		if (bots.containsKey(hostname)) {
+			target = bots.get(hostname);
 		} else if (hostname != null && hostname.startsWith("valid")) {
-			target = new TargetHost(hostname, hostname + ".fake.address", true);
-			targetHosts.put(hostname, target);
+			target = new Bot(hostname, hostname + ".fake.address", true);
+			bots.put(hostname, target);
 		} 
 		return target;
 	}
 
 	@Override
-	public List<TargetHost> findAllWithProperties() {
+	public List<Bot> findAllWithProperties() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TargetHost find(String id) {
+	public Bot find(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TargetHost save(TargetHost targetHost) {
+	public Bot save(Bot targetHost) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(TargetHost targetHost) {
+	public void delete(Bot targetHost) {
 		// TODO Auto-generated method stub
 
 	}

@@ -17,7 +17,7 @@ package org.metabuild.grobot.server.repository;
 
 import java.util.List;
 
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.BotGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -30,13 +30,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface TargetHostRepository  extends CrudRepository<TargetHost, String> {
+public interface BotGroupRepository extends CrudRepository<BotGroup, String> {
 
-	public List<TargetHost> findByName(String name);
+	public List<BotGroup> findAll();
 	
-	public List<TargetHost> findAll();
+	public Page<BotGroup> findAll(Pageable pageable);
 	
-	public Page<TargetHost> findAll(Pageable pageable);
-		
-	public TargetHost findById(String id);
+	public List<BotGroup> findByName(String name);
+	
+	public List<BotGroup> findByActive(boolean active);
+
+	public BotGroup findById(String id);
+	
 }

@@ -15,28 +15,24 @@
  */
 package org.metabuild.grobot.common.domain;
 
-import java.io.Serializable;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.metabuild.grobot.common.domain.BotGroup;
 
 /**
- * @author jburbrid
- * @since 10/26/2012
+ * @author jburbridge
+ * @since 10/12/2012
  */
-public enum TargetHostStatus implements Serializable {
+public class BotGroupTest {
 
-	STOPPED("Stopped"), 
-	IDLE("Idle"), 
-	WORKING("Working"), 
-	TIMEOUT("Timeout"), 
-	INITIALIZING("Initializing");
-
-	private String status;
-	
-	TargetHostStatus(String status) {
-		this.status = status;
-	}
-	
-	@Override
-	public String toString() {
-		return status;
+	@Test
+	public void testDefaults() {
+		BotGroup group = new BotGroup("group1");
+		assertNotNull(group);
+		assertEquals("group1", group.getName());
+		assertEquals(0, group.getBots().size());
+		assertNull(group.getParent());
+		assertTrue(group.isActive());
 	}
 }

@@ -13,30 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.metabuild.grobot.server.service;
+package org.metabuild.grobot.common.domain;
 
-import java.lang.annotation.Target;
-import java.util.List;
-
-import org.metabuild.grobot.common.domain.TargetGroup;
+import java.io.Serializable;
 
 /**
- * 
- * @author jburbridge
- * @since 12/16/012
+ * @author jburbrid
+ * @since 10/26/2012
  */
-public interface TargetGroupService {
+public enum BotStatus implements Serializable {
 
-	public List<TargetGroup> findAll();
+	STOPPED("Stopped"), 
+	IDLE("Idle"), 
+	WORKING("Working"), 
+	TIMEOUT("Timeout"), 
+	INITIALIZING("Initializing");
+
+	private String status;
 	
-	public TargetGroup find(String id);
+	BotStatus(String status) {
+		this.status = status;
+	}
 	
-	public TargetGroup findById(String id);
-	
-	public TargetGroup findByName(String name);
-	
-	public TargetGroup save(TargetGroup targetGroup);
-	
-	public void delete(TargetGroup targetGroup);
-	
+	@Override
+	public String toString() {
+		return status;
+	}
 }

@@ -46,10 +46,10 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <form:label path="targetHosts" class="control-label" for="targetHosts">Bots</form:label>
+                      <form:label path="bots" class="control-label" for="bots">Bots</form:label>
                       <div class="controls">
-                        <form:select path="targetHosts" id="targetHosts">
-                          <form:options items="${group.targetHosts}" itemLabel="name" />
+                        <form:select path="bots" id="bots">
+                          <form:options items="${group.bots}" itemLabel="name" />
                         </form:select>
                       </div>
                     </div>
