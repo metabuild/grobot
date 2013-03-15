@@ -9,6 +9,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     
     <spring:url value="/groups" var="showGroupDetailsUrl" />
+    <spring:url value="/bots" var="showBotDetailsUrl" />
     
     <form class="form-horizontal" align="right">
       <div class="input-append">
@@ -38,7 +39,13 @@
                     <tr>
                         <td><a href="${showGroupDetailsUrl}/${group.id}">${group.name}</a></td>
                         <td>${group.parent}</td>
-                        <td>${group.targetHosts}</td>
+                        <td>
+                          <ul>
+                          <c:forEach items="${group.targetHosts}" var="target">
+                            <li><a href="${showBotDetailsUrl}/${target.id}">${target.name}</a></li>
+                          </c:forEach>
+                          </ul>
+                        </td>
                         <td>${group.active}</td>
                     </tr>
                 </c:forEach>
