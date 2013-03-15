@@ -27,7 +27,7 @@ import org.metabuild.grobot.server.registration.RegistrationResponseProducer;
 import org.metabuild.grobot.server.registration.RegistrationResponseProducerImpl;
 import org.metabuild.grobot.server.registration.RegistrationService;
 import org.metabuild.grobot.server.registration.RegistrationServiceImpl;
-import org.metabuild.grobot.server.service.TargetHostService;
+import org.metabuild.grobot.server.service.BotService;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestProducerImpl;
 import org.metabuild.grobot.server.status.StatusRequestService;
@@ -85,7 +85,7 @@ public class ServerJmsConfig {
 	 * @return the registrationService
 	 */
 	@Bean(name="registrationService")
-	public RegistrationService getRegistrationService(TargetHostService targetHostService, 
+	public RegistrationService getRegistrationService(BotService targetHostService, 
 			RegistrationResponseProducer registrationResponseProducer) {
 		return new RegistrationServiceImpl(targetHostService, registrationResponseProducer);
 	}
@@ -183,7 +183,7 @@ public class ServerJmsConfig {
 	 */
 	@Autowired(required=true)
 	@Bean(name="statusResponseListner")
-	public StatusResponseListener getStatusResponseListener(TargetHostService targetHostService) {
+	public StatusResponseListener getStatusResponseListener(BotService targetHostService) {
 		return new StatusResponseListener(targetHostService);
 	}
 

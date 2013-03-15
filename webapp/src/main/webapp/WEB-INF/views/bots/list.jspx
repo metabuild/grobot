@@ -8,13 +8,14 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <spring:url value="/bots" var="showTargetDetailsUrl" />
+    <spring:url value="/groups" var="showGroupDetailsUrl" />
+    <spring:url value="/bots" var="showBotDetailsUrl" />
     
     <c:if test="${not empty page.content}">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Target Name</th>
+                    <th>Bot Name</th>
                     <th>Address</th>
                     <th>Last Update</th>
                     <th>Status</th>
@@ -22,13 +23,13 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${page.content}" var="target">
+                <c:forEach items="${page.content}" var="bot">
                     <tr>
-                        <td><a href="${showTargetDetailsUrl}/${target.id}">${target.name}</a></td>
-                        <td>${target.address}</td>
-                        <td>${target.lastUpdatedStatus}</td>
-                        <td>${target.status}</td>
-                        <td>${target.active}</td>
+                        <td><a href="${showBotDetailsUrl}/${bot.id}">${bot.name}</a></td>
+                        <td>${bot.address}</td>
+                        <td>${bot.lastUpdatedStatus}</td>
+                        <td>${bot.status}</td>
+                        <td>${bot.active}</td>
                     </tr>
                 </c:forEach>
             </tbody>

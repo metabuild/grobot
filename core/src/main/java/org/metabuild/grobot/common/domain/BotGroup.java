@@ -38,8 +38,8 @@ import org.hibernate.annotations.GenericGenerator;
  * @since 9/27/2012
  */
 @Entity
-@Table(name="TARGET_GROUPS")
-public class TargetGroup implements Serializable {
+@Table(name="BOT_GROUPS")
+public class BotGroup implements Serializable {
 
 	private static final long serialVersionUID = -8111761490319291460L;
 
@@ -56,28 +56,28 @@ public class TargetGroup implements Serializable {
 	private boolean active;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "TARGET_GROUP_MEMBERS",
-		joinColumns = @JoinColumn(name = "TARGET_GROUP_ID"),
-		inverseJoinColumns = @JoinColumn(name = "TARGET_HOST_ID"))
-	private Set<TargetHost> targetHosts = new HashSet<TargetHost>();
+	@JoinTable(name = "BOT_GROUP_MEMBERS",
+		joinColumns = @JoinColumn(name = "BOT_GROUP_ID"),
+		inverseJoinColumns = @JoinColumn(name = "BOT_ID"))
+	private Set<Bot> bots = new HashSet<Bot>();
 	
 	@Transient
-	private TargetGroup parent;
+	private BotGroup parent;
 
 	/**
 	 * No-arg constructor for Hibernate
 	 */
-	public TargetGroup() {}
+	public BotGroup() {}
 	
 	/**
 	 * @param name - the group's name
-	 * @param targetHosts - a list of target hosts
+	 * @param bots - a list of bots
 	 * @param parent - a parent group
 	 * @param active - is the group available for targeting
 	 */
-	public TargetGroup(String name, Set<TargetHost> targetHosts, TargetGroup parent, boolean active) {
+	public BotGroup(String name, Set<Bot> bots, BotGroup parent, boolean active) {
 		this.name = name;
-		this.targetHosts = targetHosts;
+		this.bots = bots;
 		this.parent = parent;
 		this.active = active;
 	}
@@ -85,46 +85,46 @@ public class TargetGroup implements Serializable {
 	/**
 	 * @param name - the group's name
 	 */
-	public TargetGroup(String name) {
-		this(name, Collections.synchronizedSet(new HashSet<TargetHost>()));
+	public BotGroup(String name) {
+		this(name, Collections.synchronizedSet(new HashSet<Bot>()));
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targetHosts - a list of target hosts
+	 * @param bots - a list of bots
 	 */
-	public TargetGroup(String name, Set<TargetHost> targetHosts) {
-		this(name, targetHosts, null);
+	public BotGroup(String name, Set<Bot> bots) {
+		this(name, bots, null);
 	}
 
 	/**
 	 * @param name - the group's name
-	 * @param targetHosts - a list of target hosts
+	 * @param bots - a list of bots
 	 * @param parent - a parent group
 	 */
-	public TargetGroup(String name, Set<TargetHost> targetHosts, TargetGroup parent) {
-		this(name, targetHosts, parent, true);
+	public BotGroup(String name, Set<Bot> bots, BotGroup parent) {
+		this(name, bots, parent, true);
 	}
 
 	/**
-	 * @param targetHost
+	 * @param bot
 	 */
-	public void addTargetHost(TargetHost targetHost) {
-		this.targetHosts.add(targetHost);
+	public void addBot(Bot bot) {
+		this.bots.add(bot);
 	}
 	
 	/**
-	 * @param targetHosts
+	 * @param bots
 	 */
-	public void addTargets(Set<TargetHost> targetHosts) {
-		this.targetHosts.addAll(targetHosts);
+	public void addBots(Set<Bot> bots) {
+		this.bots.addAll(bots);
 	}
 	
 	/**
-	 * @return targetHosts
+	 * @return bots
 	 */
-	public Set<TargetHost> getTargetHosts() {
-		return targetHosts;
+	public Set<Bot> getBots() {
+		return bots;
 	}
 
 	/**
@@ -158,22 +158,22 @@ public class TargetGroup implements Serializable {
 	/**
 	 * @return the parent
 	 */
-	public TargetGroup getParent() {
+	public BotGroup getParent() {
 		return parent;
 	}
 
 	/**
 	 * @param parent the parent to set
 	 */
-	public void setParent(TargetGroup parent) {
+	public void setParent(BotGroup parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * @param targetHosts the targets to set
+	 * @param bots the targets to set
 	 */
-	public void setTargetHosts(Set<TargetHost> targetHosts) {
-		this.targetHosts = targetHosts;
+	public void setTargetHosts(Set<Bot> bots) {
+		this.bots = bots;
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class TargetGroup implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("TargetGroup [id=").append(id).append(", name=")
+		builder.append("BotGroup [id=").append(id).append(", name=")
 				.append(name).append(", active=").append(active).append("]");
 		return builder.toString();
 	}

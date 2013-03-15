@@ -1,4 +1,4 @@
-insert into TARGET_HOSTS (ID, NAME, ADDRESS) values 
+insert into BOTS (ID, NAME, ADDRESS) values 
     ('a85765e0-7e90-47b9-aea3-7da16117d274','jburbridge-dev1', 'jburbridge-dev1.home.johnburbridge.net'),
     ('9741afbb-a1be-47e0-9aa9-8a7f3702ffea','fake-host1', 'fake-host1.dummy.domain'),
     ('686ffd94-cbf7-4767-bf77-9d529b0087e7','fake-host2', 'fake-host2.dummy.domain'),
@@ -35,12 +35,12 @@ insert into TARGET_HOSTS (ID, NAME, ADDRESS) values
     ('3363afa3-8bc8-462a-bbbd-ee4c25193fed','fake-host33', 'fake-host33.dummy.domain'),
     ('4c88d4aa-498c-4183-9b7d-a61cf908455a','fake-host34', 'fake-host34.dummy.domain');
 
-insert into TARGET_GROUPS (ID, NAME, ACTIVE) values 
+insert into BOT_GROUPS (ID, NAME, ACTIVE) values 
     ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55','fake-group1', true),
     ('1848d4b8-93b9-4970-be41-b366517af44b','fake-group2', true),
     ('f2c1fafa-af63-499b-8bdb-d7a0df26837f','fake-group3', false);
 
-insert into TARGET_GROUP_MEMBERS (ID, TARGET_GROUP_ID, TARGET_HOST_ID) values 
+insert into BOT_GROUP_MEMBERS (ID, BOT_GROUP_ID, BOT_ID) values 
     ('c47946af-7482-4b4d-85b3-5f5424de3b13', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'a85765e0-7e90-47b9-aea3-7da16117d274'),
     ('b64399cd-a05c-4b88-99da-b18c9b16849c', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '9741afbb-a1be-47e0-9aa9-8a7f3702ffea'),
     ('62f51b8d-4ca3-4dbc-86ca-e2f8ede55cc8', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '686ffd94-cbf7-4767-bf77-9d529b0087e7'),
@@ -61,5 +61,5 @@ insert into TASK_EXECUTIONS (ID, TASK_ID) values
     ('96684384-f684-4bfc-9d88-3ccb99daf491', '88f0d086-e256-4c01-b9d5-d529480e7217'),
     ('a5f4d3f2-a353-46a5-a908-f493ec399f0d', '88f0d086-e256-4c01-b9d5-d529480e7217');
     
-select * from TARGET_HOSTS;
+select * from BOTS;
 

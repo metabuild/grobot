@@ -17,7 +17,7 @@
                 <tr>
                     <th>Group Name</th>
                     <th>Parent</th>
-                    <th>Target Hosts</th>
+                    <th>Bots</th>
                     <th>Active</th>
                 </tr>
             </thead>
@@ -28,7 +28,7 @@
                         <td>${group.parent}</td>
                         <td>
                           <ul>
-                          <c:forEach items="${group.targetHosts}" var="target">
+                          <c:forEach items="${group.bots}" var="target">
                             <li><a href="${showBotDetailsUrl}/${target.id}">${target.name}</a></li>
                           </c:forEach>
                           </ul>

@@ -20,10 +20,10 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 
 import org.joda.time.DateTime;
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.jms.StatusResponse;
 import org.metabuild.grobot.common.jms.StatusResponseMessageConverter;
-import org.metabuild.grobot.server.service.TargetHostService;
+import org.metabuild.grobot.server.service.BotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.support.converter.MessageConversionException;
@@ -39,7 +39,7 @@ public class StatusResponseListener implements MessageListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusResponseListener.class);
 	
-	private final TargetHostService targetHostService;
+	private final BotService botService;
 	private final StatusResponseMessageConverter messageConverter;
 
 	
@@ -47,10 +47,10 @@ public class StatusResponseListener implements MessageListener {
 	 * Constructor with DI for unit testing
 	 * @param targetHostService
 	 */
-	public StatusResponseListener(TargetHostService targetHostService) {
+	public StatusResponseListener(BotService targetHostService) {
 		LOGGER.info("Initializing {}...", this.getClass().getName());
 		this.messageConverter = new StatusResponseMessageConverter();
-		this.targetHostService = targetHostService;
+		this.botService = targetHostService;
 	}
 	
 	/*
@@ -64,11 +64,11 @@ public class StatusResponseListener implements MessageListener {
 			final String hostname = statusResponse.getHostname();
 			LOGGER.info("Received \"{}\" from {}", statusResponse, hostname);
 			if (hostname != null) {
-				TargetHost targetHost = targetHostService.findByName(hostname);
-				if (targetHost != null) {
-					targetHostService.findByName(hostname).setLastUpdatedStatus(new DateTime(statusResponse.getTimeStamp()));
+				Bot bot = botService.findByName(hostname);
+				if (bot != null) {
+					botService.findByName(hostname).setLastUpdatedStatus(new DateTime(statusResponse.getTimeStamp()));
 				} else {
-					LOGGER.warn("Unregistered target host {} is listening on status topic!", hostname);
+					LOGGER.warn("Unregistered bot {} is listening on status topic!", hostname);
 				}
 			}
 		} catch (MessageConversionException e) {
@@ -81,7 +81,7 @@ public class StatusResponseListener implements MessageListener {
 	/**
 	 * @return the targetHostService
 	 */
-	protected TargetHostService getTargetHostService() {
-		return targetHostService;
+	protected BotService getBotService() {
+		return botService;
 	}
 }

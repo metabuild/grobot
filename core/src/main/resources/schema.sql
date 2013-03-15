@@ -1,31 +1,31 @@
-create table TARGET_HOSTS (
+create table BOTS (
   ID varchar(36) not null,
   NAME varchar(60) not null, 
   ADDRESS varchar(40) not null,
   REGISTERED DATE,
-  unique UQ_TARGET_HOSTS_1 (ID), 
-  unique UQ_TARGET_HOSTS_2 (NAME), 
+  unique UQ_BOTS_1 (ID), 
+  unique UQ_BOTS_2 (NAME), 
   primary key (ID) 
 ); 
 
-create table TARGET_GROUPS (
+create table BOT_GROUPS (
   ID varchar(36) not null,
   NAME varchar(60) not null,
   ACTIVE boolean default true,
-  unique UQ_TARGET_GROUPS_1 (ID), 
-  unique UQ_TARGET_GROUPS_2 (NAME), 
+  unique UQ_BOT_GROUPS_1 (ID), 
+  unique UQ_BOT_GROUPS_2 (NAME), 
   primary key (ID) 
 ); 
 
-create table TARGET_GROUP_MEMBERS (
+create table BOT_GROUP_MEMBERS (
   ID varchar(36) not null,
-  TARGET_GROUP_ID varchar(60) not null, 
-  TARGET_HOST_ID varchar(60) not null, 
-  unique UQ_TARGET_GROUP_MEMBERS_1 (ID), 
-  constraint FK_TARGET_GROUP_MEMBERS_1 foreign key (TARGET_GROUP_ID)
-    references TARGET_GROUPS (ID) on delete cascade,
-  constraint FK_TARGET_GROUP_MEMBERS_2 foreign key (TARGET_HOST_ID)
-    references TARGET_HOSTS (ID) on delete cascade,
+  BOT_GROUP_ID varchar(60) not null, 
+  BOT_ID varchar(60) not null, 
+  unique UQ_BOT_GROUP_MEMBERS_1 (ID), 
+  constraint FK_BOT_GROUP_MEMBERS_1 foreign key (BOT_GROUP_ID)
+    references BOT_GROUPS (ID) on delete cascade,
+  constraint FK_BOT_GROUP_MEMBERS_2 foreign key (BOT_ID)
+    references BOTS (ID) on delete cascade,
   primary key (ID) 
 ); 
 

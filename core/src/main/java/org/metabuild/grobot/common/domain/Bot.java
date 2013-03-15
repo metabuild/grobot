@@ -44,8 +44,8 @@ import org.metabuild.grobot.common.jms.StatusResponse;
  * @since 9/27/2012
  */
 @Entity
-@Table(name="TARGET_HOSTS")
-public class TargetHost implements Serializable {
+@Table(name="BOTS")
+public class Bot implements Serializable {
 	
 	private static final long serialVersionUID = 150135564407144746L;
 	
@@ -66,10 +66,10 @@ public class TargetHost implements Serializable {
 	private Date registered;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "TARGET_GROUP_MEMBERS",
-		joinColumns = @JoinColumn(name = "TARGET_HOST_ID"),
-		inverseJoinColumns = @JoinColumn(name = "TARGET_GROUP_ID"))
-	private Set<TargetGroup> groups = new HashSet<TargetGroup>();
+	@JoinTable(name = "BOT_GROUP_MEMBERS",
+		joinColumns = @JoinColumn(name = "BOT_ID"),
+		inverseJoinColumns = @JoinColumn(name = "BOT_GROUP_ID"))
+	private Set<BotGroup> groups = new HashSet<BotGroup>();
 	
 	@Transient
 	private boolean active;
@@ -80,12 +80,12 @@ public class TargetHost implements Serializable {
 	@Transient
 	private DateTime lastUpdatedStatus;
 	@Transient
-	private TargetHostStatus status;
+	private BotStatus status;
 
 	/**
 	 * No-arg constructor for Hibernate
 	 */
-	public TargetHost() {}
+	public Bot() {}
 	
 	/**
 	 * Default constructor - initializes the object with empty properties
@@ -94,14 +94,14 @@ public class TargetHost implements Serializable {
 	 * @param address - the fully qualified host name
 	 * @param active - is the host available for targeting
 	 */
-	public TargetHost(String name, String address, boolean active) {
+	public Bot(String name, String address, boolean active) {
 		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.address = address;
 		this.active = active;
 		this.systemProperties = new Properties();
 		this.customProperties = new Properties();
-		this.status = TargetHostStatus.INITIALIZING;
+		this.status = BotStatus.INITIALIZING;
 	}
 	
 	/**
@@ -109,13 +109,13 @@ public class TargetHost implements Serializable {
 	 * 
 	 * @param statusResponse
 	 */
-	public TargetHost(StatusResponse statusResponse) {
+	public Bot(StatusResponse statusResponse) {
 		this.name = statusResponse.getHostname();
 		this.address = statusResponse.getHostname();
 		this.systemProperties = statusResponse.getSystemProperties();
 		this.customProperties = statusResponse.getOtherProperties();
 		this.lastUpdatedStatus = new DateTime(statusResponse.getTimeStamp());
-		this.status = TargetHostStatus.IDLE;
+		this.status = BotStatus.IDLE;
 		this.active = true;
 	}
 
@@ -234,28 +234,28 @@ public class TargetHost implements Serializable {
 	/**
 	 * @return the status
 	 */
-	public TargetHostStatus getStatus() {
+	public BotStatus getStatus() {
 		return status;
 	}
 
 	/**
 	 * @return the groups
 	 */
-	public Set<TargetGroup> getGroups() {
+	public Set<BotGroup> getGroups() {
 		return groups;
 	}
 
 	/**
 	 * @param groups the groups to set
 	 */
-	public void setGroups(Set<TargetGroup> groups) {
+	public void setGroups(Set<BotGroup> groups) {
 		this.groups = groups;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(TargetHostStatus status) {
+	public void setStatus(BotStatus status) {
 		this.status = status;
 	}
 
@@ -265,7 +265,7 @@ public class TargetHost implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("TargetHost [id=").append(id).append(", name=")
+		builder.append("Bot [id=").append(id).append(", name=")
 				.append(name).append(", address=").append(address)
 				.append(", registered=").append(registered).append(", active=")
 				.append(active).append(", status=").append(status).append("]");

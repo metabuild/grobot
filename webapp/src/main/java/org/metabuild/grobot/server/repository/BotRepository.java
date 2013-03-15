@@ -13,26 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.metabuild.grobot.common.domain;
+package org.metabuild.grobot.server.repository;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
-import org.junit.Test;
-import org.metabuild.grobot.common.domain.TargetGroup;
+import org.metabuild.grobot.common.domain.Bot;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author jburbridge
- * @since 10/12/2012
+ * @since 12/15/2012
  */
-public class TargetGroupTest {
+@Repository
+@Transactional
+public interface BotRepository  extends CrudRepository<Bot, String> {
 
-	@Test
-	public void testDefaults() {
-		TargetGroup group = new TargetGroup("group1");
-		assertNotNull(group);
-		assertEquals("group1", group.getName());
-		assertEquals(0, group.getTargetHosts().size());
-		assertNull(group.getParent());
-		assertTrue(group.isActive());
-	}
+	public List<Bot> findByName(String name);
+	
+	public List<Bot> findAll();
+	
+	public Page<Bot> findAll(Pageable pageable);
+		
+	public Bot findById(String id);
 }

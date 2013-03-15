@@ -22,26 +22,26 @@ import java.util.Map;
 
 import javax.jms.Destination;
 
-import org.metabuild.grobot.common.domain.TargetHost;
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.jms.RegistrationData;
 import org.metabuild.grobot.server.registration.RegistrationService;
 
 public class FakeTargetHostRegistrationManagerImpl implements
 		RegistrationService {
 
-	private static final Map<String,TargetHost> targetHosts = new HashMap<String,TargetHost>();
+	private static final Map<String,Bot> targetHosts = new HashMap<String,Bot>();
 	
-	protected void createUnregistered(TargetHost targetHost) {
+	protected void createUnregistered(Bot targetHost) {
 		targetHosts.put(targetHost.getName(), targetHost);
 	}
 
-	protected List<TargetHost> getPendingRegistrations() {
-		return new ArrayList<TargetHost>(targetHosts.values());
+	protected List<Bot> getPendingRegistrations() {
+		return new ArrayList<Bot>(targetHosts.values());
 	}
 
 	@Override
 	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
-		final TargetHost targetHost = new TargetHost(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
+		final Bot targetHost = new Bot(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
 		createUnregistered(targetHost);
 		registrationDetails.setKey(targetHost.getId());
 		return registrationDetails;

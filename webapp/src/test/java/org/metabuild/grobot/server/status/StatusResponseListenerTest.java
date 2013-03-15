@@ -46,18 +46,18 @@ public class StatusResponseListenerTest {
 		StatusResponseListener listener = new StatusResponseListener(new FakeTargetHostServiceImpl());
 		
 		listener.onMessage(getMockObjectMessage("valid1"));
-		assertEquals(1,listener.getTargetHostService().findAll().size());
+		assertEquals(1,listener.getBotService().findAll().size());
 		
 		listener.onMessage(getMockObjectMessage("valid2"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 		
 		// duplicate message
 		listener.onMessage(getMockObjectMessage("valid2"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 		
 		// invalid host that hasn't been registered yet
 		listener.onMessage(getMockObjectMessage("invalid1"));
-		assertEquals(2,listener.getTargetHostService().findAll().size());
+		assertEquals(2,listener.getBotService().findAll().size());
 
 	}
 
