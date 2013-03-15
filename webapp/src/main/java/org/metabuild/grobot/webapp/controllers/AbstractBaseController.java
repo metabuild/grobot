@@ -20,10 +20,7 @@ import org.springframework.ui.Model;
 /**
  * Abstract controller that adds navigation context to it's subclasses
  * 
- * TODO: investigate whethere this would be better handled by an AOP injection
- * 
  * @author jburbridge
- * @since 11/5/2012
  */
 public abstract class AbstractBaseController {
 

@@ -71,11 +71,30 @@ public class TargetGroup implements Serializable {
 	
 	/**
 	 * @param name - the group's name
+	 * @param targetHosts - a list of target hosts
+	 * @param parent - a parent group
+	 * @param active - is the group available for targeting
+	 */
+	public TargetGroup(String name, Set<TargetHost> targetHosts, TargetGroup parent, boolean active) {
+		this.name = name;
+		this.targetHosts = targetHosts;
+		this.parent = parent;
+		this.active = active;
+	}
+
+	/**
+	 * @param name - the group's name
 	 */
 	public TargetGroup(String name) {
-		this.name = name;
-		this.targetHosts = Collections.synchronizedSet(new HashSet<TargetHost>());
-		this.active = true;
+		this(name, Collections.synchronizedSet(new HashSet<TargetHost>()));
+	}
+
+	/**
+	 * @param name - the group's name
+	 * @param targetHosts - a list of target hosts
+	 */
+	public TargetGroup(String name, Set<TargetHost> targetHosts) {
+		this(name, targetHosts, null);
 	}
 
 	/**
@@ -84,18 +103,7 @@ public class TargetGroup implements Serializable {
 	 * @param parent - a parent group
 	 */
 	public TargetGroup(String name, Set<TargetHost> targetHosts, TargetGroup parent) {
-		this.name = name;
-		this.targetHosts = targetHosts;
-		this.parent = parent;
-	}
-
-	/**
-	 * @param name - the group's name
-	 * @param targetHosts - a list of target hosts
-	 */
-	public TargetGroup(String name, Set<TargetHost> targetHosts) {
-		this.name = name;
-		this.targetHosts = targetHosts;
+		this(name, targetHosts, parent, true);
 	}
 
 	/**

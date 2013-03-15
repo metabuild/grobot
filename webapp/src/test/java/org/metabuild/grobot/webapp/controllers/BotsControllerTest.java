@@ -57,7 +57,8 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testList() {
 		
-		Page page = mock(Page.class);
+		@SuppressWarnings("unchecked")
+		Page<TargetHost> page = mock(Page.class);
 		when(page.getContent()).thenReturn(targets);
 		
 		TargetHostRepository targetHostRepository = mock(TargetHostRepository.class);
@@ -85,8 +86,9 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testDetail() {
 		
+		String randomUUId = UUID.randomUUID().toString();
 		TargetHostRepository targetHostRepository = mock(TargetHostRepository.class);
-		when(targetHostRepository.findById(anyString())).thenReturn(targets.get(0));
+		when(targetHostRepository.findById(randomUUId)).thenReturn(targets.get(0));
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
@@ -96,7 +98,7 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
-		String result = controller.details(UUID.randomUUID().toString(), uiModel);
+		String result = controller.details(randomUUId, uiModel);
 		
 		assertNotNull(result);
 		assertEquals("bots/details", result);

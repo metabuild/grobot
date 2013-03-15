@@ -8,6 +8,11 @@
     <jsp:output omit-xml-declaration="yes" />
     
     <spring:url value="/" var="homeUrl" />
+    <spring:url value="/schedule" var="scheduleUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    <spring:url value="/groups" var="groupsUrl" />
+    <spring:url value="/logs" var="logsUrl" />
+    <spring:url value="/config" var="configUrl" />
     <spring:url value="/logout" var="logoutUrl" />
     
     <!--  activeNavItem: ${selectedMenuItem} -->
@@ -17,15 +22,23 @@
               <a class="brand" href="${homeUrl}">Grobot</a>
               <div class="nav-collapse">
                 <ul class="nav">
-                  <c:forEach var="item" items="${navMenuItems}">
-                      <li><a href="${homeUrl}${item}">${item}</a></li>
-	                  <li class="divider-verital"></li>
-                  </c:forEach>
+                    <li><a href="${scheduleUrl}">Schedule</a></li>
+                    <li class="divider-verital"></li>
+                    <li><a href="${botsUrl}">Bots</a></li>
+                    <li class="divider-verital"></li>
+                    <li><a href="${groupsUrl}">Groups</a></li>
+                    <li class="divider-verital"></li>
+                    <li><a href="${logsUrl}">Logs</a></li>
+                    <li class="divider-verital"></li>
+                    <li><a href="${configUrl}">Config</a></li>
+                    <li class="divider-verital"></li>
                 </ul>
               </div>
          
             </div>
           </div>
         </div>
+        
+        <h3><tiles:insertAttribute name="pageName" ignore="true" /></h3>
 
 </div>
