@@ -21,11 +21,15 @@ import org.metabuild.grobot.common.domain.TargetHost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author jburbridge
  * @since 12/15/2012
  */
+@Repository
+@Transactional
 public interface TargetHostRepository  extends CrudRepository<TargetHost, String> {
 
 	public List<TargetHost> findByName(String name);
