@@ -15,30 +15,17 @@
     <spring:url value="/config" var="configUrl" />
     <spring:url value="/logout" var="logoutUrl" />
     
-    <!--  activeNavItem: ${selectedMenuItem} -->
-        <div class="navbar navbar-inverse">
-          <div class="navbar-inner">
-            <div class="container">
-              <a class="brand" href="${homeUrl}">Grobot</a>
-              <div class="nav-collapse">
-                <ul class="nav">
-                    <li><a href="${scheduleUrl}">Schedule</a></li>
-                    <li class="divider-verital"></li>
-                    <li><a href="${botsUrl}">Bots</a></li>
-                    <li class="divider-verital"></li>
-                    <li><a href="${groupsUrl}">Groups</a></li>
-                    <li class="divider-verital"></li>
-                    <li><a href="${logsUrl}">Logs</a></li>
-                    <li class="divider-verital"></li>
-                    <li><a href="${configUrl}">Config</a></li>
-                    <li class="divider-verital"></li>
-                </ul>
-              </div>
-         
-            </div>
-          </div>
-        </div>
-        
-        <h3><tiles:insertAttribute name="pageName" ignore="true" /></h3>
-
+    <div id="navWrapper">
+      <h2 class="brand">Grobot</h2>
+      <ul class="nav nav-list">
+        <li><a href="${configUrl}">Schedule</a></li>
+        <li><a href="${botsUrl}">Bots</a></li>
+        <li><a href="${groupsUrl}">Groups</a></li>
+        <li><a href="${logsUrl}">Reports</a></li>
+        <li><a href="${configUrl}">Setup</a></li>
+        <li class="divider"></li>
+        <li><a href="${logoutUrl}">Logout</a></li>
+        <li><a href="${configUrl}">Help</a></li>
+      </ul>
+    </div>
 </div>

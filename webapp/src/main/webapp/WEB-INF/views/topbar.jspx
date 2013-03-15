@@ -10,13 +10,8 @@
     <spring:url value="/" var="homeUrl" />
     <spring:url value="/logout" var="logoutUrl" />
     
-    <div>
-        <table width="100%">
-          <tr>
-            <td width="90%"><h1 class="brand">Grobot</h1></td>
-            <td valign="middle" align="right"><h5><a href="${logoutUrl}">Logout</a></h5></td>
-          </tr>
-        </table>
+    <div id="topbarWrapper">
+        <div id="pageName" class="span8"><h4><tiles:insertAttribute name="pageName" /></h4></div>
+        <div id="logout" class="span1 pull-right"><h5><a href="${logoutUrl}">Logout</a></h5></div>
     </div>
-
 </div>

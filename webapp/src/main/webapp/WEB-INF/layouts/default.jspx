@@ -12,21 +12,22 @@
     <tiles:insertAttribute name="header" ignore="true" />
     
     <body>
-        <div class="container">
-            <div id="topBarWrapper">
-                <tiles:insertAttribute name="topbar" ignore="true" />
-            </div>
-            <div id="navWrapper">
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="span2" id="navWrapper">
                 <tiles:insertAttribute name="navbar" ignore="true" />
             </div>
-            <div id="wrapper" width="95%">
-                <tiles:insertAttribute name="menu" ignore="true" />
-                <div id="main" >
+            <div class="span10" id="bodyWrapper">
+	            <div class="row" id="topBarWrapper">
+                    <tiles:insertAttribute name="topbar" ignore="true" />
+                </div>
+                <div class="row" id="main" >
                     <tiles:insertAttribute name="body"/> 
                     <tiles:insertAttribute name="pagination" ignore="true" />
                     <tiles:insertAttribute name="footer" ignore="true"/>
                 </div>
             </div>
+          </div>
         </div>
       <tiles:insertAttribute name="jsIncludes" ignore="true" />
     </body>
