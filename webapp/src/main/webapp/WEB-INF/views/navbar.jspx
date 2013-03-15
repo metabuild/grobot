@@ -16,9 +16,9 @@
     <spring:url value="/logout" var="logoutUrl" />
     
     <div id="navWrapper">
-      <h2 class="brand">Grobot</h2>
       <ul class="nav nav-list">
-        <li><a href="${configUrl}">Schedule</a></li>
+        <li><h2 class="brand">GROBOT</h2></li>
+        <li class="divider"></li>
         <li><a href="${botsUrl}">Bots</a></li>
         <li><a href="${groupsUrl}">Groups</a></li>
         <li><a href="${logsUrl}">Reports</a></li>
