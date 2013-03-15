@@ -8,7 +8,8 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <spring:url value="/bots" var="showTargetDetailsUrl" />
+    <spring:url value="/groups" var="showGroupDetailsUrl" />
+    <spring:url value="/bots" var="showBotDetailsUrl" />
     
     <form class="form-horizontal" align="right">
       <div class="input-append">
@@ -27,21 +28,25 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Target Name</th>
-                    <th>Address</th>
-                    <th>Last Update</th>
-                    <th>Status</th>
+                    <th>Group Name</th>
+                    <th>Parent</th>
+                    <th>Target Hosts</th>
                     <th>Active</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${page.content}" var="target">
+                <c:forEach items="${page.content}" var="group">
                     <tr>
-                        <td><a href="${showTargetDetailsUrl}/${target.id}">${target.name}</a></td>
-                        <td>${target.address}</td>
-                        <td>${target.lastUpdatedStatus}</td>
-                        <td>${target.status}</td>
-                        <td>${target.active}</td>
+                        <td><a href="${showGroupDetailsUrl}/${group.id}">${group.name}</a></td>
+                        <td>${group.parent}</td>
+                        <td>
+                          <ul>
+                          <c:forEach items="${group.targetHosts}" var="target">
+                            <li><a href="${showBotDetailsUrl}/${target.id}">${target.name}</a></li>
+                          </c:forEach>
+                          </ul>
+                        </td>
+                        <td>${group.active}</td>
                     </tr>
                 </c:forEach>
             </tbody>

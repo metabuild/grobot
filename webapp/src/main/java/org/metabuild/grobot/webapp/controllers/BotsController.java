@@ -78,8 +78,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		final TargetHost target = targetHostRepository.findById(id);
-		uiModel.addAttribute("target", target);
+		uiModel.addAttribute("target", targetHostRepository.findById(id));
 		addSelectedMenuItem(uiModel);
 		
 		return BOTS_DETAILS_VIEW;

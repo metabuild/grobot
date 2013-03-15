@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <spring:url value="/groups" var="listUrl" />
+    <spring:url value="/groups?form" var="createFormUrl" />
+    <spring:url value="/groups/${group.id}?form" var="updateFormUrl" />
+    <spring:url value="/groups/${group.id}" var="showUrl" />
+    <spring:url value="/groups/${group.id}?delete" var="deleteUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    
+    <a href="${listUrl}">list</a> | 
+    <a href="${createFormUrl}">new</a> | 
+    <a href="${updateFormUrl}">edit</a> |
+    <a href="${deleteUrl}">delete</a> 
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2"><h4>${group.name} Details</h4></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>${group.name}</td>
+            </tr>
+            <tr>
+                <td>Bots</td>
+                <td>
+                  <c:if test="${not empty group.targetHosts}">
+                    <ul>
+                      <c:forEach items="${group.targetHosts}" var="target">
+                        <li><a href="${botsUrl}/${target.id}">${target.name}</a></li>
+                      </c:forEach>
+                    </ul>
+                  </c:if>
+                </td>
+            </tr>
+            <tr>
+                <td>Active</td>
+                <td>${group.active}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>

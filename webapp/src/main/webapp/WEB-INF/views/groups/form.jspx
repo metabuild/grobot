@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <spring:url value="/groups" var="createUrl" />
+    <spring:url value="/groups/${group.id}" var="updateUrl" />
+    
+    <c:choose>
+      <c:when test="${group.id == null}">
+        <c:set var="actionUrl">${createUrl}</c:set>
+        <c:set var="bannerText">New Group</c:set>
+        <c:set var="submitButtonText">Create</c:set>
+      </c:when>
+      <c:otherwise>
+        <c:set var="actionUrl">${updateUrl}</c:set>
+        <c:set var="bannerText">Update ${group.name}</c:set>
+        <c:set var="submitButtonText">Update</c:set>
+      </c:otherwise>
+    </c:choose>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2"><h4>${bannerText}</h4></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                  <c:if test="${errorMessage != null}">
+                    <div class="alert">${errorMessage}</div>
+                  </c:if>
+                  <form:form modelAttribute="group" action="${actionUrl}?form" id="groupUpdateForm" class="form-horizontal" method="post">
+                    <div class="control-group">
+                      <form:label class="control-label" path="name">Name</form:label>
+                      <div class="controls">
+                        <form:input path="name" id="name" placeholder="Group Name" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <form:label path="targetHosts" class="control-label" for="targetHosts">Bots</form:label>
+                      <div class="controls">
+                        <form:select path="targetHosts" id="targetHosts">
+                          <form:options items="${group.targetHosts}" itemLabel="name" />
+                        </form:select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <form:label path="active" class="control-label" for="active">Active</form:label>
+                      <div class="controls">
+                        <form:checkbox path="active" id="active" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <button type="submit" class="btn">${submitButtonText}</button>
+                      <button type="reset" class="btn">Reset</button>
+                    </div>
+                  </form:form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
