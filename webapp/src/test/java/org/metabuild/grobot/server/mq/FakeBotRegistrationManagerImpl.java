@@ -26,24 +26,24 @@ import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.jms.RegistrationData;
 import org.metabuild.grobot.server.registration.RegistrationService;
 
-public class FakeTargetHostRegistrationManagerImpl implements
+public class FakeBotRegistrationManagerImpl implements
 		RegistrationService {
 
-	private static final Map<String,Bot> targetHosts = new HashMap<String,Bot>();
+	private static final Map<String,Bot> bots = new HashMap<String,Bot>();
 	
 	protected void createUnregistered(Bot targetHost) {
-		targetHosts.put(targetHost.getName(), targetHost);
+		bots.put(targetHost.getName(), targetHost);
 	}
 
 	protected List<Bot> getPendingRegistrations() {
-		return new ArrayList<Bot>(targetHosts.values());
+		return new ArrayList<Bot>(bots.values());
 	}
 
 	@Override
 	public RegistrationData processRegistrationRequest(RegistrationData registrationDetails, Destination replDestination) {
-		final Bot targetHost = new Bot(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
-		createUnregistered(targetHost);
-		registrationDetails.setKey(targetHost.getId());
+		final Bot bot = new Bot(registrationDetails.getHostname(), registrationDetails.getHostname(), true);
+		createUnregistered(bot);
+		registrationDetails.setKey(bot.getId());
 		return registrationDetails;
 	}
 }

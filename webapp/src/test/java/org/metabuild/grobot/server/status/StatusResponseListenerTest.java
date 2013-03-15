@@ -24,7 +24,7 @@ import javax.jms.ObjectMessage;
 
 import org.junit.Test;
 import org.metabuild.grobot.common.jms.StatusResponse;
-import org.metabuild.grobot.server.mq.FakeTargetHostServiceImpl;
+import org.metabuild.grobot.server.mq.FakeBotServiceImpl;
 
 /**
  * @author jburbridge
@@ -43,7 +43,7 @@ public class StatusResponseListenerTest {
 		 * different status response messages which can be verified by inspecting the TargetHostService
 		 * 
 		 */
-		StatusResponseListener listener = new StatusResponseListener(new FakeTargetHostServiceImpl());
+		StatusResponseListener listener = new StatusResponseListener(new FakeBotServiceImpl());
 		
 		listener.onMessage(getMockObjectMessage("valid1"));
 		assertEquals(1,listener.getBotService().findAll().size());

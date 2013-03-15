@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 
 import org.metabuild.grobot.common.jms.RegistrationData;
-import org.metabuild.grobot.server.mq.FakeTargetHostServiceImpl;
+import org.metabuild.grobot.server.mq.FakeBotServiceImpl;
 import org.metabuild.grobot.server.service.BotService;
 
 /**
@@ -33,7 +33,7 @@ public class RegistrationServiceImplTest {
 	@Test
 	public void testHandleJmsRequest() {
 		
-		BotService targetHostService = new FakeTargetHostServiceImpl();
+		BotService targetHostService = new FakeBotServiceImpl();
 		RegistrationResponseProducer registrationResponseProducer = mock(RegistrationResponseProducerImpl.class);
 		RegistrationData registrationDetails = mock(RegistrationData.class);
 		when(registrationDetails.getHostname()).thenReturn("valid.fakehost1");

@@ -27,13 +27,13 @@ import org.metabuild.grobot.server.service.BotService;
  * @author jburbridge
  * @since 11/17/2012
  */
-public class FakeTargetHostServiceImpl implements BotService {
+public class FakeBotServiceImpl implements BotService {
 	
-	private final Map<String,Bot> targetHosts = new HashMap<String, Bot>();
+	private final Map<String,Bot> bots = new HashMap<String, Bot>();
 
 	@Override
 	public List<Bot> findAll() {
-		return new ArrayList<Bot>(targetHosts.values());
+		return new ArrayList<Bot>(bots.values());
 	}
 
 	/*
@@ -43,11 +43,11 @@ public class FakeTargetHostServiceImpl implements BotService {
 	@Override
 	public Bot findByName(String hostname) {
 		Bot target = null;
-		if (targetHosts.containsKey(hostname)) {
-			target = targetHosts.get(hostname);
+		if (bots.containsKey(hostname)) {
+			target = bots.get(hostname);
 		} else if (hostname != null && hostname.startsWith("valid")) {
 			target = new Bot(hostname, hostname + ".fake.address", true);
-			targetHosts.put(hostname, target);
+			bots.put(hostname, target);
 		} 
 		return target;
 	}
