@@ -61,7 +61,7 @@
                     </div>
                     <div class="control-group">
                       <button type="submit" class="btn">${submitButtonText}</button>
-                      <button type="reset" class="btn">Reset</button>
+                      <a href="${createUrl}" class="btn">Cancel</a>
                     </div>
                   </form:form>
                 </td>

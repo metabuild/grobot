@@ -50,5 +50,9 @@
             </tr>
         </tbody>
     </table>
+    <form action="${deleteUrl}" method="post">
+        <a href="${updateFormUrl}" class="btn">edit</a>
+        <input type="submit" class="btn" value="delete"/>
+    </form>
     
 </div>

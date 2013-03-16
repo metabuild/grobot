@@ -86,7 +86,7 @@ public class GroupsController extends AbstractBaseController {
 	public String create(@ModelAttribute("group") BotGroup group, BindingResult result, Model uiModel) {
 		group = botGroupService.save(group);
 		uiModel.addAttribute("group", group);
-		return GROUPS_DETAIL_VIEW;
+		return "redirect:/groups/" + group.getId();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class GroupsController extends AbstractBaseController {
 		group = botGroupService.save(group);
 		uiModel.addAttribute("group", group);
 		
-		return GROUPS_DETAIL_VIEW;
+		return "redirect:/groups/" + group.getId();
 	}
 
 	
@@ -125,7 +125,7 @@ public class GroupsController extends AbstractBaseController {
 		uiModel.addAttribute("group", group);
 		botGroupService.delete(group);
 		
-		return GROUPS_LIST_VIEW;
+		return "redirect:/groups";
 	}
 
 	
