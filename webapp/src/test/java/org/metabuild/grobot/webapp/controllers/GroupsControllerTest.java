@@ -32,16 +32,20 @@ import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.common.domain.Bot;
-import org.metabuild.grobot.server.repository.BotGroupRepository;
+import org.metabuild.grobot.server.service.BotGroupService;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
+import org.springframework.validation.BindingResult;
 
 /**
  * 
  * @author jburbridge
- *
+ * @since 03/11/2013
  */
 public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	
@@ -59,12 +63,12 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		Page<BotGroup> page = mock(Page.class);
 		when(page.getContent()).thenReturn(groups);
 		
-		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
-		when(targetGroupRepository.findAll(any(Pageable.class))).thenReturn(page);
+		BotGroupService botGroupService = mock(BotGroupService.class);
+		when(botGroupService.findAll(any(Pageable.class))).thenReturn(page);
 		
 		GroupsController controller = new GroupsController();
 		
-		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
+		ReflectionTestUtils.setField(controller, "botGroupService", botGroupService);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = controller.list(uiModel, null);
@@ -77,17 +81,51 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		
 		assertEquals(1, modelPage.getContent().size());
 	}
+
+	@Test
+	public void testCreate() {
+		
+		assertEquals(1, groups.size());
+		
+		final Bot bot = new Bot("botName", "botAddress", true);
+		final BotGroup newGroup = new BotGroup("groupName");
+		newGroup.addBot(bot);
+		
+		BotGroupService botGroupService = mock(BotGroupService.class);
+		when(botGroupService.save(newGroup)).thenAnswer(new Answer<BotGroup>() {
+			public BotGroup answer(InvocationOnMock invocation) throws Throwable {
+				groups.add(newGroup);
+				return newGroup;
+			}
+		});
+		GroupsController controller = new GroupsController();
+		
+		ReflectionTestUtils.setField(controller, "botGroupService", botGroupService);
+		
+		ExtendedModelMap uiModel = new ExtendedModelMap();
+		BindingResult bindingResult = mock(BindingResult.class);
+		String view = controller.create(newGroup, bindingResult, uiModel);
+		
+		assertNotNull(view);
+		assertEquals("groups/details", view);
+		assertEquals(2, groups.size());
+
+	}
 	
+	@Test
+	public void testCreateForm() {
+	}
+
 	@Test
 	public void testDetail() {
 		
 		String randomUUId = UUID.randomUUID().toString();
-		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
-		when(targetGroupRepository.findById(randomUUId)).thenReturn(groups.get(0));
+		BotGroupService botGroupService = mock(BotGroupService.class);
+		when(botGroupService.findById(randomUUId)).thenReturn(groups.get(0));
 		
 		GroupsController controller = new GroupsController();
 		
-		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
+		ReflectionTestUtils.setField(controller, "botGroupService", botGroupService);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = controller.show(randomUUId, uiModel);
@@ -95,10 +133,10 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		assertNotNull(result);
 		assertEquals("groups/details", result);
 		
-		BotGroup targetGroup = (BotGroup) uiModel.get("group");
-		assertEquals("groupname1", targetGroup.getName());
-		assertEquals(0, targetGroup.getBots().size());
-		assertTrue(targetGroup.isActive());
+		BotGroup group = (BotGroup) uiModel.get("group");
+		assertEquals("groupname1", group.getName());
+		assertEquals(0, group.getBots().size());
+		assertTrue(group.isActive());
 
 	}
 
@@ -106,12 +144,12 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	public void testUpdate() {
 		
 		String randomUUId = UUID.randomUUID().toString();
-		BotGroupRepository targetGroupRepository = mock(BotGroupRepository.class);
-		when(targetGroupRepository.findById(randomUUId)).thenReturn(groups.get(0));
+		BotGroupService botGroupService = mock(BotGroupService.class);
+		when(botGroupService.findById(randomUUId)).thenReturn(groups.get(0));
 		
 		GroupsController controller = new GroupsController();
 		
-		ReflectionTestUtils.setField(controller, "targetGroupRepository", targetGroupRepository);
+		ReflectionTestUtils.setField(controller, "botGroupService", botGroupService);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = controller.show(randomUUId, uiModel);
@@ -119,11 +157,42 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		assertNotNull(result);
 		assertEquals("groups/details", result);
 		
-		BotGroup targetGroup = (BotGroup) uiModel.get("group");
-		assertEquals("groupname1", targetGroup.getName());
-		assertEquals(0, targetGroup.getBots().size());
-		assertTrue(targetGroup.isActive());
+		BotGroup group = (BotGroup) uiModel.get("group");
+		assertEquals("groupname1", group.getName());
+		assertEquals(0, group.getBots().size());
+		assertTrue(group.isActive());
 
 	}
 
+	public void testUpdateForm() {
+	}
+
+	public void testDelete() {
+		
+		assertEquals("Test setup is in an invalid state", 1, groups.size());
+		
+		final BotGroup group = groups.get(0);
+		final String groupId = group.getId();
+		
+		BotGroupService botGroupService = mock(BotGroupService.class);
+		Mockito.doAnswer(new Answer<Void>() {
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				groups.remove(group);
+				return null;
+			}
+		}).when(botGroupService).delete(group);
+		
+		GroupsController controller = new GroupsController();
+		ReflectionTestUtils.setField(controller, "botGroupService", botGroupService);
+		
+		ExtendedModelMap uiModel = new ExtendedModelMap();
+		String view = controller.delete(groupId, uiModel);
+		
+		assertNotNull(view);
+		assertEquals(group, uiModel.get("group"));
+		assertEquals("groups/list", view);
+		assertEquals(0, groups.size());
+
+	}
+	
 }
