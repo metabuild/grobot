@@ -16,7 +16,7 @@
 package org.metabuild.grobot.webapp.controllers;
 
 import org.metabuild.grobot.common.domain.BotGroup;
-import org.metabuild.grobot.server.repository.BotGroupRepository;
+import org.metabuild.grobot.server.service.BotGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * @author jburbridge
@@ -45,7 +44,7 @@ public class GroupsController extends AbstractBaseController {
 	private static final String GROUPS_FORM_VIEW = "groups/update";
 
 	@Autowired
-	private BotGroupRepository targetGroupRepository;
+	private BotGroupService botGroupService;
 	
 	/**
 	 * Display the list of groups
@@ -53,7 +52,7 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel, Pageable pageable) {
 		
-		final Page<BotGroup> page = targetGroupRepository.findAll(pageable);
+		final Page<BotGroup> page = botGroupService.findAll(pageable);
 		uiModel.addAttribute("page", page);
 		
 		return GROUPS_LIST_VIEW;
@@ -65,7 +64,7 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String show(@PathVariable("id") String id, Model uiModel) {
 		
-		uiModel.addAttribute("group", targetGroupRepository.findById(id));
+		uiModel.addAttribute("group", botGroupService.findById(id));
 		
 		return GROUPS_DETAIL_VIEW;
 	}
@@ -85,7 +84,7 @@ public class GroupsController extends AbstractBaseController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, params="form")
 	public String create(@ModelAttribute("group") BotGroup group, BindingResult result, Model uiModel) {
-		group = targetGroupRepository.save(group);
+		group = botGroupService.save(group);
 		uiModel.addAttribute("group", group);
 		return GROUPS_DETAIL_VIEW;
 	}
@@ -96,7 +95,7 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET, params="form")
 	public String updateForm(@PathVariable("id") String id, Model uiModel) {
 		
-		uiModel.addAttribute("group", targetGroupRepository.findById(id));
+		uiModel.addAttribute("group", botGroupService.findById(id));
 		return GROUPS_FORM_VIEW;
 	}
 	
@@ -109,7 +108,7 @@ public class GroupsController extends AbstractBaseController {
 		if (result.hasErrors()) {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
 		}
-		group = targetGroupRepository.save(group);
+		group = botGroupService.save(group);
 		uiModel.addAttribute("group", group);
 		
 		return GROUPS_DETAIL_VIEW;
@@ -122,9 +121,9 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="delete")
 	public String delete(@PathVariable("id") String id, Model uiModel) {
 		
-		BotGroup group = targetGroupRepository.findById(id);
+		BotGroup group = botGroupService.findById(id);
 		uiModel.addAttribute("group", group);
-		targetGroupRepository.delete(id);
+		botGroupService.delete(group);
 		
 		return GROUPS_LIST_VIEW;
 	}

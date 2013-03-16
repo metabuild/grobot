@@ -15,13 +15,20 @@
  */
 package org.metabuild.grobot.server.mq;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.server.service.BotService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author jburbridge
@@ -31,9 +38,17 @@ public class FakeBotServiceImpl implements BotService {
 	
 	private final Map<String,Bot> bots = new HashMap<String, Bot>();
 
+
 	@Override
 	public List<Bot> findAll() {
 		return new ArrayList<Bot>(bots.values());
+	}
+
+	@Override
+	public Page<Bot> findAll(Pageable pageable) {
+		Page mockPage = mock(Page.class);
+		when(mockPage.getContent()).thenReturn(new ArrayList<Bot>(bots.values()));
+		return mockPage;
 	}
 
 	/*
@@ -59,7 +74,7 @@ public class FakeBotServiceImpl implements BotService {
 	}
 
 	@Override
-	public Bot find(String id) {
+	public Bot findById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

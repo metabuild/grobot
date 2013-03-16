@@ -22,6 +22,8 @@ import org.metabuild.grobot.server.repository.BotGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +45,8 @@ public class BotGroupServiceImpl implements BotGroupService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<BotGroup> findAll() {
-		return botGroupRepository.findAll();
+	public Page<BotGroup> findAll(Pageable pageable) {
+		return botGroupRepository.findAll(pageable);
 	}
 
 	@Override
