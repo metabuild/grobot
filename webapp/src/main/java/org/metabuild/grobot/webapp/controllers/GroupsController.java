@@ -15,6 +15,7 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
+import org.apache.commons.codec.net.URLCodec;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.server.service.BotGroupService;
 import org.slf4j.Logger;
@@ -29,12 +30,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * @author jburbridge
  * @since 03/11/2013
  */
 @Controller
+@SessionAttributes("group")
 @RequestMapping("/groups")
 public class GroupsController extends AbstractBaseController {
 	
@@ -83,9 +86,8 @@ public class GroupsController extends AbstractBaseController {
 	 * creates a new record and presents the detail view
 	 */
 	@RequestMapping(method=RequestMethod.POST, params="form")
-	public String create(@ModelAttribute("group") BotGroup group, BindingResult result, Model uiModel) {
-		group = botGroupService.save(group);
-		uiModel.addAttribute("group", group);
+	public String create(@ModelAttribute BotGroup group, BindingResult result, Model uiModel) {
+		botGroupService.save(group);
 		return "redirect:/groups/" + group.getId();
 	}
 
@@ -103,13 +105,12 @@ public class GroupsController extends AbstractBaseController {
 	 * updates and presents the detail view
 	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.POST, params="form")
-	public String update(BotGroup group, BindingResult result, Model uiModel) {
+	public String update(@ModelAttribute BotGroup group, BindingResult result, Model uiModel) {
 		
 		if (result.hasErrors()) {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
 		}
-		group = botGroupService.save(group);
-		uiModel.addAttribute("group", group);
+		botGroupService.save(group);
 		
 		return "redirect:/groups/" + group.getId();
 	}

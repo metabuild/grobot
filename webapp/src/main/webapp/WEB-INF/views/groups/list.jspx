@@ -26,7 +26,7 @@
             <thead>
                 <tr>
                     <th>Group Name</th>
-                    <th>Parent</th>
+                    <th>Description</th>
                     <th>Bots</th>
                     <th>Active</th>
                 </tr>
@@ -35,7 +35,7 @@
                 <c:forEach items="${page.content}" var="group">
                     <tr>
                         <td><a href="${groupsUrl}/${group.id}">${group.name}</a></td>
-                        <td>${group.parent}</td>
+                        <td>${group.description}</td>
                         <td>
                           <ul>
                           <c:forEach items="${group.bots}" var="bot">

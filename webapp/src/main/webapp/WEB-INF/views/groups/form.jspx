@@ -35,6 +35,7 @@
         <tbody>
             <tr>
                 <td>
+                  <form:errors path="*" cssClass="errorblock" element="div" />
                   <c:if test="${errorMessage != null}">
                     <div class="alert">${errorMessage}</div>
                   </c:if>
@@ -43,6 +44,12 @@
                       <form:label class="control-label" path="name">Name</form:label>
                       <div class="controls">
                         <form:input path="name" id="name" placeholder="Group Name" />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <form:label class="control-label" path="description">Description</form:label>
+                      <div class="controls">
+                        <form:input path="description" id="description" placeholder="Group Description" />
                       </div>
                     </div>
                     <div class="control-group">
@@ -60,7 +67,7 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <button type="submit" class="btn">${submitButtonText}</button>
+                      <button type="submit" class="btn">${submitButtonText}</button> 
                       <a href="${createUrl}" class="btn">Cancel</a>
                     </div>
                   </form:form>
