@@ -18,6 +18,8 @@ package org.metabuild.grobot.server.service;
 import java.util.List;
 
 import org.metabuild.grobot.common.domain.Bot;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author jburbridge
@@ -27,11 +29,13 @@ public interface BotService {
 
 	public List<Bot> findAll();
 	
+	public Page<Bot> findAll(Pageable pageable);
+	
 	public List<Bot> findAllWithProperties();
 	
 	public Bot findByName(String name);
 
-	public Bot find(String id);
+	public Bot findById(String id);
 	
 	public Bot save(Bot bot);
 	

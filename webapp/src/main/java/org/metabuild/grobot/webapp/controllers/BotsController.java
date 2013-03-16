@@ -18,6 +18,7 @@ package org.metabuild.grobot.webapp.controllers;
 import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotStatus;
 import org.metabuild.grobot.server.repository.BotRepository;
+import org.metabuild.grobot.server.service.BotService;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestService;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class BotsController extends AbstractBaseController {
 	private static final String BOTS_DETAILS_VIEW = "bots/details";
 
 	@Autowired
-	private BotRepository botRepository;
+	private BotService botService;
 
 	@Autowired
 	private StatusRequestProducer producer;
@@ -55,7 +56,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model uiModel, Pageable pageable) {
 		
-		final Page<Bot> page = botRepository.findAll(pageable);
+		final Page<Bot> page = botService.findAll(pageable);
 		final long lastStatusRequest = StatusRequestService.getLastRunTimestamp();
 		
 		for (Bot target : page.getContent()) {
@@ -78,7 +79,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String details(@PathVariable("id") String id, Model uiModel) {
 		
-		uiModel.addAttribute("bot", botRepository.findById(id));
+		uiModel.addAttribute("bot", botService.findById(id));
 		addSelectedMenuItem(uiModel);
 		
 		return BOTS_DETAILS_VIEW;

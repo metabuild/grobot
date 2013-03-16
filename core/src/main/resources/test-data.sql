@@ -35,10 +35,10 @@ insert into BOTS (ID, NAME, ADDRESS) values
     ('3363afa3-8bc8-462a-bbbd-ee4c25193fed','fake-host33', 'fake-host33.dummy.domain'),
     ('4c88d4aa-498c-4183-9b7d-a61cf908455a','fake-host34', 'fake-host34.dummy.domain');
 
-insert into BOT_GROUPS (ID, NAME, ACTIVE) values 
-    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55','fake-group1', true),
-    ('1848d4b8-93b9-4970-be41-b366517af44b','fake-group2', true),
-    ('f2c1fafa-af63-499b-8bdb-d7a0df26837f','fake-group3', false);
+insert into BOT_GROUPS (ID, NAME, DESCRIPTION, ACTIVE) values 
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55','fake-group1', 'The first group', true),
+    ('1848d4b8-93b9-4970-be41-b366517af44b','fake-group2', 'The second group', true),
+    ('f2c1fafa-af63-499b-8bdb-d7a0df26837f','fake-group3', 'The third group', false);
 
 insert into BOT_GROUP_MEMBERS (ID, BOT_GROUP_ID, BOT_ID) values 
     ('c47946af-7482-4b4d-85b3-5f5424de3b13', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'a85765e0-7e90-47b9-aea3-7da16117d274'),

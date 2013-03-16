@@ -52,6 +52,9 @@ public class BotGroup implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 	
+	@Column(name = "DESCRIPTION")
+	private String description;
+	
 	@Column(name = "ACTIVE")
 	private boolean active;
 	
@@ -156,6 +159,20 @@ public class BotGroup implements Serializable {
 	}
 
 	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
 	 * @return the parent
 	 */
 	public BotGroup getParent() {
@@ -170,9 +187,9 @@ public class BotGroup implements Serializable {
 	}
 
 	/**
-	 * @param bots the targets to set
+	 * @param bots the bots to set
 	 */
-	public void setTargetHosts(Set<Bot> bots) {
+	public void setBots(Set<Bot> bots) {
 		this.bots = bots;
 	}
 
@@ -181,6 +198,13 @@ public class BotGroup implements Serializable {
 	 */
 	public boolean isActive() {
 		return active;
+	}
+	
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	/* (non-Javadoc)

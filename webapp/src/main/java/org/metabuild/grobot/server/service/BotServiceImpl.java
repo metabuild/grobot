@@ -24,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,12 @@ public class BotServiceImpl implements BotService {
 
 	@Override
 	@Transactional(readOnly=true)
+	public Page<Bot> findAll(Pageable pageable) {
+		return botRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
 	public List<Bot> findAllWithProperties() {
 		// TODO Auto-generated method stub
 		return null;
@@ -57,7 +65,7 @@ public class BotServiceImpl implements BotService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Bot find(String id) {
+	public Bot findById(String id) {
 		return botRepository.findById(id);
 	}
 	
