@@ -14,7 +14,7 @@
         <spring:param name="page.size" value="${page.size}" ></spring:param>
     </spring:url>
     
-    <c:if test="${page != null}">
+    <c:if test="${page.totalPages > 1}">
         <div class="pagination pagination-right">
           <ul>
             <c:if test="${page.firstPage}">

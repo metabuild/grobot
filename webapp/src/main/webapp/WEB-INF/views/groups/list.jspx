@@ -8,15 +8,25 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <spring:url value="/groups" var="showGroupDetailsUrl" />
-    <spring:url value="/bots" var="showBotDetailsUrl" />
+    <spring:url value="/groups" var="groupsUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    
+    <spring:url value="/groups" var="listUrl" />
+    <spring:url value="/groups?form" var="createFormUrl" />
+    <spring:url value="/groups/${group.id}?form" var="updateFormUrl" />
+    <spring:url value="/groups/${group.id}" var="showUrl" />
+    <spring:url value="/groups/${group.id}?delete" var="deleteUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    
+    <a href="${listUrl}">reload</a> | 
+    <a href="${createFormUrl}">new</a> 
     
     <c:if test="${not empty page.content}">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Group Name</th>
-                    <th>Parent</th>
+                    <th>Description</th>
                     <th>Bots</th>
                     <th>Active</th>
                 </tr>
@@ -24,12 +34,12 @@
             <tbody>
                 <c:forEach items="${page.content}" var="group">
                     <tr>
-                        <td><a href="${showGroupDetailsUrl}/${group.id}">${group.name}</a></td>
-                        <td>${group.parent}</td>
+                        <td><a href="${groupsUrl}/${group.id}">${group.name}</a></td>
+                        <td>${group.description}</td>
                         <td>
                           <ul>
-                          <c:forEach items="${group.bots}" var="target">
-                            <li><a href="${showBotDetailsUrl}/${target.id}">${target.name}</a></li>
+                          <c:forEach items="${group.bots}" var="bot">
+                            <li><a href="${botsUrl}/${bot.id}">${bot.name}</a></li>
                           </c:forEach>
                           </ul>
                         </td>
@@ -39,18 +49,4 @@
             </tbody>
         </table>
     </c:if>
-    
-    <form class="form-horizontal" align="right">
-      <div class="input-append">
-        <div class="btn-group">
-          <select class="span4">
-               <option>.*</option>
-               <option>localhost</option>
-          </select>
-          <button class="btn" type="button">Edit</button>
-          <button class="btn" type="button">New</button>
-          <button class="btn" type="button">Delete</button>
-        </div>
-      </div>
-    </form>
 </div>
