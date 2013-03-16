@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.junit.Before;
 import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
@@ -107,7 +108,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		String view = controller.create(newGroup, bindingResult, uiModel);
 		
 		assertNotNull(view);
-		assertEquals("groups/details", view);
+		assertEquals("redirect:/groups/" + newGroup.getId(), view);
 		assertEquals(2, groups.size());
 
 	}

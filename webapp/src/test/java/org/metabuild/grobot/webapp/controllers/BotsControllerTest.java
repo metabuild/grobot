@@ -61,14 +61,14 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 		Page<Bot> page = mock(Page.class);
 		when(page.getContent()).thenReturn(bots);
 		
-		BotRepository botRepository = mock(BotRepository.class);
-		when(botRepository.findAll(any(Pageable.class))).thenReturn(page);
+		BotService botService = mock(BotService.class);
+		when(botService.findAll(any(Pageable.class))).thenReturn(page);
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "botRepository", botRepository);
+		ReflectionTestUtils.setField(controller, "botService", botService);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
@@ -87,14 +87,14 @@ public class BotsControllerTest extends AbstractSpringEnabledTest {
 	public void testDetail() {
 		
 		String randomUUId = UUID.randomUUID().toString();
-		BotRepository botRepository = mock(BotRepository.class);
-		when(botRepository.findById(randomUUId)).thenReturn(bots.get(0));
+		BotService botService = mock(BotService.class);
+		when(botService.findById(randomUUId)).thenReturn(bots.get(0));
 		
 		StatusRequestProducer producer = mock(StatusRequestProducerImpl.class);
 		
 		BotsController controller = new BotsController();
 		
-		ReflectionTestUtils.setField(controller, "botRepository", botRepository);
+		ReflectionTestUtils.setField(controller, "botService", botService);
 		ReflectionTestUtils.setField(controller, "producer", producer);
 		
 		ExtendedModelMap uiModel = new ExtendedModelMap();
