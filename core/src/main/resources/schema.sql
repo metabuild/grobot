@@ -19,15 +19,13 @@ create table BOT_GROUPS (
 ); 
 
 create table BOT_GROUP_MEMBERS (
-  ID varchar(36) not null,
-  BOT_GROUP_ID varchar(60) not null, 
-  BOT_ID varchar(60) not null, 
-  unique UQ_BOT_GROUP_MEMBERS_1 (ID), 
+  BOT_GROUP_ID varchar(36) not null, 
+  BOT_ID varchar(36) not null, 
   constraint FK_BOT_GROUP_MEMBERS_1 foreign key (BOT_GROUP_ID)
     references BOT_GROUPS (ID) on delete cascade,
   constraint FK_BOT_GROUP_MEMBERS_2 foreign key (BOT_ID)
     references BOTS (ID) on delete cascade,
-  primary key (ID) 
+  primary key (BOT_GROUP_ID, BOT_ID) 
 ); 
 
 

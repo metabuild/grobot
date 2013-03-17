@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,17 +15,25 @@
  */
 package org.metabuild.grobot.webapp.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.codec.net.URLCodec;
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.server.service.BotGroupService;
+import org.metabuild.grobot.server.service.BotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +56,27 @@ public class GroupsController extends AbstractBaseController {
 
 	@Autowired
 	private BotGroupService botGroupService;
+	
+	@Autowired
+	private BotService botService;
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) throws Exception {
+		binder.registerCustomEditor(Set.class, "bots", new CustomCollectionEditor(Set.class) {
+			protected Object convertElement(Object element) {
+				if (element instanceof Bot) {
+					LOGGER.debug("Returning Bot element {} as-is", ((Bot) element).getId());
+					return element;
+				}
+				if (element instanceof String) {
+					LOGGER.debug("Converting String element {} to Bot", element);
+					return botService.findById(element.toString());
+				}
+				LOGGER.warn("Element not converted, returning null for {}", element);
+				return null;
+			}
+		});
+	}
 	
 	/**
 	 * Display the list of groups
@@ -79,6 +108,7 @@ public class GroupsController extends AbstractBaseController {
 	public String createForm(Model uiModel) {
 		BotGroup group = new BotGroup();
 		uiModel.addAttribute("group", group);
+		populateBotsSelect(uiModel);
 		return GROUPS_FORM_VIEW;
 	}
 
@@ -87,6 +117,7 @@ public class GroupsController extends AbstractBaseController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, params="form")
 	public String create(@ModelAttribute BotGroup group, BindingResult result, Model uiModel) {
+		LOGGER.info("Creating new BotGroup with {}", group);
 		botGroupService.save(group);
 		return "redirect:/groups/" + group.getId();
 	}
@@ -98,6 +129,7 @@ public class GroupsController extends AbstractBaseController {
 	public String updateForm(@PathVariable("id") String id, Model uiModel) {
 		
 		uiModel.addAttribute("group", botGroupService.findById(id));
+		populateBotsSelect(uiModel);
 		return GROUPS_FORM_VIEW;
 	}
 	
@@ -110,6 +142,7 @@ public class GroupsController extends AbstractBaseController {
 		if (result.hasErrors()) {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
 		}
+		LOGGER.info("Updating BotGroup with {}", group);
 		botGroupService.save(group);
 		
 		return "redirect:/groups/" + group.getId();
@@ -129,6 +162,14 @@ public class GroupsController extends AbstractBaseController {
 		return "redirect:/groups";
 	}
 
+	/**
+	 * Add all bots to the model so we can populate the select box
+	 * 
+	 * @param uiModel
+	 */
+	protected void populateBotsSelect(Model uiModel) {
+		uiModel.addAttribute("allBots", botService.findAll());
+	}
 	
 	@Override
 	public NavMenuItems getSelectedNavMenuItem() {

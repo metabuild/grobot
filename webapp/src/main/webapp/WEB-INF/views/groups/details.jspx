@@ -33,6 +33,10 @@
                 <td>${group.name}</td>
             </tr>
             <tr>
+                <td>Description</td>
+                <td>${group.description}</td>
+            </tr>
+            <tr>
                 <td>Bots</td>
                 <td>
                   <c:if test="${not empty group.bots}">
