@@ -15,6 +15,8 @@
  */
 package org.metabuild.grobot.server.service;
 
+import java.util.List;
+
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,8 @@ import org.springframework.data.domain.Pageable;
  */
 public interface BotGroupService {
 
+	public List<BotGroup> findAll();
+	
 	public Page<BotGroup> findAll(Pageable pageable);
 	
 	public BotGroup find(String id);
@@ -37,5 +41,5 @@ public interface BotGroupService {
 	public BotGroup save(BotGroup botGroup);
 	
 	public void delete(BotGroup botGroup);
-	
+
 }

@@ -214,7 +214,8 @@ public class BotGroup implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("BotGroup [id=").append(id).append(", name=")
-				.append(name).append(", active=").append(active).append("]");
+				.append(name).append(", bots=").append(bots.size())
+				.append(", active=").append(active).append("]");
 		return builder.toString();
 	}
 }

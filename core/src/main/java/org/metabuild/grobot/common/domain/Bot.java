@@ -18,6 +18,7 @@ package org.metabuild.grobot.common.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
@@ -250,6 +251,20 @@ public class Bot implements Serializable {
 	 */
 	public void setGroups(Set<BotGroup> groups) {
 		this.groups = groups;
+	}
+
+	/**
+	 * @param group the group to add
+	 */
+	public void addBotGroup(BotGroup group) {
+		this.groups.add(group);
+	}
+	
+	/**
+	 * @param groups the groups to add
+	 */
+	public void addBotGroups(List<BotGroup> groups) {
+		this.groups.addAll(groups);
 	}
 
 	/**

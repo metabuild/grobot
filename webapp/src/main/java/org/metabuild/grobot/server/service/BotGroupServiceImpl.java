@@ -45,6 +45,12 @@ public class BotGroupServiceImpl implements BotGroupService {
 	
 	@Override
 	@Transactional(readOnly=true)
+	public List<BotGroup> findAll() {
+		return botGroupRepository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
 	public Page<BotGroup> findAll(Pageable pageable) {
 		return botGroupRepository.findAll(pageable);
 	}
@@ -71,7 +77,7 @@ public class BotGroupServiceImpl implements BotGroupService {
 	@Override
 	@Transactional(readOnly=false)
 	public BotGroup save(BotGroup botGroup) {
-		LOGGER.info("Saving BotGroup with id {}", botGroup.getId()); 
+		LOGGER.info("Saving BotGroup with {}", botGroup); 
 		return botGroupRepository.save(botGroup);
 	}
 
