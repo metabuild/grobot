@@ -91,14 +91,14 @@ dependencies {
 	
 }
 
-// exclude the AbstractSpringEnabledTest since it doesn't have any test methods of it's own
 test {
 	exclude '**/AbstractSpringEnabledTest*'
 	systemProperty 'spring.profiles.active', 'default, test'
 }
 
 integrationTest {
-	systemProperty 'spring.profiles.active', 'default, test'
+	exclude '**/AbstractDataTester*'
+	systemProperty 'spring.profiles.active', 'integration-test'
 }
 
 war {
