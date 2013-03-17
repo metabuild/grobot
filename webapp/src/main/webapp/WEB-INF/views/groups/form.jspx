@@ -56,7 +56,7 @@
                       <form:label path="bots" class="control-label" for="bots">Bots</form:label>
                       <div class="controls">
                         <form:select path="bots" id="bots">
-                          <form:options items="${group.bots}" itemLabel="name" />
+                          <form:options items="${allBots}" itemLabel="name" />
                         </form:select>
                       </div>
                     </div>

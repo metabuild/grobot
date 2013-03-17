@@ -13,33 +13,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.metabuild.grobot.server.service;
+package org.metabuild.grobot.server.data;
 
-import java.util.List;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.metabuild.grobot.common.domain.BotGroup;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-/**
- * 
- * @author jburbridge
- * @since 12/16/012
- */
-public interface BotGroupService {
-
-	public List<BotGroup> findAll();
-	
-	public Page<BotGroup> findAll(Pageable pageable);
-	
-	public BotGroup find(String id);
-	
-	public BotGroup findById(String id);
-	
-	public BotGroup findByName(String name);
-	
-	public BotGroup save(BotGroup botGroup);
-	
-	public void delete(BotGroup botGroup);
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("integration-test")
+@ContextConfiguration(classes={TestDbConfig.class})
+public class AbstractDataTester {
 
 }

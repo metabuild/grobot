@@ -27,7 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.junit.Before;
 import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
@@ -86,8 +85,6 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	@Test
 	public void testCreate() {
 		
-		assertEquals(1, groups.size());
-		
 		final Bot bot = new Bot("botName", "botAddress", true);
 		final BotGroup newGroup = new BotGroup("groupName");
 		newGroup.addBot(bot);
@@ -136,6 +133,7 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 		
 		BotGroup group = (BotGroup) uiModel.get("group");
 		assertEquals("groupname1", group.getName());
+		assertEquals(1, groups.size());
 		assertEquals(0, group.getBots().size());
 		assertTrue(group.isActive());
 

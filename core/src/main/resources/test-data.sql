@@ -40,12 +40,12 @@ insert into BOT_GROUPS (ID, NAME, DESCRIPTION, ACTIVE) values
     ('1848d4b8-93b9-4970-be41-b366517af44b','fake-group2', 'The second group', true),
     ('f2c1fafa-af63-499b-8bdb-d7a0df26837f','fake-group3', 'The third group', false);
 
-insert into BOT_GROUP_MEMBERS (ID, BOT_GROUP_ID, BOT_ID) values 
-    ('c47946af-7482-4b4d-85b3-5f5424de3b13', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'a85765e0-7e90-47b9-aea3-7da16117d274'),
-    ('b64399cd-a05c-4b88-99da-b18c9b16849c', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '9741afbb-a1be-47e0-9aa9-8a7f3702ffea'),
-    ('62f51b8d-4ca3-4dbc-86ca-e2f8ede55cc8', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '686ffd94-cbf7-4767-bf77-9d529b0087e7'),
-    ('44566de3-b313-4e68-a868-437858d82aec', '1848d4b8-93b9-4970-be41-b366517af44b', 'a56fde5f-0033-4050-8964-2b8d7470ee28'),
-    ('f311841c-4af6-4c4c-8e1d-8dd5ca84d7e7', '1848d4b8-93b9-4970-be41-b366517af44b', '952ed06c-0283-4866-b8e6-d16ca6f57312');
+insert into BOT_GROUP_MEMBERS (BOT_GROUP_ID, BOT_ID) values 
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'a85765e0-7e90-47b9-aea3-7da16117d274'),
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '9741afbb-a1be-47e0-9aa9-8a7f3702ffea'),
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55', '686ffd94-cbf7-4767-bf77-9d529b0087e7'),
+    ('1848d4b8-93b9-4970-be41-b366517af44b', 'a56fde5f-0033-4050-8964-2b8d7470ee28'),
+    ('1848d4b8-93b9-4970-be41-b366517af44b', '952ed06c-0283-4866-b8e6-d16ca6f57312');
 
 insert into TASKS (ID, NAME, SCRIPT_NAME, ARGUMENTS) values
     ('d1f406ac-a9d2-40cf-a9b3-64e725f5bb36', 'fake-script1', 'fake-script-name1', 'foo bar'),
