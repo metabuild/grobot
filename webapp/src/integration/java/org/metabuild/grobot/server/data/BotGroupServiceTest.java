@@ -17,11 +17,15 @@ package org.metabuild.grobot.server.data;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.server.service.BotGroupService;
+import org.metabuild.grobot.server.service.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BotGroupServiceTest extends AbstractDataTester {
@@ -29,11 +33,14 @@ public class BotGroupServiceTest extends AbstractDataTester {
 	@Autowired
 	private BotGroupService service;
 	
+	@Autowired
+	private BotService botService;
+	
 	@Test
 	public void testFindAll() {
 		List<BotGroup> groups = service.findAll();
-		assertEquals(1, groups.size());
-		assertEquals(1, groups.get(0).getBots().size());
+		assertTrue(groups.size() >= 1);
+		assertTrue(groups.get(0).getBots().size() >= 1);
 	}
 	
 	@Test
@@ -44,4 +51,56 @@ public class BotGroupServiceTest extends AbstractDataTester {
 		assertTrue(group.isActive());
 		assertNull(service.findById("invalid-id"));
 	}
+	
+	@Test
+	public void testCreateWithBots() {
+		Bot newBot1 = new Bot("botName1", "bot-address1", true);
+		Bot newBot2 = new Bot("botName2", "bot-address2", true);
+		Bot newBot3 = new Bot("botName3", "bot-address3", true);
+		assertNotNull(botService.save(newBot1));
+		assertNotNull(botService.save(newBot2));
+		assertNotNull(botService.save(newBot3));
+		Set<Bot> bots = new HashSet<Bot>();
+		bots.add(newBot1);
+		bots.add(newBot2);
+		bots.add(newBot3);
+		BotGroup newGroup = new BotGroup("newBotGroupName1", bots, null, true);
+		newGroup = service.save(newGroup);
+		assertNotNull(newGroup.getId());
+		assertEquals(3, newGroup.getBots().size());
+	}
+	
+	@Test
+	public void testUpdateWithBots() {
+		BotGroup newGroup = new BotGroup("newBotGroupName2", new HashSet<Bot>(), null, true);
+		service.save(newGroup);
+		assertNotNull(newGroup.getId());
+		assertEquals(0, newGroup.getBots().size());
+		
+		Bot bot4 = new Bot("botName4", "bot-address4", true);
+		Bot bot5 = new Bot("botName5", "bot-address5", true);
+		Bot bot6 = new Bot("botName6", "bot-address6", true);
+		assertNotNull(botService.save(bot4));
+		assertNotNull(botService.save(bot5));
+		assertNotNull(botService.save(bot6));
+		newGroup.addBot(bot4);
+		newGroup.addBot(bot5);
+		newGroup.addBot(bot6);
+		service.save(newGroup);
+		assertEquals(3, newGroup.getBots().size());
+
+		// reload from database
+		bot4 = botService.findById(bot4.getId());
+		assertEquals(1, bot4.getBotGroups().size());
+
+		newGroup.removeBot(bot6);
+		service.save(newGroup);
+		assertEquals(2, newGroup.getBots().size());
+		
+		// reload from database
+		bot6 = botService.findById(bot6.getId());
+		assertEquals(0, bot6.getBotGroups().size());
+		
+	}
+
 }

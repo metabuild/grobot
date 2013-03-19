@@ -115,12 +115,26 @@ public class BotGroup implements Serializable {
 	public void addBot(Bot bot) {
 		this.bots.add(bot);
 	}
-	
+
+	/**
+	 * @param bot
+	 */
+	public void removeBot(Bot bot) {
+		this.bots.remove(bot);
+	}
+
 	/**
 	 * @param bots
 	 */
 	public void addBots(Set<Bot> bots) {
 		this.bots.addAll(bots);
+	}
+
+	/**
+	 * @param bots
+	 */
+	public void removeBots(Set<Bot> bots) {
+		this.bots.remove(bots);
 	}
 	
 	/**

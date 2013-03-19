@@ -70,7 +70,7 @@ public class Bot implements Serializable {
 	@JoinTable(name = "BOT_GROUP_MEMBERS",
 		joinColumns = @JoinColumn(name = "BOT_ID"),
 		inverseJoinColumns = @JoinColumn(name = "BOT_GROUP_ID"))
-	private Set<BotGroup> groups = new HashSet<BotGroup>();
+	private Set<BotGroup> botGroups = new HashSet<BotGroup>();
 	
 	@Transient
 	private boolean active;
@@ -96,7 +96,7 @@ public class Bot implements Serializable {
 	 * @param active - is the host available for targeting
 	 */
 	public Bot(String name, String address, boolean active) {
-		this.id = UUID.randomUUID().toString();
+//		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.address = address;
 		this.active = active;
@@ -242,29 +242,29 @@ public class Bot implements Serializable {
 	/**
 	 * @return the groups
 	 */
-	public Set<BotGroup> getGroups() {
-		return groups;
+	public Set<BotGroup> getBotGroups() {
+		return botGroups;
 	}
 
 	/**
 	 * @param groups the groups to set
 	 */
-	public void setGroups(Set<BotGroup> groups) {
-		this.groups = groups;
+	public void setBotGroups(Set<BotGroup> groups) {
+		this.botGroups = groups;
 	}
 
 	/**
 	 * @param group the group to add
 	 */
 	public void addBotGroup(BotGroup group) {
-		this.groups.add(group);
+		this.botGroups.add(group);
 	}
 	
 	/**
 	 * @param groups the groups to add
 	 */
 	public void addBotGroups(List<BotGroup> groups) {
-		this.groups.addAll(groups);
+		this.botGroups.addAll(groups);
 	}
 
 	/**
