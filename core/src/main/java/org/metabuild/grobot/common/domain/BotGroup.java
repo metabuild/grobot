@@ -58,7 +58,7 @@ public class BotGroup implements Serializable {
 	@Column(name = "ACTIVE")
 	private boolean active;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "BOT_GROUP_MEMBERS",
 		joinColumns = @JoinColumn(name = "BOT_GROUP_ID"),
 		inverseJoinColumns = @JoinColumn(name = "BOT_ID"))

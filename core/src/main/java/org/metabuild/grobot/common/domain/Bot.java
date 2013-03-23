@@ -66,7 +66,7 @@ public class Bot implements Serializable {
 	@Column(name = "REGISTERED")
 	private Date registered;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "BOT_GROUP_MEMBERS",
 		joinColumns = @JoinColumn(name = "BOT_ID"),
 		inverseJoinColumns = @JoinColumn(name = "BOT_GROUP_ID"))
