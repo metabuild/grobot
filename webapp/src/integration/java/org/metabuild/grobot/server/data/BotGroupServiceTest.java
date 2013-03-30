@@ -27,7 +27,11 @@ import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.server.service.BotGroupService;
 import org.metabuild.grobot.server.service.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@TransactionConfiguration(defaultRollback=true)
 public class BotGroupServiceTest extends AbstractDataTester {
 
 	@Autowired
@@ -80,12 +84,12 @@ public class BotGroupServiceTest extends AbstractDataTester {
 		Bot bot4 = new Bot("botName4", "bot-address4", true);
 		Bot bot5 = new Bot("botName5", "bot-address5", true);
 		Bot bot6 = new Bot("botName6", "bot-address6", true);
-		assertNotNull(botService.save(bot4));
-		assertNotNull(botService.save(bot5));
-		assertNotNull(botService.save(bot6));
 		newGroup.addBot(bot4);
 		newGroup.addBot(bot5);
 		newGroup.addBot(bot6);
+		assertNotNull(botService.save(bot4));
+		assertNotNull(botService.save(bot5));
+		assertNotNull(botService.save(bot6));
 		service.save(newGroup);
 		assertEquals(3, newGroup.getBots().size());
 
@@ -95,6 +99,7 @@ public class BotGroupServiceTest extends AbstractDataTester {
 
 		newGroup.removeBot(bot6);
 		service.save(newGroup);
+		botService.save(bot6);
 		assertEquals(2, newGroup.getBots().size());
 		
 		// reload from database
