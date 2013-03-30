@@ -28,7 +28,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
-import org.metabuild.grobot.webapp.UrlBuilder;
+import org.metabuild.grobot.webapp.IntegrationTestUrlBuilder;
 
 /**
  * Verifies that ping.jsp is available and responding with ALIVE
@@ -46,7 +46,7 @@ public class PingCheckTest {
 	@Test
 	public void testPing() throws IOException {
 		
-		String url = UrlBuilder.getString(PING_PATH);
+		String url = IntegrationTestUrlBuilder.getString(PING_PATH);
 		StringBuilder resultString = new StringBuilder();
 		httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(url.toString());

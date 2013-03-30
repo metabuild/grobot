@@ -7,10 +7,10 @@ import java.net.URL;
  * Given a relative path name, build a complete URL based on pre-set system properties or
  * use some default values
  * 
- * @author jburbrid
- *
+ * @author jburbridge
+ * @since 3/29/2013
  */
-public class UrlBuilder {
+public class IntegrationTestUrlBuilder {
 
 	private static final String DEFAULT_PROTOCOL = "http";
 	private static final String DEFAULT_HOSTNAME = "localhost";
@@ -43,10 +43,20 @@ public class UrlBuilder {
 			.append(path).toString();
 	}
 	
+	/**
+	 * @param path the relative path
+	 * @return the complete url
+	 * @throws MalformedURLException
+	 */
 	public static String getString(String path) throws MalformedURLException {
 		return getURL(path).toString();
 	}
 	
+	/**
+	 * @param path the relative path
+	 * @return the complete url
+	 * @throws MalformedURLException
+	 */
 	public static URL getURL(String path) throws MalformedURLException {
 		return new URL(fillInPath(path));
 	}

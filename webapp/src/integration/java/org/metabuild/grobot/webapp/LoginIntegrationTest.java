@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -40,16 +41,19 @@ public class LoginIntegrationTest {
 
 	private final static String LOGIN_GET_PATH = "/login";
 	private final static String LOGIN_POST_PATH = "/j_spring_security_check";
-	private final static String LOGOUT_PATH = "/logout";
+	private final static String LOGOUT_GET_PATH = "/logout";
+	private final static String LOGOUT_POST_PATH = "/j_spring_security_logout";
+	private final static String PROTECTED_RESOURCE = "/bots";
 	
 	private static DefaultHttpClient httpClient;
 
 	@Test
 	public void testLoginForm() throws ClientProtocolException, IOException {
-		String url = UrlBuilder.getString(LOGIN_GET_PATH);
-		HttpGet get = new HttpGet(url);
+		String loginUrl = IntegrationTestUrlBuilder.getString(LOGIN_GET_PATH);
+		HttpGet get = new HttpGet(loginUrl);
 		httpClient = new DefaultHttpClient();
 		try {
+			httpClient.getCookieStore().clear();
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			HttpResponse response = httpClient.execute(get);
 			assertEquals(200,response.getStatusLine().getStatusCode());
@@ -65,19 +69,19 @@ public class LoginIntegrationTest {
 	@Test
 	public void testLoginAndLogoutOk() throws ClientProtocolException, IOException {
 		
-		String url = UrlBuilder.getString(LOGIN_POST_PATH);
-		HttpPost post = new HttpPost(url);
+		String loginUrl = IntegrationTestUrlBuilder.getString(LOGIN_POST_PATH);
+		HttpPost post = new HttpPost(loginUrl);
 		httpClient = new DefaultHttpClient();
 		
 		try {
-			
+			httpClient.getCookieStore().clear();
 			List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
-			valuePairs.add(new BasicNameValuePair("j_username", "username"));
+			valuePairs.add(new BasicNameValuePair("j_username", "user"));
 			valuePairs.add(new BasicNameValuePair("j_password", "password"));
 			post.setEntity(new UrlEncodedFormEntity(valuePairs, Consts.UTF_8));
 			
-			HttpResponse httpResponse  = httpClient.execute(post);
-			assertEquals(302,httpResponse.getStatusLine().getStatusCode());
+			HttpResponse httpPostResponse  = httpClient.execute(post);
+			assertEquals(302,httpPostResponse.getStatusLine().getStatusCode());
 			
 			String sessionId = null;
 			List<Cookie> cookies = httpClient.getCookieStore().getCookies();
@@ -87,21 +91,93 @@ public class LoginIntegrationTest {
 			}
 			assertNotNull("Could not find a valid session id", sessionId);
 			
-			// TODO: follow the response and make sure the login is successful
+			Header[] locationHeaders = httpPostResponse.getHeaders("location");
+			assertEquals("Incorrect number of location headers", 1, locationHeaders.length);
+			post.releaseConnection();
 			
+			Header location = locationHeaders[0];
+			HttpGet get = new HttpGet(location.getValue());
+			HttpResponse httpGetResponse  = httpClient.execute(get);
+			assertEquals(200,httpGetResponse.getStatusLine().getStatusCode());
+			
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			String reponseBody = responseHandler.handleResponse(httpGetResponse);
+			assertTrue("Was not able to login successfully.", reponseBody.contains("BOTS"));
+			get.releaseConnection();
+			
+			// TODO: logout and verify
+			
+		} catch (RuntimeException e) {
+			fail(e.getMessage());
 		} finally {
 			post.releaseConnection();
 		}
 	}
 	
 	@Test
-	public void testLoginBadCredentials() {
+	public void testLoginBadCredentials() throws ClientProtocolException, IOException {
+
+		String loginUrl = IntegrationTestUrlBuilder.getString(LOGIN_POST_PATH);
+		HttpPost post = new HttpPost(loginUrl);
+		httpClient = new DefaultHttpClient();
 		
+		try {
+			httpClient.getCookieStore().clear();
+			List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
+			valuePairs.add(new BasicNameValuePair("j_username", "bad"));
+			valuePairs.add(new BasicNameValuePair("j_password", "password"));
+			post.setEntity(new UrlEncodedFormEntity(valuePairs, Consts.UTF_8));
+			
+			HttpResponse httpPostResponse  = httpClient.execute(post);
+			assertEquals(302,httpPostResponse.getStatusLine().getStatusCode());
+			
+			String sessionId = null;
+			List<Cookie> cookies = httpClient.getCookieStore().getCookies();
+			for (Cookie cookie : cookies) {
+				if ("JSESSIONID".equals(cookie.getName()))
+					sessionId = cookie.getValue();
+			}
+			assertNotNull("Could not find a valid session id", sessionId);
+			
+			Header[] locationHeaders = httpPostResponse.getHeaders("location");
+			assertEquals("Incorrect number of location headers", 1, locationHeaders.length);
+			post.releaseConnection();
+			
+			Header location = locationHeaders[0];
+			HttpGet get = new HttpGet(location.getValue());
+			HttpResponse httpGetResponse  = httpClient.execute(get);
+			assertEquals(200,httpGetResponse.getStatusLine().getStatusCode());
+			
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			String responseBody = responseHandler.handleResponse(httpGetResponse);
+
+			assertTrue("Could not find login error message.", responseBody.contains("Failed to login"));
+			post.releaseConnection();
+			
+		} catch (RuntimeException e) {
+			fail(e.getMessage());
+		} finally {
+			post.releaseConnection();
+		}
 	}
 	
 	@Test
-	public void testNotLoggedInAccessDenied() {
-		
+	public void testNotLoggedInAccessDenied() throws ClientProtocolException, IOException {
+		String loginUrl = IntegrationTestUrlBuilder.getString(PROTECTED_RESOURCE);
+		HttpGet get = new HttpGet(loginUrl);
+		httpClient = new DefaultHttpClient();
+		try {
+			httpClient.getCookieStore().clear();
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			HttpResponse response = httpClient.execute(get);
+			assertEquals(200,response.getStatusLine().getStatusCode());
+			
+			String responseBody = responseHandler.handleResponse(response);
+			assertTrue("Could not find login page!", responseBody.contains("Grobot Server Login"));
+			EntityUtils.consume(response.getEntity());
+		} finally {
+			get.releaseConnection();
+		}
 	}
 
 }
