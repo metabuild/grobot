@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <spring:url value="/groups" var="groupsUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    
+    <spring:url value="/groups" var="listUrl" />
+    <spring:url value="/groups?form" var="createFormUrl" />
+    <spring:url value="/groups/${group.id}?form" var="updateFormUrl" />
+    <spring:url value="/groups/${group.id}" var="showUrl" />
+    <spring:url value="/groups/${group.id}?delete" var="deleteUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    
+    <a href="${listUrl}">reload</a> | 
+    <a href="${createFormUrl}">new</a> 
+    
+    <c:if test="${not empty page.content}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                    <th>Description</th>
+                    <th>Bots</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${page.content}" var="group">
+                    <tr>
+                        <td><a href="${groupsUrl}/${group.id}">${group.name}</a></td>
+                        <td>${group.description}</td>
+                        <td>
+                          <ul>
+                          <c:forEach items="${group.bots}" var="bot">
+                            <li><a href="${botsUrl}/${bot.id}">${bot.name}</a></li>
+                          </c:forEach>
+                          </ul>
+                        </td>
+                        <td>${group.active}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+</div>

@@ -1,0 +1,31 @@
+<div id="navbar" xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:tiles="http://tiles.apache.org/tags-tiles"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    version="2.0">
+    
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
+    
+    <spring:url value="/" var="homeUrl" />
+    <spring:url value="/schedule" var="scheduleUrl" />
+    <spring:url value="/bots" var="botsUrl" />
+    <spring:url value="/groups" var="groupsUrl" />
+    <spring:url value="/logs" var="logsUrl" />
+    <spring:url value="/config" var="configUrl" />
+    <spring:url value="/j_spring_security_logout" var="logoutUrl" />
+    
+    <div id="navWrapper">
+      <ul class="nav nav-list">
+        <li><h2 class="brand">GROBOT</h2></li>
+        <li class="divider"></li>
+        <li><a href="${botsUrl}">Bots</a></li>
+        <li><a href="${groupsUrl}">Groups</a></li>
+        <li><a href="${logsUrl}">Reports</a></li>
+        <li><a href="${configUrl}">Setup</a></li>
+        <li class="divider"></li>
+        <li><a href="${logoutUrl}">Logout</a></li>
+        <li><a href="${configUrl}">Help</a></li>
+      </ul>
+    </div>
+</div>

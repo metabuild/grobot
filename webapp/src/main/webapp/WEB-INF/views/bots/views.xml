@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="bots">
+        <put-attribute name="pageName" value="BOTS" cascade="true" />
+    </definition>
+    <definition extends="bots" name="bots/list">
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; List Bots" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/views/bots/list.jspx" />
+        <put-attribute name="pagination" value="/WEB-INF/views/pagination.jspx" />
+    </definition>
+    <definition extends="bots" name="bots/details">
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Bot Details" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/views/bots/details.jspx" />
+    </definition>
+    <definition extends="bots" name="bots/create">
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Create Bots" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/views/bots/create.jspx" />
+    </definition>
+    <definition extends="bots" name="bots/update">
+        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Update Bots" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/views/bots/update.jspx" />
+    </definition>
+</tiles-definitions>

@@ -1,6 +1,19 @@
-*.class
-
 # Package Files #
 *.jar
 *.war
 *.ear
+*.class
+.*
+!.gitignore
+*.iws
+*Db.properties
+*Db.script
+.settings
+bin
+build
+eclipse
+stacktrace.log
+target
+/plugins
+/web-app/plugins
+/web-app/WEB-INF/classes
