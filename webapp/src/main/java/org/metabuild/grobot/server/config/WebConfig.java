@@ -47,12 +47,12 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 @Configuration
 @EnableWebMvc
 @ImportResource(value = { 
-	"classpath:activeMqBrokerConfig.xml"
+	"classpath:activeMqBrokerConfig.xml",
+	"classpath:spring-security.xml"
 })
 @Import({ 
 	DefaultAppConfig.class, 
-	ServerJmsConfig.class,
-	SecurityConfig.class
+	ServerJmsConfig.class
 })
 @ComponentScan(basePackages = { "org.metabuild.grobot.webapp.controllers" })
 public class WebConfig extends WebMvcConfigurerAdapter {

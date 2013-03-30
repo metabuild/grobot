@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,15 +27,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @since 3/10/2013
  */
 @Controller
-@RequestMapping("/login")
 public class LoginController {
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 	private static final String LOGIN_VIEW = "login/form";
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public String getForm(Model model) {
-		// TODO: implement authentication
-		LOGGER.debug("User not authenticated - presenting login form");
-		return LOGIN_VIEW;
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String getLoginForm(Model model) {
+			LOGGER.debug("User not authenticated - presenting login form");
+			return LOGIN_VIEW;
+	}
+	
+	@RequestMapping(value="/loginfailed", method=RequestMethod.GET)
+	public String getLoginFailed(Model model) {
+			LOGGER.warn("Login failed");
+			model.addAttribute("error", "true");
+			return LOGIN_VIEW;
+	}
+
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String getLogoutForm(Model model) {
+			LOGGER.debug("Logging out user");
+			model.addAttribute("logout", "true");
+			return LOGIN_VIEW;
 	}
 }

@@ -16,17 +16,19 @@
 package org.metabuild.grobot.webapp.monitoring;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
 
-import org.junit.BeforeClass;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.junit.Test;
+import org.metabuild.grobot.webapp.IntegrationTestUrlBuilder;
 
 /**
  * Verifies that ping.jsp is available and responding with ALIVE
@@ -37,38 +39,33 @@ import org.junit.Test;
 public class PingCheckTest {
 
 	private static final String CHECK_VALUE = "ALIVE";
-	private static final String DEFAULT_HOSTNAME = "localhost";
-	private static final String DEFAULT_PORT = "9090";
 	private static final String PING_PATH = "/ping";
-	private static URL url;
 	
-	@BeforeClass
-	public static void setUp() throws MalformedURLException {
-		
-		String cargoHost = System.getProperty("cargo.hostname") != null ? 
-				System.getProperty("cargo.hostname") : DEFAULT_HOSTNAME;
-
-		String cargoPort = System.getProperty("cargo.port") != null ? 
-				System.getProperty("cargo.port") : DEFAULT_PORT;
-				
-		url = new URL(new StringBuilder("http://").append(cargoHost)
-				.append(":").append(cargoPort).append(PING_PATH).toString());
-	}
+	private static DefaultHttpClient httpClient;
 	
 	@Test
-	public void test() throws IOException {
+	public void testPing() throws IOException {
 		
+		String url = IntegrationTestUrlBuilder.getString(PING_PATH);
 		StringBuilder resultString = new StringBuilder();
-		HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
-		connection.connect();
-		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), Charset.forName("UTF-8")));
-		String inputLine;
-		while ((inputLine = in.readLine()) != null) {
-			resultString.append(inputLine);
-		}
-		in.close();
-		connection.disconnect();
+		httpClient = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet(url.toString());
+		HttpResponse httpResponse = httpClient.execute(httpGet);
+		BufferedReader in;
 		
+		try {
+			HttpEntity entity = httpResponse.getEntity();
+			in = new BufferedReader(new InputStreamReader(entity.getContent()));
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				resultString.append(inputLine);
+			}
+			EntityUtils.consume(entity);
+			in.close();
+		} finally {
+			httpGet.releaseConnection();
+		}
+		assertEquals(200,httpResponse.getStatusLine().getStatusCode());
 		assertTrue("Expected ALIVE but got a different result from PingCheck", 
 				resultString.toString().indexOf(CHECK_VALUE) >= 0);
 	}
