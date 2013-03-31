@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.metabuild.grobot.AbstractSpringEnabledTest;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.common.domain.Bot;
+import org.metabuild.grobot.server.service.BotGroupNotFoundException;
 import org.metabuild.grobot.server.service.BotGroupService;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -83,14 +84,14 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	}
 
 	@Test
-	public void testCreate() {
+	public void testCreate() throws BotGroupNotFoundException {
 		
 		final Bot bot = new Bot("botName", "botAddress", true);
 		final BotGroup newGroup = new BotGroup("groupName");
 		newGroup.addBot(bot);
 		
 		BotGroupService botGroupService = mock(BotGroupService.class);
-		when(botGroupService.save(newGroup)).thenAnswer(new Answer<BotGroup>() {
+		when(botGroupService.update(newGroup)).thenAnswer(new Answer<BotGroup>() {
 			public BotGroup answer(InvocationOnMock invocation) throws Throwable {
 				groups.add(newGroup);
 				return newGroup;

@@ -77,8 +77,18 @@ public class BotGroupServiceImpl implements BotGroupService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public BotGroup save(BotGroup botGroup) {
-		LOGGER.info("Saving BotGroup with {}", botGroup); 
+	public BotGroup create(BotGroup botGroup) {
+		LOGGER.info("Creating new BotGroup with {}", botGroup); 
+		return botGroupRepository.save(botGroup);
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public BotGroup update(BotGroup botGroup) throws BotGroupNotFoundException {
+		LOGGER.info("Updating BotGroup with {}", botGroup); 
+		if (null == botGroupRepository.findOne(botGroup.getId())) {
+			throw new BotGroupNotFoundException();
+		}
 		return botGroupRepository.save(botGroup);
 	}
 

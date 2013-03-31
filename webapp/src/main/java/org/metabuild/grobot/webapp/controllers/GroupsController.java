@@ -19,6 +19,7 @@ import java.util.Set;
 	
 import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotGroup;
+import org.metabuild.grobot.server.service.BotGroupNotFoundException;
 import org.metabuild.grobot.server.service.BotGroupService;
 import org.metabuild.grobot.server.service.BotService;
 import org.slf4j.Logger;
@@ -114,8 +115,9 @@ public class GroupsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.POST, params="form")
 	public String create(@ModelAttribute BotGroup group, BindingResult result, Model uiModel) {
 		LOGGER.info("Creating new BotGroup with {}", group);
-		botGroupService.save(group);
-		return "redirect:/groups/" + group.getId();
+		botGroupService.create(group);
+		return "redirect:/"  + getSelectedNavMenuItem().getPath() 
+				+ "/" + group.getId();
 	}
 
 	/**
@@ -139,9 +141,14 @@ public class GroupsController extends AbstractBaseController {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
 		}
 		LOGGER.info("Updating BotGroup with {}", group);
-		botGroupService.save(group);
+		try {
+			botGroupService.update(group);
+		} catch (BotGroupNotFoundException e) {
+			uiModel.addAttribute("errorMessage", e.getMessage());
+		}
 		
-		return "redirect:/groups/" + group.getId();
+		return "redirect:/"  + getSelectedNavMenuItem().getPath() 
+				+ "/" + group.getId();
 	}
 
 	
@@ -155,7 +162,7 @@ public class GroupsController extends AbstractBaseController {
 		uiModel.addAttribute("group", group);
 		botGroupService.delete(group);
 		
-		return "redirect:/groups";
+		return "redirect:/" + getSelectedNavMenuItem().getPath();
 	}
 
 	/**

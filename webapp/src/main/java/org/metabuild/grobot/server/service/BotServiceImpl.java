@@ -67,7 +67,7 @@ public class BotServiceImpl implements BotService {
 	@Override
 	@Transactional(readOnly=true)
 	public Bot findById(String id) {
-		return botRepository.findById(id);
+		return botRepository.findOne(id);
 	}
 	
 	@Override
@@ -79,9 +79,19 @@ public class BotServiceImpl implements BotService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Bot save(Bot bot) {
-		LOGGER.info("Saving bot with id {}", bot.getId());
+	public Bot create(Bot bot) {
+		LOGGER.info("Saving new bot {}", bot);
 		return botRepository.save(bot);
+	}
+
+	@Override
+	@Transactional(rollbackFor = BotNotFoundException.class, readOnly=false)
+	public Bot update(Bot updatedBot) throws BotNotFoundException {
+		LOGGER.info("Saving existing bot with id {}", updatedBot.getId());
+		if (null == botRepository.findOne(updatedBot.getId())) {
+			throw new BotNotFoundException();
+		}
+		return botRepository.save(updatedBot);
 	}
 
 	@Override

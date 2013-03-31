@@ -21,6 +21,7 @@ import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.common.domain.BotStatus;
 import org.metabuild.grobot.server.service.BotGroupService;
+import org.metabuild.grobot.server.service.BotNotFoundException;
 import org.metabuild.grobot.server.service.BotService;
 import org.metabuild.grobot.server.status.StatusRequestProducer;
 import org.metabuild.grobot.server.status.StatusRequestService;
@@ -137,7 +138,7 @@ public class BotsController extends AbstractBaseController {
 	@RequestMapping(method=RequestMethod.POST, params="form")
 	public String create(@ModelAttribute Bot bot, BindingResult result, Model uiModel) {
 		LOGGER.info("Creating new Bot with {}", bot);
-		botService.save(bot);
+		botService.create(bot);
 		return "redirect:/" + getSelectedNavMenuItem().getPath() 
 				+ "/" + bot.getId();
 	}
@@ -163,7 +164,12 @@ public class BotsController extends AbstractBaseController {
 			uiModel.addAttribute("errorMessage", result.getAllErrors());
 		}
 		LOGGER.info("Updating Bot with {}", bot);
-		botService.save(bot);
+		
+		try {
+			botService.update(bot);
+		} catch (BotNotFoundException e) {
+			uiModel.addAttribute("errorMessage", e.getMessage());
+		}
 		
 		return "redirect:/" + getSelectedNavMenuItem().getPath() 
 				+ "/" + bot.getId();

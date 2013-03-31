@@ -37,8 +37,11 @@ public interface BotService {
 
 	public Bot findById(String id);
 	
-	public Bot save(Bot bot);
+	public Bot create(Bot bot);
+	
+	public Bot update(Bot bot) throws BotNotFoundException;
 	
 	public void delete(Bot bot);
+
 
 }

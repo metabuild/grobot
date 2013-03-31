@@ -53,7 +53,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			// reviewed by an administrator and authorized it if appropriate
 			LOGGER.info("No record found for {} TargetHost, creating new unregistered record", hostname);
 			if (hostname != null) {
-				target = targetHostService.save(new Bot(hostname,address,true));
+				target = targetHostService.create(new Bot(hostname,address,true));
 				registrationDetails.setKey(target.getId());
 			} else {
 				LOGGER.warn("Can't create a new TargetHost with a null hostname");
