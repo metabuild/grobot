@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      xmlns:joda="http://www.joda.org/joda/time/tags"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0">
@@ -16,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Bot Name</th>
+                    <th>Groups</th>
                     <th>Address</th>
                     <th>Last Update</th>
                     <th>Status</th>
@@ -26,6 +28,7 @@
                 <c:forEach items="${page.content}" var="bot">
                     <tr>
                         <td><a href="${showBotDetailsUrl}/${bot.id}">${bot.name}</a></td>
+                        <td>${fn:length(bot.botGroups)}</td>
                         <td>${bot.address}</td>
                         <td>${bot.lastUpdatedStatus}</td>
                         <td>${bot.status}</td>

@@ -13,12 +13,8 @@
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Bot Details" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/bots/details.jspx" />
     </definition>
-    <definition extends="bots" name="bots/create">
-        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Create Bots" cascade="true" />
-        <put-attribute name="body" value="/WEB-INF/views/bots/create.jspx" />
-    </definition>
     <definition extends="bots" name="bots/update">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Update Bots" cascade="true" />
-        <put-attribute name="body" value="/WEB-INF/views/bots/update.jspx" />
+        <put-attribute name="body" value="/WEB-INF/views/bots/form.jspx" />
     </definition>
 </tiles-definitions>

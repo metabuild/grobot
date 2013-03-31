@@ -13,10 +13,6 @@
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Group Details" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/groups/details.jspx" />
     </definition>
-    <definition extends="groups" name="groups/create">
-        <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Create Group" cascade="true" />
-        <put-attribute name="body" value="/WEB-INF/views/groups/form.jspx" />
-    </definition>
     <definition extends="groups" name="groups/update">
         <put-attribute name="pageTitle" value="Grobot Server &gt;&gt; Update Group" cascade="true" />
         <put-attribute name="body" value="/WEB-INF/views/groups/form.jspx" />
