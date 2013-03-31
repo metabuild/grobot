@@ -10,18 +10,18 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-    <spring:url value="/groups" var="createUrl" />
-    <spring:url value="/groups/${group.id}" var="updateUrl" />
+    <spring:url value="/bots" var="createUrl" />
+    <spring:url value="/bots/${bot.id}" var="updateUrl" />
     
     <c:choose>
-      <c:when test="${group.id == null}">
+      <c:when test="${bot.id == null}">
         <c:set var="actionUrl">${createUrl}</c:set>
-        <c:set var="bannerText">New Group</c:set>
+        <c:set var="bannerText">New Bot</c:set>
         <c:set var="submitButtonText">Create</c:set>
       </c:when>
       <c:otherwise>
         <c:set var="actionUrl">${updateUrl}</c:set>
-        <c:set var="bannerText">Update ${group.name}</c:set>
+        <c:set var="bannerText">Update ${bot.name}</c:set>
         <c:set var="submitButtonText">Update</c:set>
       </c:otherwise>
     </c:choose>
@@ -39,24 +39,24 @@
                   <c:if test="${errorMessage != null}">
                     <div class="alert">${errorMessage}</div>
                   </c:if>
-                  <form:form modelAttribute="group" action="${actionUrl}?form" id="groupUpdateForm" class="form-horizontal" method="post">
+                  <form:form modelAttribute="bot" action="${actionUrl}?form" id="botUpdateForm" class="form-horizontal" method="post">
                     <div class="control-group">
                       <form:label class="control-label" path="name">Name</form:label>
                       <div class="controls">
-                        <form:input path="name" id="name" placeholder="Group Name" />
+                        <form:input path="name" id="name" placeholder="Bot Name" />
                       </div>
                     </div>
                     <div class="control-group">
-                      <form:label class="control-label" path="description">Description</form:label>
+                      <form:label class="control-label" path="address">Address</form:label>
                       <div class="controls">
-                        <form:input path="description" id="description" placeholder="Group Description" />
+                        <form:input path="address" id="address" placeholder="Bot Address" />
                       </div>
                     </div>
                     <div class="control-group">
-                      <form:label path="bots" class="control-label" for="bots">Bots</form:label>
+                      <form:label path="botGroups" class="control-label" for="botGroups">Groups</form:label>
                       <div class="controls">
-                        <form:select path="bots" id="bots">
-                          <form:options items="${allBots}" itemLabel="name" itemValue="id" />
+                        <form:select path="botGroups" id="botGroups">
+                          <form:options items="${allBotGroups}" itemLabel="name" itemValue="id" />
                         </form:select>
                       </div>
                     </div>

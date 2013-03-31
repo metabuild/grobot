@@ -58,10 +58,10 @@ public class BotGroup implements Serializable {
 	@Column(name = "ACTIVE")
 	private boolean active;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "BOT_GROUP_MEMBERS",
-		joinColumns = @JoinColumn(name = "BOT_GROUP_ID"),
-		inverseJoinColumns = @JoinColumn(name = "BOT_ID"))
+		joinColumns = @JoinColumn(name = "BOT_GROUP_ID", referencedColumnName="ID"),
+		inverseJoinColumns = @JoinColumn(name = "BOT_ID", referencedColumnName="ID"))
 	private Set<Bot> bots = new HashSet<Bot>();
 	
 	@Transient
@@ -114,13 +114,33 @@ public class BotGroup implements Serializable {
 	 */
 	public void addBot(Bot bot) {
 		this.bots.add(bot);
+		if (!bot.getBotGroups().contains(this)) {
+			bot.addBotGroup(this);
+		}
 	}
-	
+
+	/**
+	 * @param bot
+	 */
+	public void removeBot(Bot bot) {
+		this.bots.remove(bot);
+		if (bot.getBotGroups().contains(this)) {
+			bot.removeBotGroup(this);
+		}
+	}
+
 	/**
 	 * @param bots
 	 */
 	public void addBots(Set<Bot> bots) {
 		this.bots.addAll(bots);
+	}
+
+	/**
+	 * @param bots
+	 */
+	public void removeBots(Set<Bot> bots) {
+		this.bots.remove(bots);
 	}
 	
 	/**

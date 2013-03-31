@@ -66,11 +66,11 @@ public class Bot implements Serializable {
 	@Column(name = "REGISTERED")
 	private Date registered;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "BOT_GROUP_MEMBERS",
-		joinColumns = @JoinColumn(name = "BOT_ID"),
-		inverseJoinColumns = @JoinColumn(name = "BOT_GROUP_ID"))
-	private Set<BotGroup> groups = new HashSet<BotGroup>();
+		joinColumns = @JoinColumn(name = "BOT_ID", referencedColumnName="ID"),
+		inverseJoinColumns = @JoinColumn(name = "BOT_GROUP_ID", referencedColumnName="ID"))
+	private Set<BotGroup> botGroups = new HashSet<BotGroup>();
 	
 	@Transient
 	private boolean active;
@@ -96,7 +96,7 @@ public class Bot implements Serializable {
 	 * @param active - is the host available for targeting
 	 */
 	public Bot(String name, String address, boolean active) {
-		this.id = UUID.randomUUID().toString();
+//		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.address = address;
 		this.active = active;
@@ -242,29 +242,42 @@ public class Bot implements Serializable {
 	/**
 	 * @return the groups
 	 */
-	public Set<BotGroup> getGroups() {
-		return groups;
+	public Set<BotGroup> getBotGroups() {
+		return botGroups;
 	}
 
 	/**
 	 * @param groups the groups to set
 	 */
-	public void setGroups(Set<BotGroup> groups) {
-		this.groups = groups;
+	public void setBotGroups(Set<BotGroup> groups) {
+		this.botGroups = groups;
 	}
 
 	/**
 	 * @param group the group to add
 	 */
 	public void addBotGroup(BotGroup group) {
-		this.groups.add(group);
+		this.botGroups.add(group);
+		if (!group.getBots().contains(this)) {
+			group.addBot(this);
+		}
 	}
 	
 	/**
 	 * @param groups the groups to add
 	 */
 	public void addBotGroups(List<BotGroup> groups) {
-		this.groups.addAll(groups);
+		this.botGroups.addAll(groups);
+	}
+	
+	/**
+	 * @param botGroup the group to delete
+	 */
+	public void removeBotGroup(BotGroup botGroup) {
+		this.botGroups.remove(botGroup);
+		if (botGroup.getBots().contains(this)) {
+			botGroup.removeBot(this);
+		}
 	}
 
 	/**

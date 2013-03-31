@@ -38,8 +38,11 @@ public interface BotGroupService {
 	
 	public BotGroup findByName(String name);
 	
-	public BotGroup save(BotGroup botGroup);
+	public BotGroup create(BotGroup botGroup);
+
+	public BotGroup update(BotGroup botGroup) throws BotGroupNotFoundException;
 	
 	public void delete(BotGroup botGroup);
+
 
 }

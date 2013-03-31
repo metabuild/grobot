@@ -20,7 +20,7 @@ import java.util.List;
 import org.metabuild.grobot.common.domain.Bot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,13 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface BotRepository  extends CrudRepository<Bot, String> {
+public interface BotRepository  extends JpaRepository<Bot, String> {
 
 	public List<Bot> findByName(String name);
 	
-	public List<Bot> findAll();
-	
 	public Page<Bot> findAll(Pageable pageable);
 		
-	public Bot findById(String id);
 }

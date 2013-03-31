@@ -51,9 +51,9 @@
             <tr>
                 <td>Groups</td>
                 <td>
-                  <c:if test="${not empty bot.groups}">
+                  <c:if test="${not empty bot.botGroups}">
                     <ul>
-                      <c:forEach items="${bot.groups}" var="group">
+                      <c:forEach items="${bot.botGroups}" var="group">
                         <li><a href="${groupsUrl}/${group.id}">${group.name}</a></li>
                       </c:forEach>
                     </ul>

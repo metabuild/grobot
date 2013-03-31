@@ -17,6 +17,7 @@ package org.metabuild.grobot.server.service;
 
 import java.util.List;
 
+import org.metabuild.grobot.common.domain.Bot;
 import org.metabuild.grobot.common.domain.BotGroup;
 import org.metabuild.grobot.server.repository.BotGroupRepository;
 import org.slf4j.Logger;
@@ -76,8 +77,18 @@ public class BotGroupServiceImpl implements BotGroupService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public BotGroup save(BotGroup botGroup) {
-		LOGGER.info("Saving BotGroup with {}", botGroup); 
+	public BotGroup create(BotGroup botGroup) {
+		LOGGER.info("Creating new BotGroup with {}", botGroup); 
+		return botGroupRepository.save(botGroup);
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public BotGroup update(BotGroup botGroup) throws BotGroupNotFoundException {
+		LOGGER.info("Updating BotGroup with {}", botGroup); 
+		if (null == botGroupRepository.findOne(botGroup.getId())) {
+			throw new BotGroupNotFoundException();
+		}
 		return botGroupRepository.save(botGroup);
 	}
 
