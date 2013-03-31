@@ -84,14 +84,14 @@ public class GroupsControllerTest extends AbstractSpringEnabledTest {
 	}
 
 	@Test
-	public void testCreate() throws BotGroupNotFoundException {
+	public void testCreate() {
 		
 		final Bot bot = new Bot("botName", "botAddress", true);
 		final BotGroup newGroup = new BotGroup("groupName");
 		newGroup.addBot(bot);
 		
 		BotGroupService botGroupService = mock(BotGroupService.class);
-		when(botGroupService.update(newGroup)).thenAnswer(new Answer<BotGroup>() {
+		when(botGroupService.create(newGroup)).thenAnswer(new Answer<BotGroup>() {
 			public BotGroup answer(InvocationOnMock invocation) throws Throwable {
 				groups.add(newGroup);
 				return newGroup;
