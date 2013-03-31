@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      xmlns:joda="http://www.joda.org/joda/time/tags"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0">
@@ -36,13 +37,7 @@
                     <tr>
                         <td><a href="${groupsUrl}/${group.id}">${group.name}</a></td>
                         <td>${group.description}</td>
-                        <td>
-                          <ul>
-                          <c:forEach items="${group.bots}" var="bot">
-                            <li><a href="${botsUrl}/${bot.id}">${bot.name}</a></li>
-                          </c:forEach>
-                          </ul>
-                        </td>
+                        <td>${fn:length(group.bots)}</td>
                         <td>${group.active}</td>
                     </tr>
                 </c:forEach>

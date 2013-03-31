@@ -58,7 +58,10 @@ public class BotGroup implements Serializable {
 	@Column(name = "ACTIVE")
 	private boolean active;
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy="botGroups")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "BOT_GROUP_MEMBERS",
+		joinColumns = @JoinColumn(name = "BOT_GROUP_ID", referencedColumnName="ID"),
+		inverseJoinColumns = @JoinColumn(name = "BOT_ID", referencedColumnName="ID"))
 	private Set<Bot> bots = new HashSet<Bot>();
 	
 	@Transient
