@@ -23,7 +23,7 @@
                 <td>Name</td><td>${task.name}</td>
             </tr>
             <tr>
-                <td>Script</td><td>${task.scriptName}</td>
+                <td>Script</td><td>${task.script.path}</td>
             </tr>
             <tr>
                 <td>Arguments</td><td>${task.arguments}</td>

@@ -47,12 +47,15 @@ insert into BOT_GROUP_MEMBERS (BOT_GROUP_ID, BOT_ID) values
     ('1848d4b8-93b9-4970-be41-b366517af44b', 'a56fde5f-0033-4050-8964-2b8d7470ee28'),
     ('1848d4b8-93b9-4970-be41-b366517af44b', '952ed06c-0283-4866-b8e6-d16ca6f57312');
 
-insert into TASKS (ID, NAME, SCRIPT_NAME, ARGUMENTS) values
-    ('d1f406ac-a9d2-40cf-a9b3-64e725f5bb36', 'fake-script1', 'fake-script-name1', 'foo bar'),
-    ('88f0d086-e256-4c01-b9d5-d529480e7217', 'fake-script2', 'fake-script-name2', 'foo bar baz'),
-    ('8314a775-50fc-4ec5-bc2c-2df0531a0f5c', 'fake-script3', 'fake-script-name3', 'bar baz'),
-    ('1e95d712-b9b2-4e52-b598-b67565ff8182', 'fake-script4', 'fake-script-name4', 'foo baz'),
-    ('56d66369-4b5f-4b31-bd71-e3f826d6a46c', 'fake-script5', 'fake-script-name5', null);
+insert into SCRIPTS (ID, PATH, BODY) values 
+    ('225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'foo', 'bar');
+
+insert into TASKS (ID, NAME, SCRIPT_ID, ARGUMENTS) values
+    ('d1f406ac-a9d2-40cf-a9b3-64e725f5bb36', 'fake-task1', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'foo bar'),
+    ('88f0d086-e256-4c01-b9d5-d529480e7217', 'fake-task2', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'foo bar baz'),
+    ('8314a775-50fc-4ec5-bc2c-2df0531a0f5c', 'fake-task3', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'bar baz'),
+    ('1e95d712-b9b2-4e52-b598-b67565ff8182', 'fake-task4', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', 'foo baz'),
+    ('56d66369-4b5f-4b31-bd71-e3f826d6a46c', 'fake-task5', '225c172b-950f-4c24-9ee7-4d3b4ea1cf55', null);
 
 insert into TASK_EXECUTIONS (ID, TASK_ID) values
     ('9521a922-cc00-4126-89ce-818ca76d3eb7', 'd1f406ac-a9d2-40cf-a9b3-64e725f5bb36'),

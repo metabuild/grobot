@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Metabuild Software, LLC. (http://www.metabuild.org)
+ * Copyright 2013 Metabuild Software, LLC. (http://www.metabuild.org)
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,24 +16,30 @@
 package org.metabuild.grobot.common.domain;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import org.junit.Test;
 
 /**
- * @author jburbrid
- * @since 12/14/2012
+ * @author jburbridge
+ * @since 5/31/2013
  */
-public class TaskTest {
+public class ScriptTest {
 
 	@Test
 	public void testConstructor() {
-		Task task = new Task("name", new Script("path", "body"), new ArrayList<TaskExecution>());
-		assertNotNull(task);
-		assertNotNull(task.getId());
-		assertEquals("name", task.getName());
-		assertEquals("path", task.getScript().getPath());
-		assertEquals(0, task.getTaskExecutions().size());
+		Script script = new Script("path","body");
+		assertEquals("path", script.getPath());
+		assertEquals("body", script.getBody());
+	}
+	
+	@Test
+	public void testFileConstructor() {
+		File file = mock(File.class);
+		when(file.getAbsolutePath()).thenReturn("foo");
+		Script script = new Script(file);
+		assertEquals("foo", script.getPath());
 	}
 }

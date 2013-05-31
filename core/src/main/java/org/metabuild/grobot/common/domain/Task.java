@@ -25,6 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -49,13 +51,14 @@ public class Task  implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 	
-	@Column(name = "SCRIPT_NAME")
-	private String scriptName;
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name = "SCRIPT_ID")
+	private Script script;
 	
 	@Column(name = "ARGUMENTS")
 	private String arguments;
 	
-	@OneToMany(mappedBy="id", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="id", fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<TaskExecution> taskExecutions;
 
 	/**
@@ -65,13 +68,13 @@ public class Task  implements Serializable {
 	
 	/**
 	 * @param name
-	 * @param scriptName
+	 * @param script
 	 * @param taskExecutions
 	 */
-	public Task(String name, String scriptName, List<TaskExecution> taskExecutions) {
+	public Task(String name, Script script, List<TaskExecution> taskExecutions) {
 		this.id = UUID.randomUUID().toString();
 		this.name = name;
-		this.scriptName = scriptName;
+		this.script = script;
 		this.taskExecutions = taskExecutions;
 	}
 
@@ -104,17 +107,17 @@ public class Task  implements Serializable {
 	}
 
 	/**
-	 * @return the scriptName
+	 * @return the script
 	 */
-	public String getScriptName() {
-		return scriptName;
+	public Script getScript() {
+		return script;
 	}
 
 	/**
-	 * @param scriptName the scriptName to set
+	 * @param script the script to set
 	 */
-	public void setScriptName(String scriptName) {
-		this.scriptName = scriptName;
+	public void setScript(Script script) {
+		this.script = script;
 	}
 
 	/**

@@ -30,7 +30,7 @@ public class TaskExecutionTest {
 
 	@Test
 	public void testConstructor() {
-		Task parentTask = new Task("name", "scriptName", new ArrayList<TaskExecution>());
+		Task parentTask = new Task("name", new Script("path", "body"), new ArrayList<TaskExecution>());
 		TaskExecution taskExecution = new TaskExecution(parentTask, new Date(0), new Date(1), new Date(2));
 		assertNotNull(taskExecution);
 		assertNotNull(taskExecution.getId());
