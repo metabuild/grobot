@@ -28,14 +28,24 @@ create table BOT_GROUP_MEMBERS (
   primary key (BOT_GROUP_ID, BOT_ID) 
 ); 
 
+create table SCRIPTS (
+  ID varchar(36) not null,
+  PATH varchar(255) not null, 
+  BODY CLOB, 
+  unique UQ_SCRIPTS_1 (ID), 
+  unique UQ_SCRIPTS_2 (PATH), 
+  primary key (ID) 
+);
 
 create table TASKS (
   ID varchar(36) not null,
   NAME varchar(60) not null, 
-  SCRIPT_NAME varchar(60), 
+  SCRIPT_ID varchar(36), 
   ARGUMENTS varchar(120), 
   unique UQ_TASKS_1 (ID), 
   unique UQ_TASKS_2 (NAME), 
+  constraint FK_TASKS_1 foreign key (SCRIPT_ID)
+    references SCRIPTS(ID) on delete cascade,
   primary key (ID) 
 );
 
