@@ -18,7 +18,6 @@
  */
 description = 'The client / agent Grobot application (minions)';
  
-apply from: "${rootDir.path}/gradle/groovy.gradle"
 apply plugin: 'application'
 
 mainClassName = 'org.metabuild.grobot.client.GrobotClientRunner'
