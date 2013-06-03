@@ -30,12 +30,18 @@ apply plugin: 'eclipse-wtp';
 // include static analysis and deployment plugins when building on jenkins 
 if (project.hasProperty('environment') && environment != 'development') {
 
-	apply from: "${rootDir.path}/gradle/cobertura.gradle";
-	apply from: "${rootDir.path}/gradle/cargo.gradle";
 	apply plugin: 'findbugs';
+	apply plugin: 'jacoco';
 	
 	findbugs {
 		ignoreFailures = true;
+	}
+	
+	jacocoTestReport {
+		reports {
+			html.enabled = true
+			xml.enabled = true
+		}
 	}
 }
 
